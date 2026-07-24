@@ -19,7 +19,8 @@ export function SuccessScreen({ numeroSolicitud, onReset }: Props) {
           <br />
           En los próximos días uno de nuestros especialistas se pondrá en contacto con vos.
           <br />
-          También enviamos una copia de la solicitud al correo electrónico que nos proporcionaste.
+          Si el correo de confirmación no llega, revisá spam o escribinos a{" "}
+          <strong>cmrsoftware.sn@gmail.com</strong>.
         </p>
         <div className="asesoramiento-success-actions">
           <a href="/" className="btn-primary">

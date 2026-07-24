@@ -41,6 +41,8 @@ export type AsesoramientoFormValues = {
   plazo: string;
   presupuesto: string;
   observaciones: string;
+  /** Honeypot anti-bot — debe quedar vacío */
+  website: string;
 };
 
 export type FieldErrors = Partial<Record<keyof AsesoramientoFormValues, string>>;
@@ -56,6 +58,8 @@ export type SubmitFailure = {
   ok: false;
   message: string;
   errors?: FieldErrors;
+  detail?: string;
+  code?: string | null;
 };
 
 export const emptyFormValues = (): AsesoramientoFormValues => ({
@@ -71,4 +75,5 @@ export const emptyFormValues = (): AsesoramientoFormValues => ({
   plazo: "",
   presupuesto: "",
   observaciones: "",
+  website: "",
 });

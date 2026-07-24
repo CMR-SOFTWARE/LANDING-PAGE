@@ -51,6 +51,36 @@ body.nav-menu-open{
     overflow: hidden;
 }
 
+.skip-link{
+    position: absolute;
+    left: 12px;
+    top: -48px;
+    z-index: 10000;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #0f1a44;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible{
+    top: 12px;
+    outline: 2px solid #7eb6ff;
+    outline-offset: 2px;
+}
+
+.btn-primary:focus-visible,
+.btn-whatsapp:focus-visible,
+.btn-nav:focus-visible,
+.btn-form-secondary:focus-visible,
+.logo-link:focus-visible{
+    outline: 2px solid rgba(40, 80, 192, 0.55);
+    outline-offset: 3px;
+}
+
 .container{
     max-width: 1200px; /* limita el ancho */
     margin: 0 auto; /*centra horizontalmente*/
@@ -169,17 +199,18 @@ header nav .logo-link img.logo{
     #hero .container{
         flex-direction: column;
         flex-wrap: wrap;
-        text-align: center;
+        text-align: left;
+        align-items: stretch;
     }
 
     .hero-texto{
-        text-align: center;
+        text-align: left;
         max-width: none;
     }
 
     .hero-texto p{
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .hero-img{
@@ -192,7 +223,7 @@ header nav .logo-link img.logo{
     }
 
     .hero-actions{
-        justify-content: center;
+        justify-content: stretch;
         flex-wrap: wrap;
     }
 }
@@ -208,15 +239,7 @@ header nav .logo-link img.logo{
         gap: clamp(12px, 3vw, 28px);
     }
 
-    .hero-actions{
-        gap: 8px;
-    }
-
-    .hero-actions .btn-primary,
-    .hero-actions .btn-whatsapp{
-        padding: 9px 14px;
-        font-size: clamp(0.72rem, 2.8vw, 0.88rem);
-    }
+    /* Los tamaños táctiles definitivos viven en mobile.css (≥44px) */
 }
 
 /*BOTONES EN EL HERO*/

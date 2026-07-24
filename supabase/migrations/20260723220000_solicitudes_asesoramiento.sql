@@ -28,7 +28,7 @@ create table if not exists public.solicitudes_asesoramiento (
   presupuesto text,
   observaciones text,
   estado public.solicitud_estado not null default 'Pendiente',
-  constraint solicitudes_email_formato check (email ~* '^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$'),
+  constraint solicitudes_email_formato check (email ~* '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$'),
   constraint solicitudes_necesidades_min check (cardinality(necesidades) >= 1)
 );
 

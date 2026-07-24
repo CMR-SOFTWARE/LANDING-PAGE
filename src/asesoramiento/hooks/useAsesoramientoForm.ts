@@ -54,6 +54,20 @@ export function useAsesoramientoForm() {
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
       setStatus("error");
+      const firstKey = Object.keys(nextErrors)[0];
+      const el = document.getElementById(
+        firstKey === "necesidades"
+          ? "fa-necesidades"
+          : firstKey === "problema_principal"
+            ? "fa-problema"
+            : firstKey === "como_trabajan"
+              ? "fa-hoy"
+              : firstKey === "observaciones"
+                ? "fa-extra"
+                : `fa-${firstKey}`,
+      );
+      el?.focus?.();
+      el?.scrollIntoView?.({ behavior: "smooth", block: "center" });
       return;
     }
 

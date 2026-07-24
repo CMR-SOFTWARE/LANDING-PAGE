@@ -1,5 +1,7 @@
 import type { AsesoramientoFormValues, SubmitFailure, SubmitSuccess } from "../types";
 
+const REQUEST_TIMEOUT_MS = 45_000;
+
 function cleanEnv(value: string | undefined): string {
   if (!value) return "";
   return value
@@ -25,22 +27,28 @@ function getConfig() {
     throw new Error("VITE_SUPABASE_URL no es una URL válida.");
   }
 
-  // Si pegaron .../rest/v1/, nos quedamos con el origen del proyecto
   const base = `${parsed.protocol}//${parsed.host}`;
 
-  // Headers de fetch solo aceptan caracteres Latin-1
   for (const [label, value] of [
     ["VITE_SUPABASE_URL", base],
     ["VITE_SUPABASE_ANON_KEY", anon],
   ] as const) {
     for (let i = 0; i < value.length; i++) {
       if (value.charCodeAt(i) > 255) {
-        throw new Error(`${label} tiene caracteres inválidos. Volvé a pegarla en Vercel sin comillas ni espacios.`);
+        throw new Error(
+          `${label} tiene caracteres inválidos. Volvé a pegarla en Vercel sin comillas ni espacios.`,
+        );
       }
     }
   }
 
   return { url: base, anon };
+}
+
+function publicMessage(message: string | undefined): string {
+  const base = (message || "No pudimos enviar la solicitud.").replace(/\s*\[v\d+\]\s*/gi, " ").trim();
+  // No exponer detalles técnicos (SQL/API) al usuario final
+  return base.replace(/\s*\([^)]{12,}\)\s*$/, "").trim() || "No pudimos enviar la solicitud.";
 }
 
 export async function submitAsesoramiento(
@@ -49,6 +57,11 @@ export async function submitAsesoramiento(
 ): Promise<SubmitSuccess> {
   const { url, anon } = getConfig();
   const endpoint = `${url}/functions/v1/submit-asesoramiento`;
+
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const onAbort = () => controller.abort();
+  signal?.addEventListener("abort", onAbort);
 
   let res: Response;
   try {
@@ -72,14 +85,21 @@ export async function submitAsesoramiento(
         plazo: values.plazo,
         presupuesto: values.presupuesto,
         observaciones: values.observaciones.trim(),
+        website: values.website,
       }),
-      signal,
+      signal: controller.signal,
     });
   } catch (err) {
     console.error("[asesoramiento] fetch failed", { endpoint, err });
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new Error("La solicitud tardó demasiado. Intentá de nuevo en unos minutos.");
+    }
     throw new Error(
-      "No pudimos conectar con el servidor. Revisá VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY en Vercel (sin comillas ni saltos de línea) y volvé a intentar.",
+      "No pudimos conectar con el servidor. Revisá tu conexión e intentá de nuevo.",
     );
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener("abort", onAbort);
   }
 
   let body: SubmitSuccess | SubmitFailure;
@@ -91,7 +111,14 @@ export async function submitAsesoramiento(
 
   if (!res.ok || !body.ok) {
     const fail = body as SubmitFailure;
-    const err = new Error(fail.message || "No pudimos enviar la solicitud.") as Error & {
+    console.error("[asesoramiento] submit rejected", {
+      status: res.status,
+      message: fail.message,
+      detail: fail.detail,
+      code: fail.code,
+      errors: fail.errors,
+    });
+    const err = new Error(publicMessage(fail.message)) as Error & {
       fieldErrors?: SubmitFailure["errors"];
     };
     err.fieldErrors = fail.errors;

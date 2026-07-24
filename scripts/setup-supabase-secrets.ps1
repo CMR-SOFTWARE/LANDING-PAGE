@@ -16,6 +16,8 @@ $pairs = @()
 Get-Content $secretsFile | ForEach-Object {
   $line = $_.Trim()
   if (-not $line -or $line.StartsWith("#")) { return }
+  # Supabase inyecta SUPABASE_*; el Dashboard también los rechaza como secrets manuales
+  if ($line -match '^(SUPABASE_|SB_)') { return }
   $pairs += $line
 }
 

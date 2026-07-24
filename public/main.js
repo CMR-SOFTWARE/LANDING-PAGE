@@ -137,9 +137,9 @@
         var w = window.innerWidth;
         var isNarrow = w <= 768;
         var isPhone = w <= 480;
-        /* Separación alta: laterales solo se insinúan; nada atraviesa la activa */
-        var sideX = isPhone ? 88 : isNarrow ? 82 : 78;
-        var sideScale = isPhone ? 0.74 : isNarrow ? 0.76 : 0.78;
+        /* En teléfono: solo la activa (experiencia swipe limpia). En tablet: peek sutil. */
+        var sideX = isPhone ? 100 : isNarrow ? 82 : 78;
+        var sideScale = isPhone ? 0.92 : isNarrow ? 0.76 : 0.78;
 
         cards.forEach(function (card, i) {
             var offset = i - active;
@@ -164,7 +164,7 @@
                 opacity = 1;
                 z = 10;
                 visibility = "visible";
-            } else if (abs === 1) {
+            } else if (!isPhone && abs === 1) {
                 x = (offset > 0 ? 1 : -1) * sideX;
                 scale = sideScale;
                 y = 6;
@@ -172,8 +172,8 @@
                 z = 4;
                 visibility = "visible";
             } else {
-                x = (offset > 0 ? 1 : -1) * (sideX + 28);
-                scale = 0.72;
+                x = (offset > 0 ? 1 : -1) * (sideX + (isPhone ? 8 : 28));
+                scale = isPhone ? 0.9 : 0.72;
                 y = 10;
                 opacity = 0;
                 z = 1;
@@ -184,8 +184,7 @@
             card.style.opacity = String(opacity);
             card.style.visibility = visibility;
             card.style.filter = "none";
-            card.style.pointerEvents = abs === 0 || abs === 1 ? "auto" : "none";
-            /* Plano 2D: sin rotateY para evitar bleed-through */
+            card.style.pointerEvents = offset === 0 || (!isPhone && abs === 1) ? "auto" : "none";
             card.style.transform =
                 "translate(-50%, -50%) translateX(" +
                 x +
@@ -357,6 +356,17 @@
     var index = 0;
     var open = false;
     var fadeTimer = null;
+    var lastFocus = null;
+
+    function getFocusable() {
+        return Array.prototype.slice.call(
+            lb.querySelectorAll(
+                'button:not([hidden]):not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+        ).filter(function (el) {
+            return el.offsetParent !== null || el === document.activeElement;
+        });
+    }
 
     function setSlide(i, animate) {
         if (!gallery.length) return;
@@ -413,6 +423,7 @@
         }
 
         open = true;
+        lastFocus = document.activeElement;
         lb.hidden = false;
         document.body.style.overflow = "hidden";
         section.classList.add("is-viewer-open");
@@ -449,6 +460,14 @@
                 imgEl.removeAttribute("src");
                 imgEl.alt = "";
             }
+            if (lastFocus && typeof lastFocus.focus === "function") {
+                try {
+                    lastFocus.focus({ preventScroll: true });
+                } catch (errFocus) {
+                    lastFocus.focus();
+                }
+            }
+            lastFocus = null;
         };
 
         if (reduceMotion) {
@@ -535,6 +554,20 @@
             closeViewer();
             return;
         }
+        if (e.key === "Tab") {
+            var focusable = getFocusable();
+            if (!focusable.length) return;
+            var first = focusable[0];
+            var last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+            return;
+        }
         if (e.key === "ArrowLeft") {
             e.preventDefault();
             setSlide(index - 1, true);
@@ -546,9 +579,7 @@
 })();
 
 
-
-/* El formulario de asesoramiento vive en React (/asesoramiento.html) y
-   envía a la Edge Function de Supabase. Ya no se usa mailto:. */
+/* El formulario de asesoramiento vive en React (/asesoramiento.html). */
 (function () {
     document.addEventListener("click", function (e) {
         if (e.target.closest(".js-scroll-form")) {

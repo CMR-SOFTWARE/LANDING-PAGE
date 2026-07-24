@@ -90,6 +90,7 @@ export function AsesoramientoForm({ form }: { form: FormApi }) {
             value={values.email}
             disabled={submitting}
             aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "fa-email-error" : undefined}
             onChange={(e) => setField("email", e.target.value)}
           />
         </FormField>
@@ -104,11 +105,29 @@ export function AsesoramientoForm({ form }: { form: FormApi }) {
             value={values.telefono}
             disabled={submitting}
             aria-invalid={Boolean(errors.telefono)}
+            aria-describedby={errors.telefono ? "fa-telefono-error" : undefined}
             onChange={(e) => setField("telefono", e.target.value)}
           />
         </FormField>
 
-        <fieldset className={`form-field form-field--full form-fieldset${errors.necesidades ? " is-invalid" : ""}`}>
+        <div className="hp-field" aria-hidden="true">
+          <label htmlFor="fa-website">Sitio web</label>
+          <input
+            id="fa-website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={values.website}
+            onChange={(e) => setField("website", e.target.value)}
+          />
+        </div>
+
+        <fieldset
+          id="fa-necesidades"
+          className={`form-field form-field--full form-fieldset${errors.necesidades ? " is-invalid" : ""}`}
+          tabIndex={-1}
+        >
           <legend>
             ¿Qué tipo de necesidad tenés? <span className="req">*</span>{" "}
             <span className="legend-hint">(podés marcar varias)</span>
@@ -166,6 +185,7 @@ export function AsesoramientoForm({ form }: { form: FormApi }) {
             value={values.problema_principal}
             disabled={submitting}
             aria-invalid={Boolean(errors.problema_principal)}
+            aria-describedby={errors.problema_principal ? "fa-problema-error" : undefined}
             onChange={(e) => setField("problema_principal", e.target.value)}
           />
         </FormField>

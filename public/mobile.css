@@ -1,0 +1,686 @@
+/* =============================================================================
+   CMR Landing — Mobile experience layer
+   Carga DESPUÉS de style.css. No altera desktop (>960px) salvo ajustes suaves.
+   Pensado para 320–480px y tablets portrait.
+   ============================================================================= */
+
+/* —— Tokens táctiles —— */
+@media (max-width: 960px) {
+  :root {
+    --m-pad-x: max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+    --m-section-y: 1.75rem;
+    --m-gap: 0.85rem;
+    --m-radius: 14px;
+    --m-touch: 44px;
+    --m-title: clamp(1.35rem, 5.5vw, 1.75rem);
+    --m-body: 0.95rem;
+    --m-lead: 0.9rem;
+  }
+
+  .container {
+    padding-left: var(--m-pad-x);
+    padding-right: var(--m-pad-x);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* Nav: logo más contenido, hit area real */
+  header nav .logo,
+  header nav .logo-link img.logo {
+    width: min(148px, 42vw);
+    max-width: 148px;
+  }
+
+  .site-nav {
+    min-height: var(--m-touch);
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+
+  body:not(.page-asesoramiento) > header {
+    background: #fff;
+    border-bottom: 1px solid rgba(64, 77, 160, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+  }
+
+  .nav-toggle {
+    width: var(--m-touch);
+    height: var(--m-touch);
+    min-width: var(--m-touch);
+    min-height: var(--m-touch);
+  }
+
+  .site-nav .nav-primary li a {
+    min-height: var(--m-touch);
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0.65rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .site-nav .nav-primary .btn-nav {
+    min-height: var(--m-touch);
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    margin-top: 0.75rem;
+  }
+
+  /* —— HERO: composición vertical, CTAs full-width —— */
+  #hero {
+    padding: 1.1rem var(--m-pad-x) 1.35rem;
+  }
+
+  #hero .container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.15rem;
+    text-align: left;
+  }
+
+  .hero-texto {
+    text-align: left;
+    max-width: none;
+    text-shadow: 0 1px 2px rgba(15, 23, 42, 0.18);
+  }
+
+  .hero-texto .tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 5px 12px;
+    margin: 0;
+  }
+
+  .hero-texto h1 {
+    font-size: var(--m-title);
+    margin: 0.65rem 0 0.55rem;
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-texto > p {
+    font-size: var(--m-lead);
+    line-height: 1.55;
+    margin: 0 0 1rem;
+    max-width: none;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-whatsapp {
+    width: 100%;
+    margin: 0;
+    min-height: var(--m-touch);
+    padding: 0.85rem 1.1rem;
+    font-size: 0.95rem;
+    justify-content: center;
+    border-radius: 14px;
+    box-sizing: border-box;
+  }
+
+  .hero-img {
+    justify-content: center;
+    order: 2;
+  }
+
+  .hero-img img {
+    transform: none;
+    max-width: min(100%, 340px);
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* —— Problema —— */
+  #problema {
+    padding: var(--m-section-y) var(--m-pad-x);
+  }
+
+  .problema-envolvente {
+    gap: var(--m-gap);
+  }
+
+  .problema-intro-card {
+    padding: 1.05rem 1.1rem;
+  }
+
+  .problema-intro-title {
+    font-size: 1.2rem;
+    margin: 0.55rem 0 0.4rem;
+  }
+
+  .problema-intro-desc {
+    font-size: var(--m-lead);
+    line-height: 1.5;
+  }
+
+  .problema-container {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .problema-item {
+    padding: 1rem 0.95rem;
+    gap: 0.85rem;
+    align-items: center;
+  }
+
+  .problema-item h4 {
+    font-size: 0.98rem;
+  }
+
+  .problema-item p {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .icono-problema,
+  .icono-excel {
+    font-size: 1.35rem;
+    padding: 10px;
+  }
+
+  /* —— Servicios —— */
+  #servicios {
+    padding: var(--m-section-y) var(--m-pad-x);
+  }
+
+  .servicios-head {
+    margin-bottom: 1.15rem;
+    text-align: left;
+  }
+
+  .servicios-title {
+    white-space: normal;
+    font-size: var(--m-title);
+    margin: 0.65rem 0 0.45rem;
+    text-align: left;
+  }
+
+  .servicios-lead {
+    font-size: var(--m-lead);
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  .servicios-container {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .servicios-item {
+    flex: 1 1 auto;
+    max-width: none;
+    width: 100%;
+    padding: 1.1rem 1rem;
+  }
+
+  .servicios-item h4 {
+    font-size: 1.02rem;
+  }
+
+  .servicios-item p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .servicios-item-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* —— Proyectos / carrusel —— */
+  #proyectos {
+    padding: var(--m-section-y) var(--m-pad-x);
+  }
+
+  .px-head {
+    text-align: left;
+    align-items: flex-start;
+    max-width: none;
+    margin-bottom: 0.75rem;
+    gap: 0.4rem;
+  }
+
+  .px-title {
+    font-size: var(--m-title);
+  }
+
+  .px-lead {
+    font-size: var(--m-lead);
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .px-stage {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 100%;
+  }
+
+  .px-nav {
+    width: var(--m-touch);
+    height: var(--m-touch);
+    min-width: var(--m-touch);
+    min-height: var(--m-touch);
+    top: 46%;
+  }
+
+  .px-nav--prev {
+    left: 0.15rem;
+  }
+
+  .px-nav--next {
+    right: 0.15rem;
+  }
+
+  .px-viewport {
+    height: clamp(280px, 72vw, 340px);
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .px-card {
+    width: min(100%, 100%);
+    max-width: calc(100% - 4.5rem);
+  }
+
+  .px-card-media {
+    min-height: 160px;
+    max-height: 210px;
+    padding: 0.5rem 0.5rem 3.5rem;
+  }
+
+  .px-card-media img {
+    max-height: 160px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .px-card-title {
+    font-size: 1rem;
+  }
+
+  .px-card-desc {
+    font-size: 0.82rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .px-card-more {
+    width: var(--m-touch);
+    height: var(--m-touch);
+    min-width: var(--m-touch);
+    min-height: var(--m-touch);
+  }
+
+  .px-dots {
+    margin-top: 0.65rem;
+    gap: 0.45rem;
+  }
+
+  .px-dot {
+    width: 10px;
+    height: 10px;
+    min-width: 10px;
+  }
+
+  .px-cta {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    padding: 1rem;
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+    border-radius: var(--m-radius);
+  }
+
+  .px-cta-text {
+    font-size: 0.95rem;
+  }
+
+  .px-cta-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: var(--m-touch);
+    padding: 0.85rem 1rem;
+  }
+
+  /* —— Visor —— */
+  .px-viewer-shell {
+    padding: 0.65rem;
+    border-radius: 14px;
+    max-height: min(96dvh, 96vh);
+  }
+
+  .px-viewer-nav {
+    width: var(--m-touch);
+    height: var(--m-touch);
+  }
+
+  .px-viewer-close {
+    width: var(--m-touch);
+    height: var(--m-touch);
+    min-width: var(--m-touch);
+  }
+
+  .px-viewer-canvas,
+  .px-viewer-canvas img {
+    max-height: min(48dvh, 360px);
+  }
+
+  /* —— Sobre nosotros —— */
+  .sobre-nosotros {
+    padding: var(--m-section-y) var(--m-pad-x);
+  }
+
+  .sobre-nosotros-head {
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+
+  .sobre-nosotros-head h2 {
+    font-size: var(--m-title);
+    line-height: 1.25;
+  }
+
+  .sobre-lead {
+    font-size: var(--m-lead);
+  }
+
+  .sobre-copy {
+    padding: 1.1rem 1rem 1.1rem 1.15rem;
+  }
+
+  .sobre-copy-texto {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    text-align: left;
+    text-justify: auto;
+    margin-bottom: 0.9rem;
+  }
+
+  /* —— Formulario asesoramiento —— */
+  .asesoramiento {
+    padding: var(--m-section-y) var(--m-pad-x);
+  }
+
+  .asesoramiento-head {
+    text-align: left;
+    margin-bottom: 1.15rem;
+  }
+
+  .asesoramiento-head h3 {
+    font-size: var(--m-title);
+  }
+
+  .asesoramiento-lead {
+    font-size: var(--m-lead);
+    margin: 0;
+    max-width: none;
+  }
+
+  .asesoramiento-form {
+    padding: 1.1rem 0.95rem;
+    border-radius: var(--m-radius);
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0.95rem;
+  }
+
+  .form-field label,
+  .form-fieldset legend {
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .form-input-shell > input,
+  .form-input-shell > select,
+  .form-input-shell > textarea {
+    font-size: 16px; /* evita zoom iOS */
+    min-height: var(--m-touch);
+    padding: 0.7rem 0.85rem;
+  }
+
+  .form-input-shell > textarea {
+    min-height: 6.5rem;
+  }
+
+  .form-check {
+    min-height: var(--m-touch);
+    align-items: center;
+    padding: 0.35rem 0;
+    gap: 0.65rem;
+  }
+
+  .form-check input {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .form-actions .btn-primary,
+  .form-actions .btn-form-secondary {
+    width: 100%;
+    min-height: var(--m-touch);
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .btn-form-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* —— Footer —— */
+  #footer {
+    padding: 1.35rem var(--m-pad-x) 1rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .footer-col {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .footer-col h3 img,
+  .footer-col h3 .logo-link img {
+    max-width: 140px;
+  }
+
+  .footer-descripcion {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 0.15rem;
+  }
+
+  .footer-col ul a,
+  .footer-col ul .btn-nav {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+  }
+
+  #footer .btn-nav {
+    padding: 0.65rem 1rem;
+    font-size: 0.88rem;
+    margin-top: 0.35rem;
+  }
+
+  .footer-bottom {
+    margin-top: 1.1rem;
+    padding-top: 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* —— Teléfonos estándar (≤480) —— */
+@media (max-width: 480px) {
+  :root {
+    --m-section-y: 1.5rem;
+    --m-title: clamp(1.28rem, 6.2vw, 1.55rem);
+  }
+
+  #hero {
+    padding-top: 0.85rem;
+    padding-bottom: 1.1rem;
+  }
+
+  .hero-img img {
+    max-width: min(100%, 280px);
+  }
+
+  .px-viewport {
+    height: clamp(260px, 78vw, 310px);
+  }
+
+  .px-card {
+    max-width: calc(100% - 3.75rem);
+  }
+
+  .px-card-media {
+    min-height: 148px;
+    max-height: 180px;
+  }
+
+  .px-card-media img {
+    max-height: 132px;
+  }
+
+  /* Ocultar peek de laterales vía CSS (refuerzo; JS también limpia) */
+  .px-card:not(.is-active) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* —— iPhone SE / 360 —— */
+@media (max-width: 360px) {
+  :root {
+    --m-pad-x: max(0.85rem, env(safe-area-inset-left));
+    --m-title: 1.22rem;
+  }
+
+  header nav .logo,
+  header nav .logo-link img.logo {
+    width: min(128px, 48vw);
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-whatsapp {
+    font-size: 0.9rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .px-card {
+    max-width: calc(100% - 3.25rem);
+  }
+
+  .px-nav--prev {
+    left: 0;
+  }
+
+  .px-nav--next {
+    right: 0;
+  }
+}
+
+/* —— Tablets portrait (641–960): híbrido limpio —— */
+@media (min-width: 641px) and (max-width: 960px) {
+  #hero .container {
+    gap: 1.5rem;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-whatsapp {
+    width: auto;
+    flex: 1 1 calc(50% - 0.4rem);
+    min-width: 180px;
+  }
+
+  .servicios-head,
+  .px-head,
+  .sobre-nosotros-head,
+  .asesoramiento-head {
+    text-align: center;
+  }
+
+  .servicios-title,
+  .servicios-lead,
+  .px-lead {
+    text-align: center;
+  }
+
+  .servicios-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .servicios-item {
+    flex: 1 1 calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+  }
+
+  .footer-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .footer-col {
+    flex: 1 1 40%;
+  }
+}
+
+/* Reducir blur/glass costoso en móvil */
+@media (max-width: 480px) {
+  .servicios-item {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .site-nav .nav-primary {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .nav-primary,
+  .px-card,
+  .hero-actions .btn-primary,
+  .hero-actions .btn-whatsapp {
+    transition: none !important;
+  }
+}

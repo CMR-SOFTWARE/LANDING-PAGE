@@ -1,5 +1,13 @@
 /* Extras del flujo React de asesoramiento (éxito, errores por campo, spinner) */
 
+.hp-field{
+    position: absolute !important;
+    left: -10000px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+}
+
 .form-field.is-invalid .form-input-shell{
     background: linear-gradient(90deg, #b91c1c, #c2410c);
     filter: drop-shadow(0 0 6px rgba(185, 28, 28, 0.25));
@@ -111,6 +119,31 @@
 
 .form-error{
     margin-top: 1rem;
+}
+
+@media (max-width: 480px){
+    .asesoramiento-success-card{
+        text-align: left;
+        padding: 1.25rem 1rem;
+        border-radius: 14px;
+    }
+
+    .asesoramiento-success-icon{
+        margin-left: 0;
+    }
+
+    .asesoramiento-success-actions{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .asesoramiento-success-actions .btn-primary,
+    .asesoramiento-success-actions .btn-form-secondary{
+        width: 100%;
+        min-height: 44px;
+        justify-content: center;
+        box-sizing: border-box;
+    }
 }
 
 @media (prefers-reduced-motion: reduce){
