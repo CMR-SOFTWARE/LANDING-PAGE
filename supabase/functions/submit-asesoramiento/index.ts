@@ -297,8 +297,8 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? Deno.env.get("SB_URL") ?? "";
     const serviceKey =
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
       Deno.env.get("SERVICE_ROLE_KEY") ??
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
       "";
     const resendKey = Deno.env.get("RESEND_API_KEY") ?? "";
     const mailFrom = Deno.env.get("MAIL_FROM") ?? "CMR Software Solutions <onboarding@resend.dev>";
