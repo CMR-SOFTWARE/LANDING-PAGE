@@ -1,7 +1,7 @@
--- CMR Landing — Edge Function: submit-asesoramiento
--- Deploy: supabase functions deploy submit-asesoramiento --no-verify-jwt
--- Secrets (Dashboard o CLI):
---   SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY, MAIL_FROM, MAIL_TEAM, SITE_URL, LOGO_URL
+// CMR Landing — Edge Function: submit-asesoramiento
+// Deploy: supabase functions deploy submit-asesoramiento --no-verify-jwt
+// Secrets (Dashboard): RESEND_API_KEY, MAIL_FROM, MAIL_TEAM, SITE_URL, LOGO_URL
+// SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY los inyecta Supabase automáticamente.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.8";
 import { PDFDocument, StandardFonts, rgb } from "https://esm.sh/pdf-lib@1.17.1";
@@ -296,7 +296,10 @@ Deno.serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? Deno.env.get("SB_URL") ?? "";
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+    const serviceKey =
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
+      Deno.env.get("SERVICE_ROLE_KEY") ??
+      "";
     const resendKey = Deno.env.get("RESEND_API_KEY") ?? "";
     const mailFrom = Deno.env.get("MAIL_FROM") ?? "CMR Software Solutions <onboarding@resend.dev>";
     const mailTeam = Deno.env.get("MAIL_TEAM") ?? "cmrsoftware.sn@gmail.com";
@@ -304,8 +307,11 @@ Deno.serve(async (req) => {
     const logoUrl = Deno.env.get("LOGO_URL") ?? (siteUrl ? `${siteUrl.replace(/\/$/, "")}/IMG/logo2.png` : "");
 
     if (!supabaseUrl || !serviceKey) {
-      console.error("Missing Supabase env");
-      return json(500, { ok: false, message: "Configuración del servidor incompleta." });
+      console.error("Missing Supabase env", {
+        hasUrl: Boolean(supabaseUrl),
+        hasServiceKey: Boolean(serviceKey),
+      });
+      return json(500, { ok: false, message: "Configuración del servidor incompleta (Supabase)." });
     }
     if (!resendKey) {
       console.error("Missing RESEND_API_KEY");
@@ -352,7 +358,12 @@ Deno.serve(async (req) => {
 
     if (dbError || !row) {
       console.error("DB insert error", dbError);
-      return json(500, { ok: false, message: "No pudimos guardar la solicitud. Intentá de nuevo." });
+      return json(500, {
+        ok: false,
+        message: "No pudimos guardar la solicitud. Intentá de nuevo.",
+        detail: dbError?.message ?? "sin fila",
+        code: dbError?.code ?? null,
+      });
     }
 
     let logoBytes: Uint8Array | null = null;
