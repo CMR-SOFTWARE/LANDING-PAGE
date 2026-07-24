@@ -1,0 +1,11 @@
+# Project ref de https://wnzugiqyezrkywwfrbdw.supabase.co
+project_id = "wnzugiqyezrkywwfrbdw"
+
+[api]
+enabled = true
+
+[functions]
+verify_jwt = false
+
+[functions.submit-asesoramiento]
+verify_jwt = false
