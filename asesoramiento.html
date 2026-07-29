@@ -4,26 +4,33 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
         <title>Solicitar asesoramiento | CMR Software Solutions</title>
-        <meta name="description" content="Completá el formulario de asesoramiento de CMR Software Solutions. Te contactamos para analizar tu proyecto de software a medida.">
+        <script>document.documentElement.classList.add("js");</script>
+        <meta name="description" content="Solicitá asesoramiento para desarrollo de software a medida, aplicaciones web o sistemas de gestión. Completá el formulario y te contactamos.">
         <meta name="theme-color" content="#404da0">
         <meta name="robots" content="index,follow">
-        <link rel="canonical" href="https://cmrsoftwaresolutions.com/asesoramiento.html">
+        <meta name="author" content="CMR Software Solutions">
+        <link rel="canonical" href="https://cmrsoftwaresolutions.com/asesoramiento">
         <link rel="icon" href="/IMG/logo2.png" type="image/png">
         <link rel="apple-touch-icon" href="/IMG/logo2.png">
         <link rel="manifest" href="/site.webmanifest">
         <meta property="og:type" content="website">
         <meta property="og:locale" content="es_AR">
-        <meta property="og:url" content="https://cmrsoftwaresolutions.com/asesoramiento.html">
+        <meta property="og:url" content="https://cmrsoftwaresolutions.com/asesoramiento">
         <meta property="og:site_name" content="CMR Software Solutions">
         <meta property="og:title" content="Solicitar asesoramiento | CMR Software Solutions">
-        <meta property="og:description" content="Completá el formulario y coordinamos una reunión para tu proyecto.">
+        <meta property="og:description" content="Completá el formulario y coordinamos una reunión para tu proyecto de software a medida.">
         <meta property="og:image" content="https://cmrsoftwaresolutions.com/IMG/logo2.png">
-        <meta name="twitter:card" content="summary">
+        <meta property="og:image:alt" content="Logo de CMR Software Solutions">
+        <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Solicitar asesoramiento | CMR Software Solutions">
-        <meta name="twitter:description" content="Completá el formulario y coordinamos una reunión para tu proyecto.">
+        <meta name="twitter:description" content="Completá el formulario y coordinamos una reunión para tu proyecto de software a medida.">
+        <meta name="twitter:image" content="https://cmrsoftwaresolutions.com/IMG/logo2.png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
         <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/motion.css">
+        <link rel="stylesheet" href="/tech-identity.css">
         <link rel="stylesheet" href="/mobile.css">
         <script src="/main.js" defer></script>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
@@ -48,35 +55,63 @@
         </header>
 
         <main id="contenido-principal">
-            <div id="asesoramiento-root"></div>
+            <div id="asesoramiento-root" data-reveal="up"></div>
         </main>
 
         <footer id="footer">
             <div class="footer-container">
-                <div class="footer-col">
+                <div class="footer-col footer-col--brand">
                     <h3><a href="/" class="logo-link"><img src="/IMG/logo2.png" width="300" height="77" alt="CMR Software Solutions" loading="lazy" decoding="async"></a></h3>
                     <p class="footer-descripcion">En CMR creamos software a medida que simplifica procesos, mejora la productividad y acompaña el crecimiento de cada negocio.</p>
                     <p class="footer-mini">• Hecho en Argentina • Soluciones a medida • Tecnología moderna</p>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col footer-col--links">
                     <h4>Enlaces</h4>
-                    <ul>
+                    <ul class="footer-nav">
                         <li><a href="/">Inicio</a></li>
                         <li><a href="/#servicios">Servicios</a></li>
                         <li><a href="/#proyectos">Proyectos</a></li>
+                        <li><a href="/#planes">Planes</a></li>
                         <li><a href="/#sobre-nosotros">Sobre Nosotros</a></li>
-                        <li><a href="/asesoramiento.html">Contacto</a></li>
-                        <li><a href="/asesoramiento.html" class="btn-nav">Solicitar asesoramiento</a></li>
+                        <li><a href="/asesoramiento">Contacto</a></li>
+                        <li><a href="/asesoramiento" class="btn-nav">Solicitar asesoramiento</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col footer-col--contact">
                     <h4>Contacto</h4>
-                    <p>Email: <a href="mailto:cmrsoftware.sn@gmail.com">cmrsoftware.sn@gmail.com</a></p>
-                    <p>WhatsApp: <a href="https://wa.me/5493364578599?text=Hola%20CMR%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20sus%20servicios." target="_blank" rel="noopener noreferrer">+54 9 336 457-8599</a></p>
+                    <ul class="footer-contact">
+                        <li>
+                            <a class="footer-contact__link" href="mailto:cmrsoftware.sn@gmail.com">
+                                <span class="footer-contact__icon" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
+                                <span class="footer-contact__text">
+                                    <span class="footer-contact__label">Email</span>
+                                    <span class="footer-contact__value">cmrsoftware.sn@gmail.com</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="footer-contact__link" href="https://wa.me/5493364578599?text=Hola%20CMR%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20sus%20servicios." target="_blank" rel="noopener noreferrer">
+                                <span class="footer-contact__icon footer-contact__icon--wa" aria-hidden="true"><i class="fa-brands fa-whatsapp"></i></span>
+                                <span class="footer-contact__text">
+                                    <span class="footer-contact__label">WhatsApp</span>
+                                    <span class="footer-contact__value">+54 9 336 457-8599</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="footer-contact__link" href="https://www.instagram.com/cmrsoftware.sn/" target="_blank" rel="noopener noreferrer">
+                                <span class="footer-contact__icon footer-contact__icon--ig" aria-hidden="true"><i class="fa-brands fa-instagram"></i></span>
+                                <span class="footer-contact__text">
+                                    <span class="footer-contact__label">Instagram</span>
+                                    <span class="footer-contact__value">@cmrsoftware.sn</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2026 CMR Software Solutions - Todos los derechos reservados</p>
+                <p>© 2026 CMR Software Solutions — Todos los derechos reservados</p>
             </div>
         </footer>
 

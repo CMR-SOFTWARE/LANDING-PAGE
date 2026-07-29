@@ -13,8 +13,8 @@ export function App() {
         ) : (
           <>
             <header className="asesoramiento-head">
-              <h2 className="tag-asesoramiento">Antes de la reunión</h2>
-              <h3 id="asesoramiento-heading">Solicitá asesoramiento</h3>
+              <p className="tag-asesoramiento">Antes de la reunión</p>
+              <h1 id="asesoramiento-heading">Solicitá asesoramiento</h1>
               <p className="asesoramiento-lead">
                 Completá lo que puedas: nos ayuda a entender tu contexto y llegar a la entrevista con
                 ideas y preguntas más concretas. No hace falta que seas técnico.

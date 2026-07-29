@@ -16,6 +16,18 @@
             open ? "Cerrar menú de navegación" : "Abrir menú de navegación"
         );
         document.body.classList.toggle("nav-menu-open", open);
+
+        var main = document.getElementById("contenido-principal") || document.getElementById("asesoramiento-root");
+        if (main) {
+            if (open) {
+                main.setAttribute("inert", "");
+                main.setAttribute("aria-hidden", "true");
+            } else {
+                main.removeAttribute("inert");
+                main.removeAttribute("aria-hidden");
+            }
+        }
+
         if (open) {
             var first = menu.querySelector("a, button");
             if (first && typeof first.focus === "function") {
@@ -53,9 +65,27 @@
     });
 
     document.addEventListener("keydown", function (e) {
-        if (e.key !== "Escape") return;
         if (!nav.classList.contains("menu-open")) return;
-        setMenuOpen(false);
+
+        if (e.key === "Escape") {
+            setMenuOpen(false);
+            return;
+        }
+
+        if (e.key !== "Tab") return;
+        var focusables = menu.querySelectorAll('a[href], button:not([disabled])');
+        if (!focusables.length) return;
+        var firstEl = focusables[0];
+        var lastEl = focusables[focusables.length - 1];
+        var active = document.activeElement;
+
+        if (e.shiftKey && (active === firstEl || active === toggle)) {
+            e.preventDefault();
+            lastEl.focus();
+        } else if (!e.shiftKey && active === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
+        }
     });
 })();
 
@@ -72,7 +102,7 @@
 
     document.addEventListener("click", function (e) {
         if (e.target.closest(".js-goto-asesoramiento")) {
-            window.location.href = "/asesoramiento.html";
+            window.location.href = "/asesoramiento";
             return;
         }
         if (e.target.closest(".btn-whatsapp")) {
@@ -579,12 +609,335 @@
 })();
 
 
-/* El formulario de asesoramiento vive en React (/asesoramiento.html). */
+/* —— Motion: scroll reveal + tilt sutil (desktop) —— */
 (function () {
-    document.addEventListener("click", function (e) {
-        if (e.target.closest(".js-scroll-form")) {
-            e.preventDefault();
-            window.location.href = "/asesoramiento.html";
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+    var formRoot = document.getElementById("asesoramiento-root");
+    var io = null;
+
+    function markInView(el) {
+        if (!el) return;
+        el.classList.add("is-inview");
+        var section = el.closest(".sobre-nosotros");
+        if (section) section.classList.add("is-inview");
+        var form = el.closest(".asesoramiento-form") || el.querySelector(".asesoramiento-form");
+        if (el.classList.contains("asesoramiento-form") || el.classList.contains("asesoramiento-success")) {
+            el.classList.add("is-inview");
         }
+        if (form) form.classList.add("is-inview");
+    }
+
+    if (nodes.length) {
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+            nodes.forEach(markInView);
+            var sn = document.querySelector(".sobre-nosotros");
+            if (sn) sn.classList.add("is-inview");
+        } else {
+            io = new IntersectionObserver(
+                function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        markInView(entry.target);
+                        io.unobserve(entry.target);
+                    });
+                },
+                { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+            );
+            nodes.forEach(function (el) {
+                io.observe(el);
+            });
+        }
+    }
+
+    /* Formulario React: observar cuando aparece el form (también si no hay nodes aún) */
+    if (formRoot && "MutationObserver" in window) {
+        var mo = new MutationObserver(function () {
+            var form = formRoot.querySelector(".asesoramiento-form, .asesoramiento-success");
+            if (!form || form.classList.contains("is-inview")) return;
+            form.setAttribute("data-reveal", "up");
+            if (io) io.observe(form);
+            else markInView(form);
+        });
+        mo.observe(formRoot, { childList: true, subtree: true });
+    }
+
+    /* Parallax muy sutil en hero image */
+    var heroImg = document.querySelector("#hero .hero-img img");
+    if (heroImg && canHover && !reduceMotion) {
+        var ticking = false;
+        window.addEventListener(
+            "scroll",
+            function () {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function () {
+                    var rect = heroImg.getBoundingClientRect();
+                    if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                        var y = Math.max(-12, Math.min(12, (window.innerHeight / 2 - (rect.top + rect.height / 2)) * 0.04));
+                        heroImg.style.transform = "translate3d(0, " + y.toFixed(2) + "px, 0)";
+                    }
+                    ticking = false;
+                });
+            },
+            { passive: true }
+        );
+    }
+
+    /* Tilt en cards de servicios / problema (solo desktop) */
+    if (!canHover || reduceMotion) return;
+
+    function bindTilt(el) {
+        el.classList.add("has-tilt");
+        el.addEventListener("pointermove", function (e) {
+            var r = el.getBoundingClientRect();
+            var px = (e.clientX - r.left) / r.width - 0.5;
+            var py = (e.clientY - r.top) / r.height - 0.5;
+            el.style.setProperty("--tilt-y", (px * 6).toFixed(2) + "deg");
+            el.style.setProperty("--tilt-x", (-py * 5).toFixed(2) + "deg");
+            el.style.setProperty("--tilt-lift", "-4px");
+        });
+        el.addEventListener("pointerleave", function () {
+            el.style.setProperty("--tilt-x", "0deg");
+            el.style.setProperty("--tilt-y", "0deg");
+            el.style.setProperty("--tilt-lift", "0px");
+        });
+    }
+
+    Array.prototype.forEach.call(document.querySelectorAll(".servicios-item, .problema-item"), bindTilt);
+})();
+
+/* —— Tech identity: red de nodos, magnético, ripple, spotlight —— */
+(function () {
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var isNarrow = window.matchMedia("(max-width: 768px)").matches;
+
+    /* Arquitectura: animar dash al entrar */
+    var arch = document.querySelector("[data-arch-links]");
+    if (arch && "IntersectionObserver" in window) {
+        var archIo = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        arch.classList.add("is-drawn");
+                        archIo.disconnect();
+                    }
+                });
+            },
+            { threshold: 0.25 }
+        );
+        archIo.observe(arch);
+    }
+
+    if (reduceMotion || isNarrow) return;
+
+    /* Constellation canvas en hero */
+    var canvas = document.querySelector("[data-hero-net]");
+    if (canvas && canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+        var nodes = [];
+        var mouse = { x: -9999, y: -9999 };
+        var raf = 0;
+        var running = false;
+        var inView = true;
+
+        function resize() {
+            var parent = canvas.parentElement;
+            var w = parent.clientWidth;
+            var h = parent.clientHeight;
+            var dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.floor(w * dpr);
+            canvas.height = Math.floor(h * dpr);
+            canvas.style.width = w + "px";
+            canvas.style.height = h + "px";
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            seed(w, h);
+        }
+
+        function seed(w, h) {
+            var count = w < 900 ? 18 : 28;
+            nodes = [];
+            for (var i = 0; i < count; i++) {
+                nodes.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.25,
+                    vy: (Math.random() - 0.5) * 0.25,
+                    r: 1.2 + Math.random() * 1.4,
+                });
+            }
+        }
+
+        function start() {
+            if (running || !inView || document.hidden) return;
+            running = true;
+            frame();
+        }
+
+        function stop() {
+            running = false;
+            cancelAnimationFrame(raf);
+        }
+
+        function frame() {
+            if (!running) return;
+            var w = canvas.clientWidth;
+            var h = canvas.clientHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            for (var i = 0; i < nodes.length; i++) {
+                var n = nodes[i];
+                var dx = mouse.x - n.x;
+                var dy = mouse.y - n.y;
+                var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                if (dist < 140) {
+                    n.vx += (dx / dist) * 0.012;
+                    n.vy += (dy / dist) * 0.012;
+                }
+                n.x += n.vx;
+                n.y += n.vy;
+                n.vx *= 0.99;
+                n.vy *= 0.99;
+                if (n.x < 0 || n.x > w) n.vx *= -1;
+                if (n.y < 0 || n.y > h) n.vy *= -1;
+                n.x = Math.max(0, Math.min(w, n.x));
+                n.y = Math.max(0, Math.min(h, n.y));
+            }
+
+            for (var a = 0; a < nodes.length; a++) {
+                for (var b = a + 1; b < nodes.length; b++) {
+                    var na = nodes[a];
+                    var nb = nodes[b];
+                    var ddx = na.x - nb.x;
+                    var ddy = na.y - nb.y;
+                    var d2 = ddx * ddx + ddy * ddy;
+                    if (d2 < 130 * 130) {
+                        var alpha = 0.22 * (1 - Math.sqrt(d2) / 130);
+                        ctx.strokeStyle = "rgba(56, 189, 248," + alpha + ")";
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(na.x, na.y);
+                        ctx.lineTo(nb.x, nb.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            for (var k = 0; k < nodes.length; k++) {
+                var p = nodes[k];
+                ctx.fillStyle = "rgba(226, 240, 255, 0.75)";
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            raf = requestAnimationFrame(frame);
+        }
+
+        resize();
+        start();
+        window.addEventListener("resize", resize);
+
+        if ("IntersectionObserver" in window) {
+            var netIo = new IntersectionObserver(
+                function (entries) {
+                    entries.forEach(function (entry) {
+                        inView = entry.isIntersecting;
+                        if (inView) start();
+                        else stop();
+                    });
+                },
+                { threshold: 0.05 }
+            );
+            netIo.observe(canvas);
+        }
+
+        canvas.parentElement.addEventListener(
+            "pointermove",
+            function (e) {
+                var r = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - r.left;
+                mouse.y = e.clientY - r.top;
+            },
+            { passive: true }
+        );
+        canvas.parentElement.addEventListener(
+            "pointerleave",
+            function () {
+                mouse.x = -9999;
+                mouse.y = -9999;
+            },
+            { passive: true }
+        );
+
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) stop();
+            else start();
+        });
+    }
+
+    if (!canHover) return;
+
+    /* Spotlight suave en zonas interactivas */
+    var spot = document.createElement("div");
+    spot.className = "cmr-spotlight";
+    document.body.appendChild(spot);
+    var spotOn = false;
+
+    document.addEventListener(
+        "pointermove",
+        function (e) {
+            var hot = e.target.closest(
+                ".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .servicios-item, .problema-item, .px-card.is-active .px-card-frame"
+            );
+            if (hot) {
+                spot.style.left = e.clientX + "px";
+                spot.style.top = e.clientY + "px";
+                if (!spotOn) {
+                    spot.classList.add("is-on");
+                    spotOn = true;
+                }
+            } else if (spotOn) {
+                spot.classList.remove("is-on");
+                spotOn = false;
+            }
+        },
+        { passive: true }
+    );
+
+    /* Magnético en CTAs */
+    Array.prototype.forEach.call(document.querySelectorAll(".btn-magnetic, .px-cta-btn, .btn-nav, .plan-card__cta, .planes-cta__btn"), function (btn) {
+        btn.classList.add("btn-magnetic");
+        btn.addEventListener("pointermove", function (e) {
+            var r = btn.getBoundingClientRect();
+            var x = (e.clientX - r.left) / r.width - 0.5;
+            var y = (e.clientY - r.top) / r.height - 0.5;
+            btn.style.setProperty("--mx", (x * 8).toFixed(2) + "px");
+            btn.style.setProperty("--my", (y * 6).toFixed(2) + "px");
+        });
+        btn.addEventListener("pointerleave", function () {
+            btn.style.setProperty("--mx", "0px");
+            btn.style.setProperty("--my", "0px");
+        });
+    });
+
+    /* Ripple al click */
+    document.addEventListener("click", function (e) {
+        var btn = e.target.closest(".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn");
+        if (!btn) return;
+        var rect = btn.getBoundingClientRect();
+        var ripple = document.createElement("span");
+        ripple.className = "cmr-ripple";
+        var size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + "px";
+        ripple.style.left = e.clientX - rect.left - size / 2 + "px";
+        ripple.style.top = e.clientY - rect.top - size / 2 + "px";
+        btn.appendChild(ripple);
+        setTimeout(function () {
+            ripple.remove();
+        }, 560);
     });
 })();

@@ -403,8 +403,8 @@
   .sobre-copy-texto {
     font-size: 0.92rem;
     line-height: 1.65;
-    text-align: left;
-    text-justify: auto;
+    text-align: justify;
+    text-justify: inter-word;
     margin-bottom: 0.9rem;
   }
 
@@ -418,6 +418,7 @@
     margin-bottom: 1.15rem;
   }
 
+  .asesoramiento-head h1,
   .asesoramiento-head h3 {
     font-size: var(--m-title);
   }
@@ -491,12 +492,12 @@
 
   /* —— Footer —— */
   #footer {
-    padding: 1.35rem var(--m-pad-x) 1rem;
+    padding: 1.6rem var(--m-pad-x) 1.15rem;
   }
 
   .footer-container {
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 
   .footer-col {
@@ -510,32 +511,100 @@
   }
 
   .footer-descripcion {
-    font-size: 0.88rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.55;
     max-width: none;
   }
 
-  .footer-col ul li {
-    margin-bottom: 0.15rem;
+  .footer-nav a {
+    min-height: 44px;
+    width: 100%;
   }
 
-  .footer-col ul a,
-  .footer-col ul .btn-nav {
-    display: inline-flex;
-    align-items: center;
-    min-height: 40px;
+  .footer-contact__link {
+    min-height: 52px;
+    padding: 0.75rem 0.85rem;
   }
 
   #footer .btn-nav {
-    padding: 0.65rem 1rem;
+    padding: 0.7rem 1rem;
     font-size: 0.88rem;
-    margin-top: 0.35rem;
+    margin-top: 0.45rem;
   }
 
   .footer-bottom {
-    margin-top: 1.1rem;
-    padding-top: 0.75rem;
+    margin-top: 1.25rem;
+    padding-top: 0.85rem;
     font-size: 0.75rem;
+  }
+
+  /* —— Planes —— */
+  #planes {
+    padding: 1.75rem var(--m-pad-x) 1.5rem;
+  }
+
+  .planes-head {
+    margin-bottom: 1.25rem;
+    gap: 0.55rem;
+  }
+
+  .planes-title {
+    font-size: 1.35rem;
+  }
+
+  .planes-lead {
+    font-size: 0.92rem;
+  }
+
+  .planes-grid {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  .plan-card {
+    padding: 1.25rem 1.15rem 1.2rem;
+    border-radius: 18px;
+  }
+
+  .plan-card--featured {
+    order: -1;
+    transform: none;
+  }
+
+  .plan-card--featured .plan-card__top {
+    padding-right: 0;
+    padding-top: 1.6rem;
+  }
+
+  .plan-card__badge {
+    top: 0.85rem;
+    right: 0.85rem;
+  }
+
+  .plan-card__amount {
+    font-size: 2.05rem;
+  }
+
+  .plan-card__cta,
+  .planes-cta__btn {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .planes-note {
+    font-size: 0.84rem;
+    margin-top: 1.2rem;
+  }
+
+  .planes-cta {
+    margin-top: 1.2rem;
+    padding: 1.1rem;
+    text-align: left;
+  }
+
+  .planes-ambiance__glow {
+    opacity: 0.35;
+    filter: blur(40px);
   }
 }
 
@@ -631,9 +700,25 @@
 
   .servicios-head,
   .px-head,
+  .planes-head,
   .sobre-nosotros-head,
   .asesoramiento-head {
     text-align: center;
+  }
+
+  .planes-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+  }
+
+  .plan-card--featured {
+    order: 0;
+    transform: none;
+  }
+
+  .plan-card--featured .plan-card__top {
+    padding-right: 5.5rem;
+    padding-top: 0;
   }
 
   .servicios-title,

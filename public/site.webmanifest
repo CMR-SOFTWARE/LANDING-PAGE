@@ -1,13 +1,19 @@
 {
   "name": "CMR Software Solutions",
   "short_name": "CMR",
-  "description": "Software a medida, automatizaciones e integraciones.",
+  "description": "Software a medida, desarrollo web, sistemas de gestión y automatización de procesos.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#404da0",
   "lang": "es-AR",
   "icons": [
+    {
+      "src": "/IMG/logo2.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/IMG/logo2.png",
       "sizes": "512x512",

@@ -1,0 +1,490 @@
+/* =============================================================================
+   CMR Tech Identity — estética de software (sutil, premium, no gamer)
+   ============================================================================= */
+
+:root {
+  --tech-line: rgba(56, 189, 248, 0.28);
+  --tech-line-strong: rgba(56, 189, 248, 0.55);
+  --tech-node: rgba(34, 197, 94, 0.7);
+  --tech-muted: rgba(148, 180, 220, 0.35);
+}
+
+/* —— Hero: canvas de red —— */
+#hero .hero-ambiance__net {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Frame tipo ventana de producto sobre la imagen hero */
+.hero-img {
+  position: relative;
+}
+
+.hero-img::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 8%;
+  right: 8%;
+  height: 18px;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: none;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-img::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: calc(8% + 10px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow:
+    10px 0 0 #22c55e,
+    20px 0 0 rgba(255, 255, 255, 0.35);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* —— Circuit / grid overlays en secciones oscuras —— */
+#servicios .servicios-envoltura,
+#proyectos .proyectos-envoltura,
+.sobre-nosotros-inner {
+  position: relative;
+}
+
+.tech-circuit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.09) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 10%, transparent 75%);
+}
+
+.tech-circuit--soft {
+  opacity: 0.12;
+  background-size: 40px 40px;
+}
+
+@keyframes cmr-status-ping {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.45); }
+  70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* —— Proyectos: atmósfera tipo hero + glyphs de código —— */
+#proyectos .px-ambiance {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.px-ambiance__grid {
+  position: absolute;
+  inset: -12%;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 15%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 15%, transparent 72%);
+  opacity: 0.45;
+  animation: cmr-grid-drift 32s linear infinite;
+}
+
+.px-ambiance__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(52px);
+  opacity: 0.42;
+  animation: cmr-orb-float 16s var(--motion-ease, ease) infinite alternate;
+}
+
+.px-ambiance__orb--a {
+  width: min(44vw, 360px);
+  height: min(44vw, 360px);
+  top: -10%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.5), transparent 68%);
+}
+
+.px-ambiance__orb--b {
+  width: min(38vw, 300px);
+  height: min(38vw, 300px);
+  right: -4%;
+  bottom: 8%;
+  background: radial-gradient(circle, rgba(23, 142, 134, 0.42), transparent 70%);
+  animation-delay: -5s;
+}
+
+.px-ambiance__orb--c {
+  width: min(30vw, 240px);
+  height: min(30vw, 240px);
+  top: 42%;
+  left: 48%;
+  background: radial-gradient(circle, rgba(64, 77, 160, 0.45), transparent 70%);
+  animation-delay: -9s;
+  opacity: 0.32;
+}
+
+.px-spark {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7dd3fc;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.85), 0 0 22px rgba(56, 189, 248, 0.35);
+  animation: px-spark-pulse 3.2s ease-in-out infinite;
+}
+
+.px-spark--1 { top: 18%; left: 12%; animation-delay: 0s; }
+.px-spark--2 { top: 28%; right: 14%; background: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.8); animation-delay: 0.8s; }
+.px-spark--3 { bottom: 22%; left: 22%; animation-delay: 1.4s; width: 4px; height: 4px; }
+.px-spark--4 { top: 58%; right: 24%; background: #a5b4fc; animation-delay: 2s; }
+.px-spark--5 { bottom: 34%; right: 10%; animation-delay: 2.6s; }
+
+@keyframes px-spark-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+.code-glyph {
+  position: absolute;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 500;
+  font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+  letter-spacing: 0.04em;
+  color: rgba(125, 211, 252, 0.28);
+  text-shadow: 0 0 18px rgba(56, 189, 248, 0.25);
+  animation: px-glyph-float 11s ease-in-out infinite alternate;
+  user-select: none;
+}
+
+.code-glyph--a { top: 14%; left: 6%; font-size: clamp(1rem, 2vw, 1.35rem); color: rgba(56, 189, 248, 0.32); }
+.code-glyph--b { top: 22%; right: 7%; animation-delay: -2.5s; color: rgba(52, 211, 153, 0.3); }
+.code-glyph--c { bottom: 18%; left: 9%; animation-delay: -4s; }
+.code-glyph--d { top: 48%; left: 3%; animation-delay: -6s; font-size: 0.9rem; color: rgba(165, 180, 252, 0.28); }
+.code-glyph--e { bottom: 28%; right: 8%; animation-delay: -3.5s; color: rgba(125, 211, 252, 0.26); }
+.code-glyph--f { top: 62%; right: 18%; animation-delay: -7s; font-size: 0.95rem; }
+
+@keyframes px-glyph-float {
+  from { transform: translate3d(0, 0, 0); opacity: 0.55; }
+  to { transform: translate3d(0, -12px, 0); opacity: 1; }
+}
+
+.tag-proyectos .code-br {
+  color: rgba(56, 189, 248, 0.75);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 500;
+  margin: 0 0.05em;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+#proyectos .tech-flow {
+  top: auto;
+  bottom: 12%;
+  opacity: 0.7;
+}
+
+#servicios .servicios-head,
+#servicios .servicios-container,
+#proyectos .px-head,
+#proyectos .px-stage,
+#proyectos .px-dots,
+#proyectos .px-cta,
+.sobre-nosotros-head,
+.sobre-nosotros-panel {
+  position: relative;
+  z-index: 1;
+}
+
+/* —— Arquitectura: líneas SVG entre cards de problema —— */
+.arch-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.problema-envolvente,
+.servicios-container {
+  position: relative;
+}
+
+.arch-links path {
+  fill: none;
+  stroke: url(#cmrArchGrad);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-dasharray: 6 8;
+  opacity: 0.35;
+}
+
+.arch-links.is-drawn path {
+  animation: cmr-dash-flow 8s linear infinite;
+}
+
+@keyframes cmr-dash-flow {
+  to { stroke-dashoffset: -80; }
+}
+
+/* —— Flujo de datos entre secciones —— */
+.tech-flow {
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: min(220px, 40vw);
+  height: 28px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.tech-flow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tech-line), transparent);
+}
+
+.tech-flow__packet {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+  animation: cmr-packet 3.6s var(--motion-ease, ease-in-out) infinite;
+}
+
+.tech-flow__packet:nth-child(2) { animation-delay: 1.2s; background: #22c55e; box-shadow: 0 0 10px rgba(34, 197, 94, 0.75); }
+.tech-flow__packet:nth-child(3) { animation-delay: 2.4s; }
+
+@keyframes cmr-packet {
+  0% { left: 8%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 88%; opacity: 0; }
+}
+
+#problema,
+#servicios,
+#proyectos {
+  position: relative;
+}
+
+/* —— Íconos con “estado online” —— */
+.servicios-item-icon {
+  position: relative;
+}
+
+.servicios-item-icon::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid rgba(26, 31, 82, 0.9);
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  animation: cmr-status-ping 2.6s ease-out infinite;
+}
+
+/* —— Terminal bar en Sobre nosotros —— */
+.sobre-copy {
+  position: relative;
+}
+
+.sobre-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 0.9rem;
+}
+
+.sobre-terminal-bar span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0.75;
+}
+
+.sobre-terminal-bar span:nth-child(1) { background: #f87171; }
+.sobre-terminal-bar span:nth-child(2) { background: #fbbf24; }
+.sobre-terminal-bar span:nth-child(3) { background: #34d399; }
+
+.sobre-terminal-bar em {
+  margin-left: 0.45rem;
+  font-style: normal;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: rgba(148, 200, 230, 0.65);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Cursor de escritura sutil junto a location */
+.sobre-copy-location::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 0.35rem;
+  vertical-align: -0.12em;
+  background: rgba(56, 189, 248, 0.75);
+  animation: cmr-caret 1.1s steps(1) infinite;
+}
+
+@keyframes cmr-caret {
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* —— Magnetic / spotlight interactivo —— */
+.btn-magnetic {
+  --mx: 0px;
+  --my: 0px;
+  transform: translate3d(var(--mx), var(--my), 0);
+}
+
+.cmr-spotlight {
+  position: fixed;
+  width: 180px;
+  height: 180px;
+  margin: -90px 0 0 -90px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.12), transparent 68%);
+  opacity: 0;
+  transition: opacity 200ms ease;
+  mix-blend-mode: screen;
+}
+
+.cmr-spotlight.is-on {
+  opacity: 1;
+}
+
+/* Ripple al click */
+.cmr-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255, 255, 255, 0.35);
+  animation: cmr-ripple 520ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes cmr-ripple {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.btn-primary,
+.btn-whatsapp,
+.btn-nav,
+.px-cta-btn,
+.plan-card__cta,
+.planes-cta__btn {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* —— Form: barra de “build” sutil al focus —— */
+.form-input-shell:focus-within {
+  position: relative;
+}
+
+.form-input-shell:focus-within::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -3px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #22c55e, transparent);
+  background-size: 200% 100%;
+  animation: cmr-scan 1.4s linear infinite;
+}
+
+@keyframes cmr-scan {
+  to { background-position: -200% 0; }
+}
+
+/* —— Mobile: aligerar —— */
+@media (max-width: 768px) {
+  .hero-ambiance__net,
+  .arch-links,
+  .cmr-spotlight,
+  .tech-flow,
+  .px-ambiance__orb,
+  .px-spark,
+  .code-glyph {
+    display: none !important;
+  }
+
+  .hero-img::before,
+  .hero-img::after {
+    display: none;
+  }
+
+  .tech-circuit {
+    opacity: 0.1;
+  }
+
+  .px-ambiance__grid {
+    opacity: 0.2;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .servicios-item-icon::after,
+  .tech-flow__packet,
+  .arch-links.is-drawn path,
+  .sobre-copy-location::after,
+  .form-input-shell:focus-within::after,
+  .px-ambiance__grid,
+  .px-ambiance__orb,
+  .px-spark,
+  .code-glyph {
+    animation: none !important;
+  }
+
+  .cmr-spotlight {
+    display: none !important;
+  }
+}
