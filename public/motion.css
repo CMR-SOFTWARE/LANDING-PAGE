@@ -449,13 +449,13 @@
   }
 
   .hero-ambiance__grid {
-    opacity: 0.22;
-    animation-duration: 40s;
+    opacity: 0.42;
+    animation-duration: 36s;
   }
 
   .hero-ambiance__orb {
-    opacity: 0.28;
-    filter: blur(36px);
+    opacity: 0.48;
+    filter: blur(28px);
   }
 
   .servicios-item.has-tilt,

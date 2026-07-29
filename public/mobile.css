@@ -603,8 +603,12 @@
   }
 
   .planes-ambiance__glow {
-    opacity: 0.35;
-    filter: blur(40px);
+    opacity: 0.48;
+    filter: blur(36px);
+  }
+
+  .planes-ambiance__grid {
+    opacity: 0.4;
   }
 }
 

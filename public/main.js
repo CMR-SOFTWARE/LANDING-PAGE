@@ -713,7 +713,17 @@
 (function () {
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    var isNarrow = window.matchMedia("(max-width: 768px)").matches;
+    var narrowMq = window.matchMedia("(max-width: 768px)");
+    var isNarrow = narrowMq.matches;
+    if (typeof narrowMq.addEventListener === "function") {
+        narrowMq.addEventListener("change", function (e) {
+            isNarrow = e.matches;
+        });
+    } else if (typeof narrowMq.addListener === "function") {
+        narrowMq.addListener(function (e) {
+            isNarrow = e.matches;
+        });
+    }
 
     /* Arquitectura: animar dash al entrar */
     var arch = document.querySelector("[data-arch-links]");
@@ -732,9 +742,9 @@
         archIo.observe(arch);
     }
 
-    if (reduceMotion || isNarrow) return;
+    if (reduceMotion) return;
 
-    /* Constellation canvas en hero */
+    /* Constellation canvas en hero (también móvil, con carga reducida) */
     var canvas = document.querySelector("[data-hero-net]");
     if (canvas && canvas.getContext) {
         var ctx = canvas.getContext("2d");
@@ -743,12 +753,15 @@
         var raf = 0;
         var running = false;
         var inView = true;
+        var frameSkip = 0;
+        var linkDist = isNarrow ? 100 : 130;
+        var attractR = isNarrow ? 100 : 140;
 
         function resize() {
             var parent = canvas.parentElement;
             var w = parent.clientWidth;
             var h = parent.clientHeight;
-            var dpr = Math.min(window.devicePixelRatio || 1, 2);
+            var dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.25 : 2);
             canvas.width = Math.floor(w * dpr);
             canvas.height = Math.floor(h * dpr);
             canvas.style.width = w + "px";
@@ -758,15 +771,15 @@
         }
 
         function seed(w, h) {
-            var count = w < 900 ? 18 : 28;
+            var count = w < 480 ? 12 : w < 900 ? 18 : 28;
             nodes = [];
             for (var i = 0; i < count; i++) {
                 nodes.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.25,
-                    vy: (Math.random() - 0.5) * 0.25,
-                    r: 1.2 + Math.random() * 1.4,
+                    vx: (Math.random() - 0.5) * (isNarrow ? 0.18 : 0.25),
+                    vy: (Math.random() - 0.5) * (isNarrow ? 0.18 : 0.25),
+                    r: 1.1 + Math.random() * (isNarrow ? 1.1 : 1.4),
                 });
             }
         }
@@ -784,27 +797,48 @@
 
         function frame() {
             if (!running) return;
+            /* En móvil: ~30fps equivalentes saltando un frame */
+            if (isNarrow) {
+                frameSkip = 1 - frameSkip;
+                if (!frameSkip) {
+                    raf = requestAnimationFrame(frame);
+                    return;
+                }
+            }
+
             var w = canvas.clientWidth;
             var h = canvas.clientHeight;
             ctx.clearRect(0, 0, w, h);
 
             for (var i = 0; i < nodes.length; i++) {
                 var n = nodes[i];
-                var dx = mouse.x - n.x;
-                var dy = mouse.y - n.y;
-                var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                if (dist < 140) {
-                    n.vx += (dx / dist) * 0.012;
-                    n.vy += (dy / dist) * 0.012;
+                if (canHover) {
+                    var dx = mouse.x - n.x;
+                    var dy = mouse.y - n.y;
+                    var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    if (dist < attractR) {
+                        n.vx += (dx / dist) * 0.012;
+                        n.vy += (dy / dist) * 0.012;
+                    }
+                    n.vx *= 0.995;
+                    n.vy *= 0.995;
                 }
                 n.x += n.vx;
                 n.y += n.vy;
-                n.vx *= 0.99;
-                n.vy *= 0.99;
                 if (n.x < 0 || n.x > w) n.vx *= -1;
                 if (n.y < 0 || n.y > h) n.vy *= -1;
                 n.x = Math.max(0, Math.min(w, n.x));
                 n.y = Math.max(0, Math.min(h, n.y));
+                /* Deriva constante: la red nunca se congela (móvil ni desktop idle) */
+                var spd = Math.sqrt(n.vx * n.vx + n.vy * n.vy) || 0.001;
+                var target = isNarrow ? 0.16 : 0.22;
+                if (spd < target * 0.55) {
+                    n.vx = (n.vx / spd) * target;
+                    n.vy = (n.vy / spd) * target;
+                } else if (spd > target * 2.4) {
+                    n.vx *= 0.92;
+                    n.vy *= 0.92;
+                }
             }
 
             for (var a = 0; a < nodes.length; a++) {
@@ -814,8 +848,8 @@
                     var ddx = na.x - nb.x;
                     var ddy = na.y - nb.y;
                     var d2 = ddx * ddx + ddy * ddy;
-                    if (d2 < 130 * 130) {
-                        var alpha = 0.22 * (1 - Math.sqrt(d2) / 130);
+                    if (d2 < linkDist * linkDist) {
+                        var alpha = 0.22 * (1 - Math.sqrt(d2) / linkDist);
                         ctx.strokeStyle = "rgba(56, 189, 248," + alpha + ")";
                         ctx.lineWidth = 1;
                         ctx.beginPath();
@@ -855,23 +889,25 @@
             netIo.observe(canvas);
         }
 
-        canvas.parentElement.addEventListener(
-            "pointermove",
-            function (e) {
-                var r = canvas.getBoundingClientRect();
-                mouse.x = e.clientX - r.left;
-                mouse.y = e.clientY - r.top;
-            },
-            { passive: true }
-        );
-        canvas.parentElement.addEventListener(
-            "pointerleave",
-            function () {
-                mouse.x = -9999;
-                mouse.y = -9999;
-            },
-            { passive: true }
-        );
+        if (canHover && canvas.parentElement) {
+            canvas.parentElement.addEventListener(
+                "pointermove",
+                function (e) {
+                    var r = canvas.getBoundingClientRect();
+                    mouse.x = e.clientX - r.left;
+                    mouse.y = e.clientY - r.top;
+                },
+                { passive: true }
+            );
+            canvas.parentElement.addEventListener(
+                "pointerleave",
+                function () {
+                    mouse.x = -9999;
+                    mouse.y = -9999;
+                },
+                { passive: true }
+            );
+        }
 
         document.addEventListener("visibilitychange", function () {
             if (document.hidden) stop();
@@ -879,9 +915,26 @@
         });
     }
 
+    /* Ripple en click/tap (desktop + mobile) */
+    document.addEventListener("click", function (e) {
+        var btn = e.target.closest(".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn");
+        if (!btn) return;
+        var rect = btn.getBoundingClientRect();
+        var ripple = document.createElement("span");
+        ripple.className = "cmr-ripple";
+        var size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + "px";
+        ripple.style.left = e.clientX - rect.left - size / 2 + "px";
+        ripple.style.top = e.clientY - rect.top - size / 2 + "px";
+        btn.appendChild(ripple);
+        setTimeout(function () {
+            ripple.remove();
+        }, 560);
+    });
+
     if (!canHover) return;
 
-    /* Spotlight suave en zonas interactivas */
+    /* Spotlight suave solo con pointer fino */
     var spot = document.createElement("div");
     spot.className = "cmr-spotlight";
     document.body.appendChild(spot);
@@ -891,7 +944,7 @@
         "pointermove",
         function (e) {
             var hot = e.target.closest(
-                ".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .servicios-item, .problema-item, .px-card.is-active .px-card-frame"
+                ".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn, .servicios-item, .problema-item, .px-card.is-active .px-card-frame"
             );
             if (hot) {
                 spot.style.left = e.clientX + "px";
@@ -922,22 +975,5 @@
             btn.style.setProperty("--mx", "0px");
             btn.style.setProperty("--my", "0px");
         });
-    });
-
-    /* Ripple al click */
-    document.addEventListener("click", function (e) {
-        var btn = e.target.closest(".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn");
-        if (!btn) return;
-        var rect = btn.getBoundingClientRect();
-        var ripple = document.createElement("span");
-        ripple.className = "cmr-ripple";
-        var size = Math.max(rect.width, rect.height);
-        ripple.style.width = ripple.style.height = size + "px";
-        ripple.style.left = e.clientX - rect.left - size / 2 + "px";
-        ripple.style.top = e.clientY - rect.top - size / 2 + "px";
-        btn.appendChild(ripple);
-        setTimeout(function () {
-            ripple.remove();
-        }, 560);
     });
 })();

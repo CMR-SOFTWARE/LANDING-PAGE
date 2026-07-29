@@ -377,6 +377,49 @@
   transform: translate3d(var(--mx), var(--my), 0);
 }
 
+/* Halo luminoso continuo en CTAs principales */
+.btn-primary,
+.btn-whatsapp,
+.plan-card__cta--primary,
+.planes-cta__btn {
+  animation: cmr-cta-glow 4.8s ease-in-out infinite;
+}
+
+@keyframes cmr-cta-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+  50% { box-shadow: 0 0 18px 2px rgba(56, 189, 248, 0.28); }
+}
+
+.btn-whatsapp {
+  animation-name: cmr-cta-glow-wa;
+}
+
+@keyframes cmr-cta-glow-wa {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(69, 138, 144, 0); }
+  50% { box-shadow: 0 0 16px 2px rgba(69, 138, 144, 0.3); }
+}
+
+/* Microanimación en íconos de problema */
+.icono-problema,
+.icono-excel {
+  display: inline-block;
+  animation: cmr-icon-float 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.problema-item:nth-child(2) .icono-excel {
+  animation-delay: -1.8s;
+}
+
+.problema-item:nth-child(3) .icono-problema {
+  animation-delay: -3.2s;
+}
+
+@keyframes cmr-icon-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -3px, 0); }
+}
+
 .cmr-spotlight {
   position: fixed;
   width: 180px;
@@ -444,30 +487,70 @@
   to { background-position: -200% 0; }
 }
 
-/* —— Mobile: aligerar —— */
+/* —— Mobile: optimizar (no eliminar) efectos —— */
 @media (max-width: 768px) {
-  .hero-ambiance__net,
-  .arch-links,
-  .cmr-spotlight,
-  .tech-flow,
-  .px-ambiance__orb,
-  .px-spark,
-  .code-glyph {
-    display: none !important;
+  #hero .hero-ambiance__net {
+    opacity: 0.55;
   }
 
   .hero-img::before,
   .hero-img::after {
-    display: none;
+    opacity: 0.65;
   }
 
   .tech-circuit {
-    opacity: 0.1;
+    opacity: 0.2;
+  }
+
+  .tech-circuit--soft {
+    opacity: 0.16;
   }
 
   .px-ambiance__grid {
-    opacity: 0.2;
-    animation: none;
+    opacity: 0.48;
+    animation-duration: 36s;
+  }
+
+  .px-ambiance__orb {
+    opacity: 0.44;
+    filter: blur(32px);
+  }
+
+  .px-spark {
+    width: 4px;
+    height: 4px;
+    opacity: 0.95;
+  }
+
+  .code-glyph {
+    font-size: clamp(0.72rem, 3.2vw, 0.95rem);
+    color: rgba(125, 211, 252, 0.4);
+    opacity: 0.9;
+  }
+
+  /* Menos glyphs, mismos presentes — optimización, no eliminación del efecto */
+  .code-glyph--d,
+  .code-glyph--f {
+    display: none;
+  }
+
+  .tech-flow {
+    opacity: 0.8;
+    height: 28px;
+  }
+
+  .tech-flow__packet {
+    width: 5px;
+    height: 5px;
+  }
+
+  .arch-links {
+    opacity: 0.9;
+  }
+
+  /* Spotlight es hover-only: en touch no aporta */
+  .cmr-spotlight {
+    display: none !important;
   }
 }
 
@@ -480,11 +563,163 @@
   .px-ambiance__grid,
   .px-ambiance__orb,
   .px-spark,
-  .code-glyph {
+  .code-glyph,
+  .section-ambient__grid,
+  .section-ambient__orb,
+  .section-ambient__spark,
+  .section-ambient__beam,
+  .btn-primary,
+  .btn-whatsapp,
+  .plan-card__cta--primary,
+  .planes-cta__btn,
+  .icono-problema,
+  .icono-excel {
     animation: none !important;
   }
 
   .cmr-spotlight {
     display: none !important;
+  }
+}
+
+/* —— Atmósfera tech reutilizable (todas las secciones) —— */
+.section-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.section-ambient__grid {
+  position: absolute;
+  inset: -12%;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, #000 18%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, #000 18%, transparent 75%);
+  opacity: 0.4;
+  animation: cmr-grid-drift 34s linear infinite;
+  will-change: transform;
+}
+
+.section-ambient__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(42px);
+  opacity: 0.4;
+  animation: cmr-orb-float 16s var(--motion-ease, ease) infinite alternate;
+  will-change: transform;
+}
+
+.section-ambient__orb--a {
+  width: min(48vw, 280px);
+  height: min(48vw, 280px);
+  top: -8%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.45), transparent 68%);
+}
+
+.section-ambient__orb--b {
+  width: min(42vw, 240px);
+  height: min(42vw, 240px);
+  right: -8%;
+  bottom: -6%;
+  background: radial-gradient(circle, rgba(23, 142, 134, 0.38), transparent 70%);
+  animation-delay: -5s;
+}
+
+.section-ambient__spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #7dd3fc;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.75);
+  animation: px-spark-pulse 3.4s ease-in-out infinite;
+}
+
+.section-ambient__spark--1 { top: 16%; left: 14%; }
+.section-ambient__spark--2 { top: 42%; right: 12%; animation-delay: 1s; background: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.7); }
+.section-ambient__spark--3 { bottom: 20%; left: 28%; animation-delay: 1.8s; }
+
+.section-ambient__beam {
+  position: absolute;
+  height: 1px;
+  width: 42%;
+  left: 10%;
+  top: 58%;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.55), transparent);
+  opacity: 0.55;
+  animation: cmr-beam-slide 7.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.section-ambient__beam--b {
+  top: 28%;
+  left: auto;
+  right: 8%;
+  width: 36%;
+  animation-delay: -3.2s;
+  background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.45), transparent);
+}
+
+@keyframes cmr-beam-slide {
+  0%, 100% { transform: translate3d(-8%, 0, 0); opacity: 0.25; }
+  50% { transform: translate3d(10%, 0, 0); opacity: 0.7; }
+}
+
+#problema .section-ambient__grid {
+  background-image:
+    linear-gradient(rgba(40, 80, 192, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40, 80, 192, 0.08) 1px, transparent 1px);
+}
+
+#servicios .section-ambient__grid {
+  opacity: 0.32;
+}
+
+#problema,
+#servicios,
+#sobre-nosotros {
+  position: relative;
+  overflow: hidden;
+}
+
+#problema .problema-envolvente,
+#servicios .servicios-envoltura,
+#sobre-nosotros .sobre-nosotros-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.section-ambient--sobre {
+  z-index: 0;
+}
+
+.section-ambient--sobre .section-ambient__grid {
+  opacity: 0.28;
+  background-size: 38px 38px;
+}
+
+@media (max-width: 768px) {
+  .section-ambient__orb {
+    filter: blur(30px);
+    opacity: 0.4;
+  }
+
+  .section-ambient__grid {
+    opacity: 0.38;
+    animation-duration: 40s;
+  }
+
+  .section-ambient__beam {
+    opacity: 0.5;
+  }
+
+  .section-ambient__spark {
+    opacity: 0.95;
   }
 }
