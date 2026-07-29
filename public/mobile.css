@@ -315,6 +315,19 @@
     -webkit-line-clamp: 2;
   }
 
+  .px-card-link {
+    font-size: 0.66rem;
+    margin-top: 0.35rem;
+    padding: 0.26rem 0.55rem 0.26rem 0.42rem;
+    letter-spacing: 0.025em;
+  }
+
+  .px-card-link i {
+    width: 0.95rem;
+    height: 0.95rem;
+    font-size: 0.52rem;
+  }
+
   .px-card-more {
     width: var(--m-touch);
     height: var(--m-touch);

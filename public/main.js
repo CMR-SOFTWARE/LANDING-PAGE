@@ -271,7 +271,7 @@
 
     cards.forEach(function (card, i) {
         card.addEventListener("click", function (e) {
-            if (e.target.closest("[data-px-more]")) return;
+            if (e.target.closest("[data-px-more], [data-px-link], a.px-card-link")) return;
             if (dragMoved) {
                 dragMoved = false;
                 return;
@@ -375,6 +375,7 @@
     var closeBtn = lb.querySelector(".px-viewer-close");
     var titleEl = lb.querySelector("[data-px-viewer-title]");
     var descEl = lb.querySelector("[data-px-viewer-desc]");
+    var linkEl = lb.querySelector("[data-px-viewer-link]");
     var counterEl = lb.querySelector("[data-px-viewer-counter]");
     var imgEl = lb.querySelector("[data-px-viewer-img]");
     var canvas = lb.querySelector(".px-viewer-canvas");
@@ -440,6 +441,28 @@
         if (titleEl) titleEl.textContent = title ? title.textContent.trim() : "Proyecto";
         if (descEl) descEl.textContent = desc ? desc.textContent.trim() : "";
 
+        if (linkEl) {
+            var url = card.getAttribute("data-px-url") || "";
+            var cardLink = card.querySelector("[data-px-link]");
+            if (url) {
+                linkEl.href = url;
+                linkEl.hidden = false;
+                if (cardLink) {
+                    linkEl.innerHTML = cardLink.innerHTML;
+                } else {
+                    try {
+                        linkEl.textContent = new URL(url).hostname.replace(/^www\./, "");
+                    } catch (errUrl) {
+                        linkEl.textContent = "Visitar sitio";
+                    }
+                }
+            } else {
+                linkEl.hidden = true;
+                linkEl.removeAttribute("href");
+                linkEl.textContent = "";
+            }
+        }
+
         var multi = gallery.length > 1;
         if (prevBtn) prevBtn.hidden = !multi;
         if (nextBtn) nextBtn.hidden = !multi;
@@ -489,6 +512,11 @@
             if (imgEl) {
                 imgEl.removeAttribute("src");
                 imgEl.alt = "";
+            }
+            if (linkEl) {
+                linkEl.hidden = true;
+                linkEl.removeAttribute("href");
+                linkEl.textContent = "";
             }
             if (lastFocus && typeof lastFocus.focus === "function") {
                 try {
