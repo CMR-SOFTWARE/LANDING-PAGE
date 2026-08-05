@@ -380,8 +380,10 @@
 /* Halo luminoso continuo en CTAs principales */
 .btn-primary,
 .btn-whatsapp,
+.btn-nav,
 .plan-card__cta--primary,
-.planes-cta__btn {
+.planes-cta__btn,
+.px-cta-btn {
   animation: cmr-cta-glow 4.8s ease-in-out infinite;
 }
 
@@ -570,8 +572,10 @@
   .section-ambient__beam,
   .btn-primary,
   .btn-whatsapp,
+  .btn-nav,
   .plan-card__cta--primary,
   .planes-cta__btn,
+  .px-cta-btn,
   .icono-problema,
   .icono-excel {
     animation: none !important;
@@ -681,8 +685,19 @@
   opacity: 0.32;
 }
 
+#tecnologias .section-ambient__grid,
+#proceso .section-ambient__grid,
+#cobertura .section-ambient__grid,
+#preguntas-frecuentes .section-ambient__grid {
+  opacity: 0.3;
+}
+
 #problema,
 #servicios,
+#tecnologias,
+#proceso,
+#cobertura,
+#preguntas-frecuentes,
 #sobre-nosotros {
   position: relative;
   overflow: hidden;
@@ -690,6 +705,10 @@
 
 #problema .problema-envolvente,
 #servicios .servicios-envoltura,
+#tecnologias .servicios-envoltura,
+#proceso .servicios-envoltura,
+#cobertura .servicios-envoltura,
+#preguntas-frecuentes .faq-envoltura,
 #sobre-nosotros .sobre-nosotros-inner {
   position: relative;
   z-index: 1;

@@ -411,6 +411,10 @@
 #servicios,
 #proyectos,
 #planes,
+#tecnologias,
+#proceso,
+#cobertura,
+#preguntas-frecuentes,
 .sobre-nosotros,
 .asesoramiento {
   position: relative;
@@ -419,7 +423,11 @@
 #problema::after,
 #servicios::after,
 #proyectos::after,
-#planes::after {
+#planes::after,
+#tecnologias::after,
+#proceso::after,
+#cobertura::after,
+#preguntas-frecuentes::after {
   content: "";
   position: absolute;
   left: 10%;
@@ -428,10 +436,80 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(64, 77, 160, 0.18), transparent);
   pointer-events: none;
+  z-index: 2;
 }
 
-#servicios::after {
+#servicios::after,
+#tecnologias::after,
+#proceso::after,
+#cobertura::after,
+#preguntas-frecuentes::after {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+}
+
+/* —— Microinteracciones unificadas (mismo lenguaje) —— */
+.nav-primary a:not(.btn-nav),
+.footer-nav a:not(.btn-nav) {
+  position: relative;
+  transition:
+    color var(--motion-fast) var(--motion-ease),
+    opacity var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+
+.nav-primary a:not(.btn-nav)::after,
+.footer-nav a:not(.btn-nav)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--motion-med) var(--motion-ease);
+  pointer-events: none;
+}
+
+.nav-primary a:not(.btn-nav):hover,
+.nav-primary a:not(.btn-nav):focus-visible {
+  color: #2850c0;
+}
+
+.footer-nav a:not(.btn-nav):hover,
+.footer-nav a:not(.btn-nav):focus-visible {
+  color: #7dd3fc;
+}
+
+.nav-primary a:not(.btn-nav):hover::after,
+.nav-primary a:not(.btn-nav):focus-visible::after,
+.footer-nav a:not(.btn-nav):hover::after,
+.footer-nav a:not(.btn-nav):focus-visible::after {
+  transform: scaleX(1);
+}
+
+.cmr-proceso-step:hover .cmr-proceso-step__num {
+  filter: brightness(1.08);
+}
+
+.footer-contact__link {
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    background var(--motion-fast) ease;
+}
+
+.footer-contact__link:hover,
+.footer-contact__link:focus-visible {
+  transform: translateX(3px);
+}
+
+.btn-primary:hover,
+.btn-nav:hover,
+.px-cta-btn:hover,
+.plan-card__cta:hover,
+.planes-cta__btn:hover {
+  filter: brightness(1.06);
 }
 
 /* —— Reduced motion —— */

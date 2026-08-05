@@ -1,245 +1,216 @@
 /* =============================================================================
-   CMR — Secciones SEO complementarias (tecnologías, proceso, cobertura)
-   Misma identidad visual; no altera tipografía de la landing principal.
+   CMR — Secciones complementarias (tecnologías, proceso, cobertura)
+   Extiende el design system de Servicios: mismos tags chamfer, cards glass
+   y atmósfera. Solo layout y fondos de sección.
    ============================================================================= */
 
-.seo-extra {
+.cmr-section {
   position: relative;
-  padding: clamp(2.5rem, 6vw, 4rem) clamp(12px, 4vw, 24px);
+  padding: clamp(2.5rem, 6vw, 4.25rem) clamp(12px, 4vw, 24px);
   overflow: hidden;
-  color: #e8f1ff;
+  color: #f8fafc;
 }
 
-.seo-extra--tech {
-  background:
-    radial-gradient(ellipse 70% 50% at 85% 15%, rgba(56, 189, 248, 0.12), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 10% 80%, rgba(40, 80, 192, 0.16), transparent 50%),
-    linear-gradient(180deg, #0b142c 0%, #101c3a 100%);
+.cmr-section--tech {
+  background: linear-gradient(145deg, #141b4a 0%, #1e2a6b 32%, #2f3f8f 62%, #3a6aa8 100%);
 }
 
-.seo-extra--proceso {
-  background:
-    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(23, 142, 134, 0.14), transparent 55%),
-    linear-gradient(180deg, #101c3a 0%, #0c1630 100%);
+.cmr-section--proceso {
+  background: linear-gradient(155deg, #12183f 0%, #1a2558 40%, #243678 78%, #2d5f8e 100%);
 }
 
-.seo-extra--cobertura {
-  background:
-    radial-gradient(ellipse 65% 45% at 70% 70%, rgba(56, 189, 248, 0.1), transparent 55%),
-    linear-gradient(180deg, #0c1630 0%, #0a1228 100%);
+.cmr-section--cobertura {
+  background: linear-gradient(165deg, #0f1638 0%, #172252 45%, #1f3470 100%);
 }
 
-.seo-extra__inner {
+.cmr-section .servicios-envoltura {
   position: relative;
   z-index: 1;
-  max-width: min(980px, 100%);
-  margin: 0 auto;
 }
 
-.seo-extra__head {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.65rem;
-  margin-bottom: clamp(1.5rem, 3.5vw, 2.25rem);
-}
-
-.seo-extra__tag {
-  display: inline-block;
-  margin: 0;
-  padding: 0.35rem 0.85rem;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #dff6ff;
-  background: linear-gradient(118deg, #2850c0 0%, #178e86 55%, #38bdf8 100%);
-}
-
-.seo-extra__head h2 {
-  margin: 0;
-  max-width: 22em;
-  font-size: clamp(1.45rem, 3.5vw, 2rem);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: #f4f8ff;
+.cmr-section .servicios-title {
+  white-space: normal;
   text-wrap: balance;
 }
 
-.seo-extra__accent {
-  background: linear-gradient(90deg, #38bdf8, #22c55e);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.seo-extra__lead {
-  margin: 0 auto;
-  max-width: 34rem;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: rgba(210, 224, 245, 0.78);
-  text-align: center;
+.cmr-section .servicios-lead {
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
   text-wrap: pretty;
 }
 
-.seo-tech-grid {
+/* —— Grid tecnologías (reusa .servicios-item) —— */
+.cmr-tech-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.85rem, 2vw, 1.25rem);
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: clamp(1rem, 2.5vw, 1.35rem);
+  justify-items: stretch;
 }
 
-.seo-tech-grid li {
-  padding: 1.15rem 1.2rem;
-  border-radius: 14px;
-  border: 1px solid rgba(120, 170, 220, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+.cmr-tech-grid .servicios-item {
+  flex: none;
+  max-width: none;
+  width: 100%;
 }
 
-.seo-tech-grid h3 {
-  margin: 0 0 0.45rem;
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
-  font-weight: 600;
-  color: #f2f7ff;
-  line-height: 1.3;
-}
-
-.seo-tech-grid p {
-  margin: 0;
-  font-size: 0.88rem;
-  line-height: 1.55;
-  color: rgba(210, 224, 245, 0.78);
-  text-align: start;
-}
-
-.seo-proceso-list {
+/* —— Proceso —— */
+.cmr-proceso-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(0.75rem, 1.8vw, 1.1rem);
+  gap: clamp(0.9rem, 2vw, 1.25rem);
   list-style: none;
   margin: 0;
   padding: 0;
-  counter-reset: proceso;
 }
 
-.seo-proceso-list li {
-  position: relative;
-  padding: 1.2rem 1.15rem 1.2rem;
-  border-radius: 14px;
-  border: 1px solid rgba(120, 170, 220, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-  counter-increment: proceso;
-}
-
-.seo-proceso-list li::before {
-  content: counter(proceso, decimal-leading-zero);
-  display: block;
-  margin-bottom: 0.55rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #7dd3fc;
-}
-
-.seo-proceso-list h3 {
-  margin: 0 0 0.4rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f2f7ff;
-  line-height: 1.3;
-}
-
-.seo-proceso-list p {
-  margin: 0;
-  font-size: 0.86rem;
-  line-height: 1.55;
-  color: rgba(210, 224, 245, 0.78);
-}
-
-.seo-cobertura-copy {
-  max-width: 46rem;
-  margin: 0 auto 1.35rem;
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: rgba(220, 232, 250, 0.88);
-  text-align: justify;
-  text-justify: inter-word;
-}
-
-.seo-cobertura-list {
+.cmr-proceso-step {
+  flex: none;
+  max-width: none;
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.55rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.seo-cobertura-list li {
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #e8f4ff;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(125, 211, 252, 0.28);
-}
-
-.seo-extra__cta {
-  margin: 1.5rem auto 0;
-  text-align: center;
-}
-
-.seo-extra__cta a {
+.cmr-proceso-step__num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  min-height: 44px;
-  padding: 0.7rem 1.2rem;
-  border-radius: 999px;
-  text-decoration: none;
+  width: fit-content;
+  margin-bottom: 0.35rem;
+  padding: 0.28rem 0.65rem;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.72rem;
   font-weight: 600;
-  font-size: 0.9rem;
-  color: #fff;
-  background: linear-gradient(90deg, #2850c0, #178e86);
+  letter-spacing: 0.12em;
+  color: #dff6ff;
+  background: linear-gradient(118deg, rgba(40, 80, 192, 0.55), rgba(23, 142, 134, 0.55));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 4px 14px rgba(10, 15, 44, 0.22);
+  --section-tag-chamfer: 8px;
+  clip-path: polygon(
+    var(--section-tag-chamfer) 0%,
+    100% 0%,
+    100% calc(100% - var(--section-tag-chamfer)),
+    calc(100% - var(--section-tag-chamfer)) 100%,
+    0% 100%,
+    0% var(--section-tag-chamfer)
+  );
+}
+
+/* —— Cobertura —— */
+.cmr-cobertura-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.65rem, 1.5vw, 0.95rem);
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+}
+
+.cmr-cobertura-chip {
+  --card-chamfer: clamp(8px, 1.2vw, 11px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #f2f7ff;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 8px 22px rgba(15, 20, 60, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  clip-path: polygon(
+    var(--card-chamfer) 0%,
+    100% 0%,
+    100% calc(100% - var(--card-chamfer)),
+    calc(100% - var(--card-chamfer)) 100%,
+    0% 100%,
+    0% var(--card-chamfer)
+  );
+  transition:
+    transform 0.35s var(--motion-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    background 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.cmr-cobertura-chip i {
+  color: #7dd3fc;
+  font-size: 0.78rem;
+  opacity: 0.9;
+}
+
+.cmr-cobertura-chip:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 0 0 1px rgba(56, 189, 248, 0.45),
+    0 14px 28px rgba(15, 20, 60, 0.3);
+}
+
+.cmr-section__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+.cmr-section__cta .btn-primary {
+  min-height: var(--touch-min, 44px);
+}
+
+@media (max-width: 1100px) {
+  .cmr-cobertura-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 900px) {
-  .seo-tech-grid {
+  .cmr-tech-grid {
     grid-template-columns: 1fr 1fr;
   }
 
-  .seo-proceso-list {
+  .cmr-proceso-grid {
     grid-template-columns: 1fr 1fr;
   }
 
-  .seo-cobertura-copy {
-    text-align: start;
+  .cmr-cobertura-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 600px) {
-  .seo-tech-grid,
-  .seo-proceso-list {
+  .cmr-tech-grid,
+  .cmr-proceso-grid {
     grid-template-columns: 1fr;
   }
 
-  .seo-extra__head {
-    text-align: left;
-    align-items: flex-start;
+  .cmr-cobertura-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
-  .seo-extra__lead {
-    text-align: start;
+  .cmr-section .servicios-head {
+    text-align: left;
+  }
+
+  .cmr-section .servicios-lead {
     margin-left: 0;
     margin-right: 0;
+    text-align: start;
+  }
+
+  .cmr-section__cta {
+    justify-content: stretch;
+  }
+
+  .cmr-section__cta .btn-primary {
+    width: 100%;
   }
 }

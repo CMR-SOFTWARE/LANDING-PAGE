@@ -61,7 +61,6 @@ canvas {
 .planes-cta__text,
 .footer-descripcion,
 .asesoramiento-lead,
-.problema-item p,
 .servicios-item p,
 .px-card-desc,
 .plan-card__desc {
@@ -317,18 +316,30 @@ canvas {
 /* —— Problema: respeta el layout original de style.css (3 columnas) —— */
 .problema-item h3,
 .problema-item h4 {
-  font-size: var(--type-h3);
-  line-height: 1.28;
-  text-wrap: balance;
+  font-size: clamp(0.95rem, 0.4vw + 0.85rem, 1.05rem);
+  line-height: 1.35;
+  text-wrap: wrap;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+  -webkit-hyphens: none !important;
 }
 
 .problema-item p {
-  font-size: var(--type-card);
-  line-height: var(--lh-card);
+  font-size: clamp(0.82rem, 0.3vw + 0.74rem, 0.9rem);
+  line-height: 1.5;
+  text-align: start !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+  -webkit-hyphens: none !important;
 }
 
 .problema-item > div {
   text-align: start;
+  min-width: 0;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
 }
 
 /* —— Proyectos —— */
