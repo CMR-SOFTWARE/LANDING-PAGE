@@ -19,25 +19,26 @@
         <link rel="alternate" hreflang="es" href="https://cmrsoftwaresolutions.com/">
         <link rel="alternate" hreflang="x-default" href="https://cmrsoftwaresolutions.com/">
         <link rel="icon" href="/IMG/logo2.png" type="image/png">
+        <link rel="icon" href="/IMG/icon-192.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/IMG/logo2.png">
         <link rel="manifest" href="/site.webmanifest">
-        <link rel="preload" as="image" href="/IMG/Pantalla.png" fetchpriority="high">
+        <link rel="preload" as="image" href="/IMG/Pantalla.webp" type="image/webp" fetchpriority="high">
         <meta property="og:type" content="website">
         <meta property="og:locale" content="es_AR">
         <meta property="og:url" content="https://cmrsoftwaresolutions.com/">
         <meta property="og:site_name" content="CMR Software Solutions">
         <meta property="og:title" content="CMR Software Solutions | Software a medida y desarrollo web">
         <meta property="og:description" content="Empresa de software en San Nicolás de los Arroyos. Desarrollo a medida, sitios web, aplicaciones, sistemas de gestión y automatización para negocios en Argentina.">
-        <meta property="og:image" content="https://cmrsoftwaresolutions.com/IMG/Pantalla.png">
-        <meta property="og:image:secure_url" content="https://cmrsoftwaresolutions.com/IMG/Pantalla.png">
-        <meta property="og:image:type" content="image/png">
-        <meta property="og:image:width" content="720">
-        <meta property="og:image:height" content="480">
+        <meta property="og:image" content="https://cmrsoftwaresolutions.com/IMG/og-cover.jpg">
+        <meta property="og:image:secure_url" content="https://cmrsoftwaresolutions.com/IMG/og-cover.jpg">
+        <meta property="og:image:type" content="image/jpeg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
         <meta property="og:image:alt" content="Sistema de gestión desarrollado por CMR Software Solutions">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="CMR Software Solutions | Software a medida y desarrollo web">
         <meta name="twitter:description" content="Desarrollo de software a medida, web, apps y automatización. Empresa tecnológica en San Nicolás de los Arroyos, Argentina.">
-        <meta name="twitter:image" content="https://cmrsoftwaresolutions.com/IMG/Pantalla.png">
+        <meta name="twitter:image" content="https://cmrsoftwaresolutions.com/IMG/og-cover.jpg">
         <meta name="twitter:image:alt" content="Sistema de gestión desarrollado por CMR Software Solutions">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,9 +48,22 @@
         <link rel="stylesheet" href="/tech-identity.css">
         <link rel="stylesheet" href="/mobile.css">
         <link rel="stylesheet" href="/polish.css">
+        <link rel="stylesheet" href="/seo-extra.css">
         <script src="/main.js" defer></script>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+        <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet"></noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+        <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
+        <!-- Analytics / Search Console: descomentar y reemplazar IDs cuando estén disponibles
+        <meta name="google-site-verification" content="PEGAR_CODIGO_GSC">
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XXXXXXXX');
+        </script>
+        -->
         <script type="application/ld+json">
         {
           "@context": "https://schema.org",
@@ -60,19 +74,23 @@
               "name": "CMR Software Solutions",
               "legalName": "CMR Software Solutions",
               "alternateName": ["CMR", "CMR Software", "CMR Soft"],
+              "description": "CMR Software Solutions es una empresa de desarrollo de software a medida en San Nicolás de los Arroyos, Argentina. No es un producto CRM: CMR es la marca de la empresa de software.",
+              "disambiguatingDescription": "Empresa de desarrollo de software (CMR), distinta de software CRM genérico.",
               "url": "https://cmrsoftwaresolutions.com/",
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://cmrsoftwaresolutions.com/#logo",
                 "url": "https://cmrsoftwaresolutions.com/IMG/logo2.png",
                 "contentUrl": "https://cmrsoftwaresolutions.com/IMG/logo2.png",
+                "width": 300,
+                "height": 77,
                 "caption": "CMR Software Solutions"
               },
               "image": {
                 "@type": "ImageObject",
-                "url": "https://cmrsoftwaresolutions.com/IMG/Pantalla.png",
-                "width": 720,
-                "height": 480
+                "url": "https://cmrsoftwaresolutions.com/IMG/og-cover.jpg",
+                "width": 1200,
+                "height": 630
               },
               "email": "cmrsoftware.sn@gmail.com",
               "telephone": "+5493364578599",
@@ -96,15 +114,15 @@
                 { "@type": "City", "name": "Ramallo" },
                 { "@type": "City", "name": "Villa Constitución" },
                 { "@type": "City", "name": "Pergamino" },
+                { "@type": "City", "name": "Baradero" },
+                { "@type": "City", "name": "Campana" },
+                { "@type": "City", "name": "Zárate" },
                 { "@type": "City", "name": "Rosario" },
                 { "@type": "AdministrativeArea", "name": "Buenos Aires" },
                 { "@type": "Country", "name": "Argentina" }
               ],
               "sameAs": [
-                "https://wa.me/5493364578599",
-                "https://www.instagram.com/cmrsoftware.sn/",
-                "https://cmrnexo.com/",
-                "https://www.wanted3d.com.ar/"
+                "https://www.instagram.com/cmrsoftware.sn/"
               ],
               "contactPoint": [
                 {
@@ -133,8 +151,15 @@
                 "Automatización de procesos",
                 "Integraciones API",
                 "React",
+                "Next.js",
                 "Node.js",
                 "Supabase",
+                "Full Stack",
+                "SaaS",
+                "Inteligencia Artificial",
+                "UX/UI",
+                "ERP",
+                "CRM",
                 "Transformación digital"
               ]
             },
@@ -144,9 +169,9 @@
               "name": "CMR Software Solutions",
               "alternateName": ["CMR", "CMR Software"],
               "url": "https://cmrsoftwaresolutions.com/",
-              "image": "https://cmrsoftwaresolutions.com/IMG/Pantalla.png",
+              "image": "https://cmrsoftwaresolutions.com/IMG/og-cover.jpg",
               "logo": { "@id": "https://cmrsoftwaresolutions.com/#logo" },
-              "description": "Empresa de desarrollo de software en San Nicolás de los Arroyos. Software a medida, desarrollo web, aplicaciones, sistemas de gestión, ecommerce y automatización para pymes.",
+              "description": "Empresa de desarrollo de software en San Nicolás de los Arroyos. Software a medida, desarrollo web, aplicaciones, sistemas de gestión, ecommerce y automatización para pymes. CMR es la marca de la empresa (no un CRM genérico).",
               "email": "cmrsoftware.sn@gmail.com",
               "telephone": "+5493364578599",
               "priceRange": "$$",
@@ -180,7 +205,6 @@
               },
               "parentOrganization": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
               "sameAs": [
-                "https://wa.me/5493364578599",
                 "https://www.instagram.com/cmrsoftware.sn/"
               ]
             },
@@ -203,7 +227,9 @@
               "about": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
               "primaryImageOfPage": {
                 "@type": "ImageObject",
-                "url": "https://cmrsoftwaresolutions.com/IMG/Pantalla.png"
+                "url": "https://cmrsoftwaresolutions.com/IMG/og-cover.jpg",
+                "width": 1200,
+                "height": 630
               },
               "description": "Landing de CMR Software Solutions: servicios de software a medida, proyectos, planes y contacto.",
               "inLanguage": "es-AR",
@@ -218,30 +244,6 @@
                   "position": 1,
                   "name": "Inicio",
                   "item": "https://cmrsoftwaresolutions.com/"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "Servicios",
-                  "item": "https://cmrsoftwaresolutions.com/#servicios"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 3,
-                  "name": "Proyectos",
-                  "item": "https://cmrsoftwaresolutions.com/#proyectos"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 4,
-                  "name": "Planes",
-                  "item": "https://cmrsoftwaresolutions.com/#planes"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 5,
-                  "name": "Contacto",
-                  "item": "https://cmrsoftwaresolutions.com/asesoramiento"
                 }
               ]
             },
@@ -250,7 +252,7 @@
               "@id": "https://cmrsoftwaresolutions.com/#service",
               "name": "Desarrollo de software a medida — CMR Software Solutions",
               "url": "https://cmrsoftwaresolutions.com/#servicios",
-              "image": "https://cmrsoftwaresolutions.com/IMG/Pantalla.png",
+              "image": "https://cmrsoftwaresolutions.com/IMG/og-cover.jpg",
               "description": "Desarrollo de software a medida, aplicaciones web, sistemas de gestión, ecommerce, apps móviles, integraciones API y automatización de procesos.",
               "provider": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
               "areaServed": "AR",
@@ -276,6 +278,8 @@
                     "price": "80000",
                     "priceCurrency": "ARS",
                     "url": "https://cmrsoftwaresolutions.com/#planes",
+                    "availability": "https://schema.org/InStock",
+                    "priceValidUntil": "2027-12-31",
                     "description": "Sitio web profesional con dominio, hosting, SSL, diseño responsive e integración WhatsApp."
                   },
                   {
@@ -284,10 +288,48 @@
                     "price": "140000",
                     "priceCurrency": "ARS",
                     "url": "https://cmrsoftwaresolutions.com/#planes",
+                    "availability": "https://schema.org/InStock",
+                    "priceValidUntil": "2027-12-31",
                     "description": "Incluye Plan Web más catálogo, carrito, panel de administración, inventario, clientes y reportes."
                   }
                 ]
               }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://cmrsoftwaresolutions.com/#service-web",
+              "name": "Desarrollo web y sitios a medida",
+              "description": "Sitios web, landing pages y ecommerce con diseño responsive, rendimiento y SEO técnico.",
+              "provider": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
+              "areaServed": "AR",
+              "serviceType": "Desarrollo web"
+            },
+            {
+              "@type": "Service",
+              "@id": "https://cmrsoftwaresolutions.com/#service-apps",
+              "name": "Desarrollo de aplicaciones",
+              "description": "Aplicaciones web y móviles orientadas a la operación del negocio y a la experiencia del usuario.",
+              "provider": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
+              "areaServed": "AR",
+              "serviceType": "Desarrollo de aplicaciones"
+            },
+            {
+              "@type": "Service",
+              "@id": "https://cmrsoftwaresolutions.com/#service-gestion",
+              "name": "Sistemas de gestión",
+              "description": "Software de gestión, paneles administrativos, inventario, clientes, reportes y flujos a medida.",
+              "provider": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
+              "areaServed": "AR",
+              "serviceType": "Sistemas de gestión"
+            },
+            {
+              "@type": "Service",
+              "@id": "https://cmrsoftwaresolutions.com/#service-automatizacion",
+              "name": "Automatización e integraciones",
+              "description": "Automatización de procesos, integraciones API e inteligencia aplicada para reducir trabajo manual.",
+              "provider": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
+              "areaServed": "AR",
+              "serviceType": "Automatización de procesos"
             },
             {
               "@type": "FAQPage",
@@ -298,7 +340,15 @@
                   "name": "¿Qué es CMR Software Solutions?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "CMR Software Solutions es una empresa de desarrollo de software en San Nicolás de los Arroyos, Argentina. Diseñamos y construimos software a medida, sitios web, aplicaciones, ecommerce y sistemas de gestión para pymes y emprendedores."
+                    "text": "CMR Software Solutions es una empresa de desarrollo de software en San Nicolás de los Arroyos, Argentina. Diseñamos y construimos software a medida, sitios web, aplicaciones, ecommerce y sistemas de gestión para pymes y emprendedores. El nombre CMR identifica a nuestra marca (no es un sistema CRM genérico)."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "¿CMR es lo mismo que un CRM?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. CMR es el nombre de nuestra empresa de desarrollo de software. Un CRM es un tipo de sistema de gestión de clientes. En CMR podemos desarrollar un CRM a medida u otros sistemas, pero CMR no es un producto CRM genérico."
                   }
                 },
                 {
@@ -311,10 +361,18 @@
                 },
                 {
                   "@type": "Question",
+                  "name": "¿Con qué tecnologías trabajan?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Trabajamos principalmente con React, Next.js, Node.js, Supabase y bases de datos SQL, además de diseño UX/UI, integraciones API e inteligencia aplicada cuando aporta valor al negocio."
+                  }
+                },
+                {
+                  "@type": "Question",
                   "name": "¿Trabajan solo en San Nicolás de los Arroyos?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Estamos basados en San Nicolás de los Arroyos y atendemos proyectos en la región (Ramallo, Villa Constitución, Pergamino, Rosario y alrededores) y en toda Argentina de forma remota."
+                    "text": "Estamos basados en San Nicolás de los Arroyos y atendemos proyectos en la región (Ramallo, Villa Constitución, Pergamino, Baradero, Campana, Zárate, Rosario y alrededores) y en toda Argentina de forma remota."
                   }
                 },
                 {
@@ -322,7 +380,7 @@
                   "name": "¿Cuánto cuesta un software a medida o un sitio web?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Tenemos planes mensuales desde el Plan Web (AR$ 80.000) y el Plan Gestión (AR$ 140.000). También desarrollamos propuestas personalizadas según el alcance del proyecto."
+                    "text": "Tenemos planes mensuales desde el Plan Web (AR$ 80.000) y el Plan Gestión (AR$ 140.000). También armamos propuestas personalizadas según el alcance: sistema de turnos, ERP/CRM a medida, app o marketplace."
                   }
                 },
                 {
@@ -357,8 +415,9 @@
                         <li><a href="#proyectos">Proyectos</a></li>
                         <li><a href="#planes">Planes</a></li>
                         <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                        <li><a href="#footer">Contacto</a></li>
-                        <li><button type="button" class="btn-nav js-goto-asesoramiento">Solicitar asesoramiento</button></li>
+                        <li><a href="#preguntas-frecuentes">FAQ</a></li>
+                        <li><a href="/asesoramiento">Contacto</a></li>
+                        <li><a href="/asesoramiento" class="btn-nav js-goto-asesoramiento">Solicitar asesoramiento</a></li>
                     </ul>
                 </nav>
             </header>
@@ -384,16 +443,19 @@
                             <p>Creamos soluciones tecnológicas modernas, escalables y eficientes que automatizan procesos y generan resultados.</p>
 
                             <div class="hero-actions">
-                                <button type="button" class="btn-primary js-goto-asesoramiento btn-magnetic">Solicitar asesoramiento</button>
-                                <button type="button" class="btn-whatsapp btn-magnetic" aria-label="Hablar por WhatsApp con CMR Software Solutions">
+                                <a href="/asesoramiento" class="btn-primary js-goto-asesoramiento btn-magnetic">Solicitar asesoramiento</a>
+                                <a href="https://wa.me/5493364578599?text=Hola%20CMR%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20sus%20servicios." class="btn-whatsapp btn-magnetic" target="_blank" rel="noopener noreferrer" aria-label="Hablar por WhatsApp con CMR Software Solutions">
                                     <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Hablar por WhatsApp
-                                </button>
+                                </a>
                             </div>
 
                         </div>
 
                         <div class="hero-img">
-                            <img src="IMG/Pantalla.png" alt="Vista de un sistema de gestión desarrollado por CMR" width="720" height="480" fetchpriority="high" decoding="async">
+                            <picture>
+                                <source srcset="IMG/Pantalla.webp" type="image/webp">
+                                <img src="IMG/Pantalla.png" alt="Vista de un sistema de gestión desarrollado por CMR Software Solutions" width="720" height="480" fetchpriority="high" decoding="async">
+                            </picture>
                         </div>
 
                     </div>
@@ -440,7 +502,7 @@
                             <div class="problema-item" data-reveal="up" style="--stagger:1">
                                 <i class="fa-solid fa-clock icono-problema"></i>
                                 <div>
-                                    <h4>Tareas repetidas</h4>
+                                    <h3>Tareas repetidas</h3>
                                     <p>Que consumen tiempo valioso</p>
                                 </div>
                             </div>
@@ -448,7 +510,7 @@
                             <div class="problema-item" data-reveal="up" style="--stagger:2">
                                 <i class="fa-solid fa-file-excel icono-excel"></i>
                                 <div>
-                                    <h4>Información dispersa</h4>
+                                    <h3>Información dispersa</h3>
                                     <p>En Excel o sistemas poco eficientes</p>
                                 </div>    
                             </div>
@@ -456,7 +518,7 @@
                             <div class="problema-item" data-reveal="up" style="--stagger:3">
                                 <i class="fa-solid fa-chart-column icono-problema"></i>
                                 <div>
-                                    <h4>Falta de control</h4>
+                                    <h3>Falta de control</h3>
                                     <p>En los datos para tomar decisiones</p>
                                 </div>    
                             </div>
@@ -495,7 +557,7 @@
                                 <div class="servicios-item-icon" aria-hidden="true">
                                     <i class="fa-solid fa-laptop-code"></i>
                                 </div>
-                                <h4>Desarrollo a medida</h4>
+                                <h3>Desarrollo a medida</h3>
                                 <p>Sistemas personalizados que se adaptan a tu operación día a día.</p>
                             </article>
 
@@ -503,7 +565,7 @@
                                 <div class="servicios-item-icon" aria-hidden="true">
                                     <i class="fa-solid fa-gears"></i>
                                 </div>
-                                <h4>Automatización</h4>
+                                <h3>Automatización</h3>
                                 <p>Menos tareas repetitivas, más tiempo para lo que realmente importa.</p>
                             </article>
 
@@ -511,7 +573,7 @@
                                 <div class="servicios-item-icon" aria-hidden="true">
                                     <i class="fa-solid fa-plug"></i>
                                 </div>
-                                <h4>Integraciones</h4>
+                                <h3>Integraciones</h3>
                                 <p>Unimos tus herramientas para que la información fluya en un solo lugar.</p>
                             </article>
 
@@ -741,7 +803,7 @@
 
                         <div class="px-cta" data-reveal="up">
                             <p class="px-cta-text">¿Tenés un proyecto en mente?</p>
-                            <button type="button" class="px-cta-btn js-goto-asesoramiento">Hablemos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                            <a href="/asesoramiento" class="px-cta-btn js-goto-asesoramiento">Hablemos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </section>
@@ -780,7 +842,7 @@
                                     <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Integración con WhatsApp</span></li>
                                     <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Soporte técnico</span></li>
                                 </ul>
-                                <button type="button" class="plan-card__cta btn-magnetic js-goto-asesoramiento">Solicitar asesoramiento</button>
+                                <a href="/asesoramiento" class="plan-card__cta btn-magnetic js-goto-asesoramiento">Solicitar asesoramiento</a>
                             </article>
 
                             <article class="plan-card plan-card--featured" data-reveal="up" style="--stagger:2" aria-label="Plan Gestión, más completo">
@@ -803,7 +865,7 @@
                                     <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Registro de clientes</span></li>
                                     <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Reportes y ventas</span></li>
                                 </ul>
-                                <button type="button" class="plan-card__cta plan-card__cta--primary btn-magnetic js-goto-asesoramiento">Solicitar asesoramiento</button>
+                                <a href="/asesoramiento" class="plan-card__cta plan-card__cta--primary btn-magnetic js-goto-asesoramiento">Solicitar asesoramiento</a>
                             </article>
                         </div>
 
@@ -814,10 +876,10 @@
                                 <h3 class="planes-cta__title">¿No encontrás el plan ideal?</h3>
                                 <p class="planes-cta__text">Creamos soluciones totalmente personalizadas según las necesidades de tu empresa.</p>
                             </div>
-                            <button type="button" class="planes-cta__btn btn-magnetic js-goto-asesoramiento">
+                            <a href="/asesoramiento" class="planes-cta__btn btn-magnetic js-goto-asesoramiento">
                                 Solicitar una propuesta personalizada
                                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </section>
@@ -851,6 +913,95 @@
                     </div>
                 </section>
 
+                <section id="tecnologias" class="seo-extra seo-extra--tech" aria-labelledby="tecnologias-heading">
+                    <div class="seo-extra__inner">
+                        <header class="seo-extra__head" data-reveal="up">
+                            <p class="seo-extra__tag">Tecnologías</p>
+                            <h2 id="tecnologias-heading">Stack y herramientas para <span class="seo-extra__accent">software a medida</span></h2>
+                            <p class="seo-extra__lead">Trabajamos con tecnologías modernas y maduras — React, Next.js, Node.js, Supabase y bases SQL — para construir productos estables, mantenibles y listos para crecer con tu negocio.</p>
+                        </header>
+                        <ul class="seo-tech-grid" data-reveal-stagger>
+                            <li data-reveal="up" style="--stagger:1">
+                                <h3>Frontend</h3>
+                                <p>Interfaces con React y Next.js: rápidas, accesibles y pensadas para la experiencia real del usuario.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:2">
+                                <h3>Backend</h3>
+                                <p>APIs y lógica de negocio con Node.js, autenticación, permisos e integraciones confiables.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:3">
+                                <h3>Datos</h3>
+                                <p>Supabase y SQL para modelar información, reportes y paneles que acompañan la operación diaria.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:4">
+                                <h3>Automatización &amp; IA</h3>
+                                <p>Flujos que reducen tareas repetitivas e inteligencia aplicada donde aporta valor concreto.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:5">
+                                <h3>Productos digitales</h3>
+                                <p>Sitios web, ecommerce, SaaS y sistemas a medida alineados al modelo de tu negocio.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:6">
+                                <h3>UX/UI &amp; consultoría</h3>
+                                <p>Diseño de producto y acompañamiento técnico para priorizar impacto y claridad desde el día uno.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="proceso" class="seo-extra seo-extra--proceso" aria-labelledby="proceso-heading">
+                    <div class="seo-extra__inner">
+                        <header class="seo-extra__head" data-reveal="up">
+                            <p class="seo-extra__tag">Cómo trabajamos</p>
+                            <h2 id="proceso-heading">Proceso de desarrollo <span class="seo-extra__accent">claro y acompañado</span></h2>
+                            <p class="seo-extra__lead">Un recorrido transparente: entendemos el problema, diseñamos la solución, construimos con calidad y acompañamos el lanzamiento.</p>
+                        </header>
+                        <ol class="seo-proceso-list" data-reveal-stagger>
+                            <li data-reveal="up" style="--stagger:1">
+                                <h3>Descubrimiento</h3>
+                                <p>Relevamos objetivos, procesos actuales y restricciones para definir el alcance con precisión.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:2">
+                                <h3>Diseño &amp; arquitectura</h3>
+                                <p>Prototipamos flujos, definimos arquitectura y priorizamos lo que genera más valor primero.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:3">
+                                <h3>Desarrollo &amp; QA</h3>
+                                <p>Iteramos con entregas visibles, pruebas y ajustes hasta que la solución esté lista para usar.</p>
+                            </li>
+                            <li data-reveal="up" style="--stagger:4">
+                                <h3>Lanzamiento &amp; soporte</h3>
+                                <p>Publicamos, capacitamos al equipo y brindamos soporte para que el sistema funcione en el día a día.</p>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="cobertura" class="seo-extra seo-extra--cobertura" aria-labelledby="cobertura-heading">
+                    <div class="seo-extra__inner">
+                        <header class="seo-extra__head" data-reveal="up">
+                            <p class="seo-extra__tag">Zona de cobertura</p>
+                            <h2 id="cobertura-heading">Empresa de software en <span class="seo-extra__accent">San Nicolás y la región</span></h2>
+                        </header>
+                        <p class="seo-cobertura-copy" data-reveal="up">CMR Software Solutions es una empresa de desarrollo de software (no un CRM genérico) con base en San Nicolás de los Arroyos. Atendemos proyectos en Ramallo, Villa Constitución, Pergamino, Baradero, Rosario, Campana, Zárate, Buenos Aires y el resto de Argentina, también de forma remota. Si buscás software a medida, desarrollo web o sistemas de gestión cerca de tu zona, coordinamos una reunión sin cargo.</p>
+                        <ul class="seo-cobertura-list" data-reveal="up" aria-label="Ciudades y zonas de cobertura">
+                            <li>San Nicolás</li>
+                            <li>Ramallo</li>
+                            <li>Villa Constitución</li>
+                            <li>Pergamino</li>
+                            <li>Baradero</li>
+                            <li>Rosario</li>
+                            <li>Campana</li>
+                            <li>Zárate</li>
+                            <li>Buenos Aires</li>
+                            <li>Argentina · remoto</li>
+                        </ul>
+                        <div class="seo-extra__cta" data-reveal="up">
+                            <a href="/asesoramiento">Solicitar asesoramiento</a>
+                        </div>
+                    </div>
+                </section>
+
                 <section id="preguntas-frecuentes" class="faq-section" aria-labelledby="faq-heading">
                     <div class="faq-envoltura container">
                         <header class="faq-head" data-reveal="up">
@@ -868,26 +1019,40 @@
                             </details>
                             <details class="faq-item" data-reveal="up" style="--stagger:2">
                                 <summary>
+                                    <h3>¿CMR es lo mismo que un CRM?</h3>
+                                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                </summary>
+                                <p>No. CMR es el nombre de nuestra empresa de desarrollo de software. Un CRM es un tipo de sistema de gestión de clientes. En CMR podemos desarrollar un CRM a medida u otros sistemas, pero CMR no es un producto CRM genérico.</p>
+                            </details>
+                            <details class="faq-item" data-reveal="up" style="--stagger:3">
+                                <summary>
                                     <h3>¿Qué servicios de desarrollo ofrecen?</h3>
                                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                                 </summary>
                                 <p>Ofrecemos desarrollo de software a medida, desarrollo web, landing pages, ecommerce, sistemas de gestión, apps móviles, automatización de procesos, integraciones API, diseño UX/UI y consultoría tecnológica.</p>
                             </details>
-                            <details class="faq-item" data-reveal="up" style="--stagger:3">
+                            <details class="faq-item" data-reveal="up" style="--stagger:4">
+                                <summary>
+                                    <h3>¿Con qué tecnologías trabajan?</h3>
+                                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                </summary>
+                                <p>Trabajamos principalmente con React, Next.js, Node.js, Supabase y bases de datos SQL, además de diseño UX/UI, integraciones API e inteligencia aplicada cuando aporta valor al negocio.</p>
+                            </details>
+                            <details class="faq-item" data-reveal="up" style="--stagger:5">
                                 <summary>
                                     <h3>¿Trabajan solo en San Nicolás de los Arroyos?</h3>
                                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                                 </summary>
-                                <p>Estamos basados en San Nicolás de los Arroyos y atendemos proyectos en la región (Ramallo, Villa Constitución, Pergamino, Rosario y alrededores) y en toda Argentina de forma remota.</p>
+                                <p>Estamos basados en San Nicolás de los Arroyos y atendemos proyectos en la región (Ramallo, Villa Constitución, Pergamino, Baradero, Campana, Zárate, Rosario y alrededores) y en toda Argentina de forma remota.</p>
                             </details>
-                            <details class="faq-item" data-reveal="up" style="--stagger:4">
+                            <details class="faq-item" data-reveal="up" style="--stagger:6">
                                 <summary>
                                     <h3>¿Cuánto cuesta un software a medida o un sitio web?</h3>
                                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                                 </summary>
                                 <p>Tenemos planes mensuales desde el Plan Web (AR$ 80.000) y el Plan Gestión (AR$ 140.000). También armamos propuestas personalizadas según el alcance: sistema de turnos, ERP/CRM a medida, app o marketplace.</p>
                             </details>
-                            <details class="faq-item" data-reveal="up" style="--stagger:5">
+                            <details class="faq-item" data-reveal="up" style="--stagger:7">
                                 <summary>
                                     <h3>¿Cómo empiezo un proyecto con CMR?</h3>
                                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
@@ -921,9 +1086,12 @@
                             <li><a href="#proyectos">Proyectos</a></li>
                             <li><a href="#planes">Planes</a></li>
                             <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+                            <li><a href="#tecnologias">Tecnologías</a></li>
+                            <li><a href="#proceso">Proceso</a></li>
+                            <li><a href="#cobertura">Cobertura</a></li>
                             <li><a href="#preguntas-frecuentes">Preguntas frecuentes</a></li>
                             <li><a href="/asesoramiento">Contacto</a></li>
-                            <li><button type="button" class="btn-nav js-goto-asesoramiento">Solicitar asesoramiento</button></li>
+                            <li><a href="/asesoramiento" class="btn-nav js-goto-asesoramiento">Solicitar asesoramiento</a></li>
                         </ul>
                     </div>
 

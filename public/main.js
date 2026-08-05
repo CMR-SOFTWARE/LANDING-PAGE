@@ -101,11 +101,19 @@
         encodeURIComponent("Hola CMR, me gustaría recibir información sobre sus servicios.");
 
     document.addEventListener("click", function (e) {
-        if (e.target.closest(".js-goto-asesoramiento")) {
+        var gotoEl = e.target.closest(".js-goto-asesoramiento");
+        if (gotoEl) {
+            if (gotoEl.tagName === "A" && gotoEl.getAttribute("href")) {
+                return;
+            }
             window.location.href = "/asesoramiento";
             return;
         }
-        if (e.target.closest(".btn-whatsapp")) {
+        var waEl = e.target.closest(".btn-whatsapp");
+        if (waEl) {
+            if (waEl.tagName === "A" && waEl.getAttribute("href")) {
+                return;
+            }
             e.preventDefault();
             var winWa = window.open(waChatUrl, "_blank");
             if (winWa) {

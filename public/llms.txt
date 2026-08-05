@@ -1,0 +1,35 @@
+# CMR Software Solutions
+
+> Empresa de desarrollo de software a medida en San Nicolás de los Arroyos, Buenos Aires, Argentina.
+
+CMR Software Solutions (marca: CMR) es una empresa de desarrollo de software. No es un producto CRM genérico: CMR es el nombre de la empresa. Ofrecemos software a medida, desarrollo web, aplicaciones, sistemas de gestión, ecommerce, automatización e inteligencia aplicada para pymes y negocios.
+
+## Sitio
+
+- Inicio: https://cmrsoftwaresolutions.com/
+- Solicitar asesoramiento: https://cmrsoftwaresolutions.com/asesoramiento
+- Sitemap: https://cmrsoftwaresolutions.com/sitemap.xml
+
+## Servicios
+
+- Desarrollo de software a medida
+- Desarrollo web, landing pages y ecommerce
+- Sistemas de gestión, paneles administrativos, ERP/CRM a medida
+- Aplicaciones web y móviles
+- Automatización de procesos e integraciones API
+- Consultoría tecnológica y diseño UX/UI
+- Soluciones con inteligencia artificial aplicada al negocio
+
+## Tecnologías
+
+React, Next.js, Node.js, Supabase, bases de datos SQL, APIs, UX/UI.
+
+## Cobertura
+
+Base en San Nicolás de los Arroyos. Atención en Ramallo, Villa Constitución, Pergamino, Baradero, Campana, Zárate, Rosario, Provincia de Buenos Aires y toda Argentina (también remoto).
+
+## Contacto
+
+- Email: cmrsoftware.sn@gmail.com
+- WhatsApp: +54 9 336 457-8599
+- Instagram: https://www.instagram.com/cmrsoftware.sn/

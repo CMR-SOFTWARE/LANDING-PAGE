@@ -2,6 +2,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/asesoramiento.html", "destination": "/asesoramiento", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/asesoramiento", "destination": "/asesoramiento.html" }
   ],
@@ -34,7 +38,7 @@
       ]
     },
     {
-      "source": "/(robots.txt|sitemap.xml|site.webmanifest)",
+      "source": "/(robots.txt|sitemap.xml|site.webmanifest|llms.txt)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]

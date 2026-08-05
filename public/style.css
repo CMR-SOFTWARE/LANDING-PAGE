@@ -167,6 +167,9 @@ header nav .logo-link img.logo{
     flex: 1 1 0;
     min-width: 0;
 }
+.hero-img picture{
+    display: contents;
+}
 .hero-img img{
     width: 100%; /* La imagen ocupa todo el contenedor */
     max-width: 500px; /*limita el tamaño*/
@@ -261,6 +264,16 @@ button{
     border: 2px solid #458a90; /*Borde color*/
     /*background-color: #25D366;*/
     color: white;
+}
+
+a.btn-primary,
+a.btn-whatsapp,
+a.btn-nav,
+a.px-cta-btn,
+a.plan-card__cta,
+a.planes-cta__btn {
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 

@@ -7,15 +7,19 @@
         <script>document.documentElement.classList.add("js");</script>
         <meta name="description" content="Solicitá asesoramiento con CMR Software Solutions para desarrollo de software a medida, sitios web, apps o sistemas de gestión. Empresa tecnológica en San Nicolás de los Arroyos, Argentina.">
         <meta name="theme-color" content="#404da0">
-        <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+        <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
         <meta name="author" content="CMR Software Solutions">
+        <meta name="publisher" content="CMR Software Solutions">
         <meta name="geo.region" content="AR-B">
         <meta name="geo.placename" content="San Nicolás de los Arroyos">
+        <meta name="geo.position" content="-33.3358;-60.2250">
+        <meta name="ICBM" content="-33.3358, -60.2250">
         <link rel="canonical" href="https://cmrsoftwaresolutions.com/asesoramiento">
         <link rel="alternate" hreflang="es-AR" href="https://cmrsoftwaresolutions.com/asesoramiento">
         <link rel="alternate" hreflang="es" href="https://cmrsoftwaresolutions.com/asesoramiento">
         <link rel="alternate" hreflang="x-default" href="https://cmrsoftwaresolutions.com/asesoramiento">
         <link rel="icon" href="/IMG/logo2.png" type="image/png">
+        <link rel="icon" href="/IMG/icon-192.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/IMG/logo2.png">
         <link rel="manifest" href="/site.webmanifest">
         <meta property="og:type" content="website">
@@ -24,14 +28,17 @@
         <meta property="og:site_name" content="CMR Software Solutions">
         <meta property="og:title" content="Solicitar asesoramiento | CMR Software Solutions">
         <meta property="og:description" content="Completá el formulario y coordinamos una reunión para tu proyecto de software a medida, web o sistema de gestión.">
-        <meta property="og:image" content="https://cmrsoftwaresolutions.com/IMG/Pantalla.png">
-        <meta property="og:image:width" content="720">
-        <meta property="og:image:height" content="480">
+        <meta property="og:image" content="https://cmrsoftwaresolutions.com/IMG/og-cover.jpg">
+        <meta property="og:image:secure_url" content="https://cmrsoftwaresolutions.com/IMG/og-cover.jpg">
+        <meta property="og:image:type" content="image/jpeg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
         <meta property="og:image:alt" content="Software de gestión desarrollado por CMR Software Solutions">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Solicitar asesoramiento | CMR Software Solutions">
         <meta name="twitter:description" content="Completá el formulario y coordinamos una reunión para tu proyecto de software a medida.">
-        <meta name="twitter:image" content="https://cmrsoftwaresolutions.com/IMG/Pantalla.png">
+        <meta name="twitter:image" content="https://cmrsoftwaresolutions.com/IMG/og-cover.jpg">
+        <meta name="twitter:image:alt" content="Software de gestión desarrollado por CMR Software Solutions">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
@@ -41,12 +48,18 @@
         <link rel="stylesheet" href="/mobile.css">
         <link rel="stylesheet" href="/polish.css">
         <script src="/main.js" defer></script>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+        <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet"></noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+        <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
         <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://cmrsoftwaresolutions.com/#organization"
+            },
             {
               "@type": "WebPage",
               "@id": "https://cmrsoftwaresolutions.com/asesoramiento#webpage",
@@ -56,23 +69,25 @@
               "isPartOf": { "@id": "https://cmrsoftwaresolutions.com/#website" },
               "about": { "@id": "https://cmrsoftwaresolutions.com/#organization" },
               "inLanguage": "es-AR",
-              "breadcrumb": {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                  {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Inicio",
-                    "item": "https://cmrsoftwaresolutions.com/"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Asesoramiento",
-                    "item": "https://cmrsoftwaresolutions.com/asesoramiento"
-                  }
-                ]
-              }
+              "breadcrumb": { "@id": "https://cmrsoftwaresolutions.com/asesoramiento#breadcrumb" }
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://cmrsoftwaresolutions.com/asesoramiento#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Inicio",
+                  "item": "https://cmrsoftwaresolutions.com/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Asesoramiento",
+                  "item": "https://cmrsoftwaresolutions.com/asesoramiento"
+                }
+              ]
             },
             {
               "@type": "ContactPage",
@@ -86,7 +101,7 @@
         </script>
     </head>
     <body class="page-asesoramiento">
-        <a class="skip-link" href="#asesoramiento-root">Saltar al formulario</a>
+        <a class="skip-link" href="#contenido-principal">Saltar al contenido</a>
         <header>
             <nav class="site-nav" aria-label="Principal">
                 <a href="/" class="logo-link" aria-label="CMR Software Solutions — inicio">
@@ -99,12 +114,24 @@
                     <li><a href="/"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver al sitio</a></li>
                     <li><a href="/#servicios">Servicios</a></li>
                     <li><a href="/#proyectos">Proyectos</a></li>
+                    <li><a href="/#planes">Planes</a></li>
+                    <li><a href="/#sobre-nosotros">Sobre Nosotros</a></li>
+                    <li><a href="/#preguntas-frecuentes">FAQ</a></li>
                 </ul>
             </nav>
         </header>
 
         <main id="contenido-principal">
-            <div id="asesoramiento-root" data-reveal="up"></div>
+            <section id="asesoramiento" class="asesoramiento asesoramiento--page" aria-labelledby="asesoramiento-heading">
+                <div class="asesoramiento-envoltura">
+                    <header class="asesoramiento-head" data-asesoramiento-static-head>
+                        <p class="tag-asesoramiento">Antes de la reunión</p>
+                        <h1 id="asesoramiento-heading">Solicitá asesoramiento</h1>
+                        <p class="asesoramiento-lead">Completá lo que puedas: nos ayuda a entender tu contexto y llegar a la entrevista con ideas y preguntas más concretas. No hace falta que seas técnico.</p>
+                    </header>
+                    <div id="asesoramiento-root"></div>
+                </div>
+            </section>
         </main>
 
         <footer id="footer">
@@ -122,6 +149,9 @@
                         <li><a href="/#proyectos">Proyectos</a></li>
                         <li><a href="/#planes">Planes</a></li>
                         <li><a href="/#sobre-nosotros">Sobre Nosotros</a></li>
+                        <li><a href="/#tecnologias">Tecnologías</a></li>
+                        <li><a href="/#proceso">Proceso</a></li>
+                        <li><a href="/#preguntas-frecuentes">Preguntas frecuentes</a></li>
                         <li><a href="/asesoramiento">Contacto</a></li>
                         <li><a href="/asesoramiento" class="btn-nav">Solicitar asesoramiento</a></li>
                     </ul>
