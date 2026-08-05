@@ -1,12 +1,16 @@
 {
   "name": "CMR Software Solutions",
   "short_name": "CMR",
-  "description": "Software a medida, desarrollo web, sistemas de gestión y automatización de procesos.",
+  "description": "CMR Software Solutions: empresa de desarrollo de software en San Nicolás de los Arroyos. Software a medida, desarrollo web, apps y sistemas de gestión.",
   "start_url": "/",
+  "scope": "/",
+  "id": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#0c1630",
   "theme_color": "#404da0",
   "lang": "es-AR",
+  "dir": "ltr",
+  "categories": ["business", "productivity"],
   "icons": [
     {
       "src": "/IMG/logo2.png",

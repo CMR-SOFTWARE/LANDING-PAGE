@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# CMR Software Solutions — sitio oficial
 Sitemap: https://cmrsoftwaresolutions.com/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /

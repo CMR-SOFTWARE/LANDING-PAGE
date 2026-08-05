@@ -692,27 +692,7 @@
         mo.observe(formRoot, { childList: true, subtree: true });
     }
 
-    /* Parallax muy sutil en hero image */
-    var heroImg = document.querySelector("#hero .hero-img img");
-    if (heroImg && canHover && !reduceMotion) {
-        var ticking = false;
-        window.addEventListener(
-            "scroll",
-            function () {
-                if (ticking) return;
-                ticking = true;
-                requestAnimationFrame(function () {
-                    var rect = heroImg.getBoundingClientRect();
-                    if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                        var y = Math.max(-12, Math.min(12, (window.innerHeight / 2 - (rect.top + rect.height / 2)) * 0.04));
-                        heroImg.style.transform = "translate3d(0, " + y.toFixed(2) + "px, 0)";
-                    }
-                    ticking = false;
-                });
-            },
-            { passive: true }
-        );
-    }
+    /* Parallax de scroll removido: la notebook flota sola vía CSS (cmr-hero-laptop-float) */
 
     /* Tilt en cards de servicios / problema (solo desktop) */
     if (!canHover || reduceMotion) return;

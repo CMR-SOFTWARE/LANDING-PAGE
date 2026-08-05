@@ -157,13 +157,43 @@
 }
 
 .hero-img img {
-  transition: transform var(--motion-slow) var(--motion-ease), filter var(--motion-med) ease;
+  transition: filter var(--motion-med) ease;
   filter: drop-shadow(0 24px 40px rgba(10, 20, 60, 0.28));
+  animation: cmr-hero-laptop-float 4.2s ease-in-out infinite;
+  will-change: transform;
+  transform-origin: center bottom;
+}
+
+@keyframes cmr-hero-laptop-float {
+  0%,
+  100% {
+    transform: translate3d(0, 28px, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(0, 12px, 0) scale(1.05);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-img img {
+    animation-name: cmr-hero-laptop-float-sm;
+    animation-duration: 3.8s;
+  }
+
+  @keyframes cmr-hero-laptop-float-sm {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(0, -12px, 0) scale(1);
+    }
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
   .hero-img:hover img {
-    transform: translateY(-6px) scale(1.02);
+    filter: drop-shadow(0 28px 48px rgba(10, 20, 60, 0.34));
   }
 }
 
@@ -428,7 +458,8 @@
 
   .hero-ambiance__grid,
   .hero-ambiance__orb,
-  .sobre-nosotros-panel::before {
+  .sobre-nosotros-panel::before,
+  .hero-img img {
     animation: none !important;
   }
 
