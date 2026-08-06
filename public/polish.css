@@ -4,14 +4,20 @@
    ============================================================================= */
 
 :root {
+  /* Escala global del sistema de diseño.
+     Recalibra toda la interfaz (tipografía, espaciados, contenedores y medias)
+     sin zoom ni transform: al ser un % sobre la raíz, respeta el tamaño de
+     fuente que el usuario haya configurado en su navegador. */
+  --ui-scale: 90%;
+
   /* Escala tipográfica única */
   --type-body: clamp(0.95rem, 0.9rem + 0.22vw, 1.05rem);
   --type-lead: clamp(0.95rem, 0.9rem + 0.22vw, 1.06rem);
   --type-h1: clamp(1.7rem, 1.15rem + 1.35vw, 2.4rem);
   --type-h2: clamp(1.35rem, 1.15rem + 0.85vw, 2rem);
   --type-h3: clamp(1rem, 0.95rem + 0.22vw, 1.12rem);
-  --type-card: clamp(0.86rem, 0.82rem + 0.14vw, 0.95rem);
-  --type-small: clamp(0.82rem, 0.78rem + 0.12vw, 0.9rem);
+  --type-card: clamp(0.88rem, 0.84rem + 0.14vw, 1rem);
+  --type-small: clamp(0.85rem, 0.8rem + 0.12vw, 0.95rem);
 
   --lh-title: 1.18;
   --lh-lead: 1.55;
@@ -29,11 +35,26 @@
   --measure-footer: 22rem;
 
   --space-section-y: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
-  --content-max: 1180px;
+  --content-max: 73.75rem;
   --touch-min: 44px;
 }
 
+/* La escala se atenúa al bajar de resolución: en desktop sobra tamaño, en
+   móvil la densidad ya es correcta y reducirla dañaría la legibilidad. */
+@media (max-width: 1279px) {
+  :root { --ui-scale: 93%; }
+}
+
+@media (max-width: 1023px) {
+  :root { --ui-scale: 96%; }
+}
+
+@media (max-width: 767px) {
+  :root { --ui-scale: 100%; }
+}
+
 html {
+  font-size: var(--ui-scale);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }

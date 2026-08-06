@@ -30,8 +30,8 @@ video{
     border-radius: 50px;
     background: rgba(255,255,255,0.1); /* fondo transparente */
     border: 1px solid rgba(255,255,255,0.3); /*Borde suave*/
-    font-size: 20px;
-    letter-spacing: 1px; /*Separacion entre letras*/
+    font-size: 1.25rem;
+    letter-spacing: 0.05em; /*Separacion entre letras*/
 }
 
 
@@ -89,9 +89,9 @@ body.nav-menu-open{
 }
 
 .container{
-    max-width: 1200px; /* limita el ancho */
+    max-width: 75rem; /* limita el ancho */
     margin: 0 auto; /*centra horizontalmente*/
-    padding: 20px; /*espacio interno para que no se pegue a los bordes*/
+    padding: 1.25rem; /*espacio interno para que no se pegue a los bordes*/
 }
 
 /* Logo del nav: tamaño completo. La franja blanca se achica con padding mínimo en nav, no encogiendo el logo. */
@@ -103,7 +103,7 @@ body.nav-menu-open{
 
 header nav .logo,
 header nav .logo-link img.logo{
-    width: 200px;
+    width: 12.5rem;
     height: auto;
     max-width: none;
     object-fit: contain;
@@ -133,14 +133,14 @@ header nav .logo-link img.logo{
     display: flex; /* convierte el contenido en fila horizontal */
     align-items: center; /* centra verticalmente */
     justify-content: space-between; /* separa izquierda y derecha */
-    gap: 60px; /* espacio entre columnas */
+    gap: 3.75rem; /* espacio entre columnas */
     flex-wrap: nowrap;
     min-width: 0;
 }
 
 .hero-texto{
     flex: 1.2 1 0; /*tamaño de texto; 1 0 permite encoger sin pasar a columna*/
-    max-width: 600px;
+    max-width: 37.5rem;
     min-width: 0;
     text-shadow: 0 1px 2px rgba(15, 23, 42, 0.22);
     text-align: left;
@@ -153,8 +153,8 @@ header nav .logo-link img.logo{
 }
 
 .hero-texto p{
-    max-width: 500px;/*Limita*/
-    margin-bottom: 20px;
+    max-width: 31.25rem;/*Limita*/
+    margin-bottom: 1.25rem;
     color: rgba(255,255,255,0.8); 
 }
 
@@ -172,7 +172,7 @@ header nav .logo-link img.logo{
 }
 .hero-img img{
     width: 100%; /* La imagen ocupa todo el contenedor */
-    max-width: 500px; /*limita el tamaño*/
+    max-width: 31.25rem; /*limita el tamaño*/
     height: auto;
     /* El flotado continuo vive en motion.css (cmr-hero-laptop-float) */
 }
@@ -421,14 +421,14 @@ button:hover{
     .planes-envoltura,
     .footer-container,
     .servicios-envoltura{
-        max-width: 1280px;
+        max-width: 80rem;
     }
 }
 
 @media (max-width: 1366px) and (min-width: 961px){
     header nav .logo,
     header nav .logo-link img.logo{
-        width: 170px;
+        width: 10.625rem;
     }
 
     .plan-card{
@@ -885,7 +885,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
     grid-template-columns: 1fr 1fr;
     align-items: stretch;
     gap: clamp(1rem, 2.5vw, 1.5rem);
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 0 auto;
 }
 
@@ -1032,7 +1032,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
 .servicios-envoltura{
     position: relative;
     z-index: 1;
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 0 auto;
 }
 
@@ -1081,8 +1081,8 @@ body.page-asesoramiento nav a .fa-arrow-left{
 }
 
 .servicios-item{
-    flex: 1 1 260px;
-    max-width: 360px;
+    flex: 1 1 16.25rem;
+    max-width: 22.5rem;
     min-width: 0;
     padding: 1.35rem 1.25rem;
     border-radius: 0;
@@ -1105,8 +1105,8 @@ body.page-asesoramiento nav a .fa-arrow-left{
 }
 
 .servicios-item-icon{
-    width: 48px;
-    height: 48px;
+    width: 3rem;
+    height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1175,7 +1175,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 1240px;
+    max-width: 77.5rem;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -1232,7 +1232,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
 .px-stage{
     position: relative;
     width: 100%;
-    max-width: 1080px;
+    max-width: 67.5rem;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 40px minmax(0, 1fr) 40px;
@@ -1244,7 +1244,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
 .px-viewport{
     position: relative;
     width: 100%;
-    height: clamp(280px, 38vw, 360px);
+    height: clamp(17.5rem, 38vw, 22.5rem);
     overflow: hidden;
     border-radius: 14px;
     isolation: isolate;
@@ -1259,7 +1259,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
     position: absolute;
     top: 50%;
     left: 50%;
-    width: min(480px, 62%);
+    width: min(30rem, 62%);
     margin: 0;
     transform-origin: center center;
     isolation: isolate;
@@ -1311,8 +1311,8 @@ body.page-asesoramiento nav a .fa-arrow-left{
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 168px;
-    max-height: 248px;
+    min-height: 10.5rem;
+    max-height: 15.5rem;
     padding: 0.55rem 0.55rem 3.6rem;
     box-sizing: border-box;
     overflow: hidden;
@@ -1326,7 +1326,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: 196px;
+    max-height: 12.25rem;
     object-fit: contain;
     object-position: center center;
     filter: brightness(1);
@@ -1550,7 +1550,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
 
 .px-cta{
     width: 100%;
-    max-width: 480px;
+    max-width: 30rem;
     margin: 0.7rem auto 0;
     display: flex;
     align-items: center;
@@ -1615,9 +1615,9 @@ body.page-asesoramiento nav a .fa-arrow-left{
 
 /* ——— Responsive: breakpoints dedicados ——— */
 @media (max-width: 1100px){
-    .px-stage{ max-width: 960px; }
-    .px-card{ width: min(440px, 64%); }
-    .px-viewport{ height: clamp(270px, 40vw, 340px); }
+    .px-stage{ max-width: 60rem; }
+    .px-card{ width: min(27.5rem, 64%); }
+    .px-viewport{ height: clamp(16.875rem, 40vw, 21.25rem); }
 }
 
 @media (max-width: 900px){
@@ -1631,10 +1631,10 @@ body.page-asesoramiento nav a .fa-arrow-left{
         gap: 0.35rem;
         grid-template-columns: 36px minmax(0, 1fr) 36px;
     }
-    .px-viewport{ height: clamp(260px, 48vw, 320px); }
-    .px-card{ width: min(400px, 70%); }
-    .px-card-media{ max-height: 220px; padding-bottom: 3.4rem; }
-    .px-card-media img{ max-height: 168px; }
+    .px-viewport{ height: clamp(16.25rem, 48vw, 20rem); }
+    .px-card{ width: min(25rem, 70%); }
+    .px-card-media{ max-height: 13.75rem; padding-bottom: 3.4rem; }
+    .px-card-media img{ max-height: 10.5rem; }
 }
 
 @media (max-width: 768px){
@@ -2136,7 +2136,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 1100px;
+    max-width: 68.75rem;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -2807,7 +2807,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
 .asesoramiento-envoltura{
     position: relative;
     z-index: 1;
-    max-width: 720px;
+    max-width: 45rem;
     margin: 0 auto;
 }
 
@@ -2843,7 +2843,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
 
 .asesoramiento-lead{
     margin: 0 auto;
-    max-width: 560px;
+    max-width: 35rem;
     font-size: clamp(0.9rem, 1.05vw, 1rem);
     line-height: 1.6;
     color: #64748b;
@@ -2931,6 +2931,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
     font-family: inherit;
     font-size: 0.92rem;
     padding: 0.65rem 0.85rem;
+    min-height: var(--touch-min, 44px);
     color: #fff;
     caret-color: #fff;
     background: linear-gradient(90deg, #2850c0, #178e86);
@@ -3124,7 +3125,7 @@ p{
     align-items: flex-start;
     gap: clamp(1.35rem, 3.5vw, 2.4rem);
     flex-wrap: wrap;
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 0 auto;
 }
  
@@ -3149,7 +3150,7 @@ p{
 
 .footer-col h3 img,
 .footer-col h3 .logo-link img{
-    max-width: 150px;
+    max-width: 9.375rem;
     width: 100%;
     height: auto;
     display: block;
@@ -3164,10 +3165,10 @@ p{
 }
 
 .footer-mini{
-    max-width: 500px;
-    font-size: 11px;
+    max-width: 31.25rem;
+    font-size: 0.72rem;
     color: rgba(255,255,255,0.6);
-    margin-top: 4px;
+    margin-top: 0.25rem;
 }
 
 .footer-col h3,
@@ -3313,7 +3314,7 @@ p{
 }
 
 .footer-bottom{
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 1.35rem auto 0;
     text-align: center;
     border-top: 1px solid rgba(255,255,255,0.1);
