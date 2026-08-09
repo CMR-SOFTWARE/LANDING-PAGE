@@ -68,5 +68,9 @@ export function validateAsesoramientoForm(values: AsesoramientoFormValues): Fiel
     errors.observaciones = "Texto demasiado largo.";
   }
 
+  if (!values.privacidad) {
+    errors.privacidad = "Debés aceptar la Política de Privacidad para continuar.";
+  }
+
   return errors;
 }

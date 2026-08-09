@@ -4,10 +4,24 @@
   "framework": "vite",
   "redirects": [
     { "source": "/index.html", "destination": "/", "permanent": true },
-    { "source": "/asesoramiento.html", "destination": "/asesoramiento", "permanent": true }
+    { "source": "/asesoramiento.html", "destination": "/asesoramiento", "permanent": true },
+    { "source": "/privacidad.html", "destination": "/privacidad", "permanent": true },
+    { "source": "/cookies.html", "destination": "/cookies", "permanent": true },
+    { "source": "/terminos.html", "destination": "/terminos", "permanent": true },
+    { "source": "/blog/index.html", "destination": "/blog", "permanent": true },
+    { "source": "/blog/software-a-medida-para-pymes.html", "destination": "/blog/software-a-medida-para-pymes", "permanent": true },
+    { "source": "/blog/automatizacion-de-procesos-empresariales.html", "destination": "/blog/automatizacion-de-procesos-empresariales", "permanent": true },
+    { "source": "/blog/desarrollo-web-en-san-nicolas.html", "destination": "/blog/desarrollo-web-en-san-nicolas", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/asesoramiento", "destination": "/asesoramiento.html" }
+    { "source": "/asesoramiento", "destination": "/asesoramiento.html" },
+    { "source": "/privacidad", "destination": "/privacidad.html" },
+    { "source": "/cookies", "destination": "/cookies.html" },
+    { "source": "/terminos", "destination": "/terminos.html" },
+    { "source": "/blog", "destination": "/blog/index.html" },
+    { "source": "/blog/software-a-medida-para-pymes", "destination": "/blog/software-a-medida-para-pymes.html" },
+    { "source": "/blog/automatizacion-de-procesos-empresariales", "destination": "/blog/automatizacion-de-procesos-empresariales.html" },
+    { "source": "/blog/desarrollo-web-en-san-nicolas", "destination": "/blog/desarrollo-web-en-san-nicolas.html" }
   ],
   "headers": [
     {
@@ -38,10 +52,23 @@
       ]
     },
     {
-      "source": "/(robots.txt|sitemap.xml|site.webmanifest|llms.txt)",
+      "source": "/robots.txt",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+    },
+    {
+      "source": "/sitemap.xml",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        { "key": "Cache-Control", "value": "public, max-age=3600" },
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
       ]
+    },
+    {
+      "source": "/site.webmanifest",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     }
   ]
 }

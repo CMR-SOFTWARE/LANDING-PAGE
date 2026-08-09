@@ -265,6 +265,37 @@ export function AsesoramientoForm({ form }: { form: FormApi }) {
         <strong>cmrsoftware.sn@gmail.com</strong> o por WhatsApp.
       </p>
 
+      <div className={`form-field form-field--full${errors.privacidad ? " is-invalid" : ""}`}>
+        <label className="form-privacy-check" htmlFor="fa-privacidad">
+          <input
+            id="fa-privacidad"
+            name="privacidad"
+            type="checkbox"
+            checked={values.privacidad}
+            disabled={submitting}
+            aria-invalid={Boolean(errors.privacidad)}
+            aria-describedby={errors.privacidad ? "fa-privacidad-error" : undefined}
+            onChange={(e) => setField("privacidad", e.target.checked)}
+          />
+          <span>
+            Leí y acepto la{" "}
+            <a href="/privacidad" target="_blank" rel="noopener noreferrer">
+              Política de Privacidad
+            </a>{" "}
+            y la{" "}
+            <a href="/cookies" target="_blank" rel="noopener noreferrer">
+              Política de Cookies
+            </a>
+            . <span className="req">*</span>
+          </span>
+        </label>
+        {errors.privacidad ? (
+          <p id="fa-privacidad-error" className="form-field-error" role="alert">
+            {errors.privacidad}
+          </p>
+        ) : null}
+      </div>
+
       {globalError ? (
         <p className="form-error" role="alert">
           {globalError}

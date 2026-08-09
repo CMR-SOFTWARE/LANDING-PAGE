@@ -64,7 +64,9 @@ export function useAsesoramientoForm() {
               ? "fa-hoy"
               : firstKey === "observaciones"
                 ? "fa-extra"
-                : `fa-${firstKey}`,
+                : firstKey === "privacidad"
+                  ? "fa-privacidad"
+                  : `fa-${firstKey}`,
       );
       el?.focus?.();
       el?.scrollIntoView?.({ behavior: "smooth", block: "center" });

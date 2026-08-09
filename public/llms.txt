@@ -8,6 +8,10 @@ CMR Software Solutions (marca: CMR) es una empresa de desarrollo de software. No
 
 - Inicio: https://cmrsoftwaresolutions.com/
 - Solicitar asesoramiento: https://cmrsoftwaresolutions.com/asesoramiento
+- Blog: https://cmrsoftwaresolutions.com/blog
+- Privacidad: https://cmrsoftwaresolutions.com/privacidad
+- Cookies: https://cmrsoftwaresolutions.com/cookies
+- Términos: https://cmrsoftwaresolutions.com/terminos
 - Sitemap: https://cmrsoftwaresolutions.com/sitemap.xml
 
 ## Servicios

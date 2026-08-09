@@ -41,6 +41,8 @@ export type AsesoramientoFormValues = {
   plazo: string;
   presupuesto: string;
   observaciones: string;
+  /** Consentimiento de privacidad requerido */
+  privacidad: boolean;
   /** Honeypot anti-bot — debe quedar vacío */
   website: string;
 };
@@ -75,5 +77,6 @@ export const emptyFormValues = (): AsesoramientoFormValues => ({
   plazo: "",
   presupuesto: "",
   observaciones: "",
+  privacidad: false,
   website: "",
 });
