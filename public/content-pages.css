@@ -30,6 +30,46 @@
   width: min(100% - 2rem, 68rem);
 }
 
+.content-breadcrumb {
+  margin: 0 0 1.1rem;
+}
+
+.content-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.content-breadcrumb li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.55rem;
+  color: #94a3b8;
+}
+
+.content-breadcrumb a {
+  color: #2850c0;
+  text-decoration: none;
+}
+
+.content-breadcrumb a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.content-prose img {
+  display: block;
+  width: 100%;
+  max-width: 42rem;
+  height: auto;
+  border-radius: 12px;
+  margin: 0 0 1.15rem;
+}
+
 .content-kicker {
   display: inline-flex;
   align-items: center;
