@@ -21,7 +21,7 @@ const org = {
   region: "Buenos Aires",
   country: "Argentina",
   logo: "https://cmrsoftwaresolutions.com/IMG/logo2.png",
-  og: "https://cmrsoftwaresolutions.com/IMG/og-cover.jpg",
+  og: "https://cmrsoftwaresolutions.com/IMG/og-cmr-software-solutions.jpg",
 };
 
 function shell({ title, description, canonical, ogType = "website", breadcrumb, h1, kicker, lead, bodyHtml, jsonLd, navActive }) {
@@ -51,8 +51,11 @@ function shell({ title, description, canonical, ogType = "website", breadcrumb, 
   <link rel="alternate" hreflang="es-AR" href="${canonical}">
   <link rel="alternate" hreflang="es" href="${canonical}">
   <link rel="alternate" hreflang="x-default" href="${canonical}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
-  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
   <link rel="icon" href="/IMG/icon-192.png" type="image/png" sizes="192x192">
   <link rel="icon" href="/IMG/icon-512.png" type="image/png" sizes="512x512">
   <link rel="apple-touch-icon" href="/IMG/apple-touch-icon.png" sizes="180x180">
@@ -67,6 +70,8 @@ function shell({ title, description, canonical, ogType = "website", breadcrumb, 
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="${org.og}">
+  <meta property="og:image:secure_url" content="${org.og}">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="CMR Software Solutions">
@@ -74,6 +79,7 @@ function shell({ title, description, canonical, ogType = "website", breadcrumb, 
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="${org.og}">
+  <meta name="twitter:image:alt" content="CMR Software Solutions">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/mobile.css">
   <link rel="stylesheet" href="/polish.css">
