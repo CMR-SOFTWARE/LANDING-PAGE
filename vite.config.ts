@@ -1,16 +1,76 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath, URL } from "node:url";
+import fs from "node:fs";
+import path from "node:path";
 
 const root = fileURLToPath(new URL(".", import.meta.url));
 
+/** Mirrors vercel.json rewrites so /servicios, /proyectos, etc. work in `vite dev`. */
+function cleanHtmlRoutes(): Plugin {
+  const rewrites: Record<string, string> = {
+    "/asesoramiento": "/asesoramiento.html",
+    "/privacidad": "/privacidad.html",
+    "/cookies": "/cookies.html",
+    "/terminos": "/terminos.html",
+    "/sobre-nosotros": "/sobre-nosotros.html",
+    "/contacto": "/contacto.html",
+    "/servicios": "/servicios/index.html",
+    "/servicios/desarrollo-software": "/servicios/desarrollo-software.html",
+    "/servicios/software-a-medida": "/servicios/software-a-medida.html",
+    "/servicios/desarrollo-web": "/servicios/desarrollo-web.html",
+    "/servicios/automatizacion": "/servicios/automatizacion.html",
+    "/proyectos": "/proyectos/index.html",
+    "/proyectos/ecommerce-ferreteria": "/proyectos/ecommerce-ferreteria.html",
+    "/proyectos/gestion-canchas": "/proyectos/gestion-canchas.html",
+    "/proyectos/unidad-sanitaria": "/proyectos/unidad-sanitaria.html",
+    "/proyectos/joby": "/proyectos/joby.html",
+    "/blog": "/blog/index.html",
+    "/blog/software-a-medida-para-pymes": "/blog/software-a-medida-para-pymes.html",
+    "/blog/automatizacion-de-procesos-empresariales":
+      "/blog/automatizacion-de-procesos-empresariales.html",
+    "/blog/desarrollo-web-en-san-nicolas": "/blog/desarrollo-web-en-san-nicolas.html",
+  };
+
+  return {
+    name: "cmr-clean-html-routes",
+    configureServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        if (!req.url) return next();
+        const url = req.url.split("?")[0] || "";
+        const qs = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+        const clean = url.replace(/\/$/, "") || "/";
+        const dest = rewrites[clean];
+        if (!dest) return next();
+        const abs = path.join(root, dest.replace(/^\//, ""));
+        if (!fs.existsSync(abs)) return next();
+        req.url = dest + qs;
+        next();
+      });
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        if (!req.url) return next();
+        const url = req.url.split("?")[0] || "";
+        const qs = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+        const clean = url.replace(/\/$/, "") || "/";
+        const dest = rewrites[clean];
+        if (!dest) return next();
+        req.url = dest + qs;
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), cleanHtmlRoutes()],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  appType: "mpa",
   build: {
     rollupOptions: {
       input: {

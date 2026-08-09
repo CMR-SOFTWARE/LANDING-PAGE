@@ -279,7 +279,8 @@
 
     cards.forEach(function (card, i) {
         card.addEventListener("click", function (e) {
-            if (e.target.closest("[data-px-more], [data-px-link], a.px-card-link")) return;
+            /* No interceptar navegación real (casos, sitios externos, etc.) */
+            if (e.target.closest("a[href], [data-px-more], [data-px-link], a.px-card-link, button")) return;
             if (dragMoved) {
                 dragMoved = false;
                 return;

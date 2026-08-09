@@ -37,6 +37,15 @@
   --space-section-y: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
   --content-max: 73.75rem;
   --touch-min: 44px;
+
+  /* Jerarquía de radios (identidad CMR: pills en CTAs, soft en cards) */
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+  --radius-btn: 30px;
 }
 
 /* La escala se atenúa al bajar de resolución: en desktop sobra tamaño, en
@@ -75,7 +84,7 @@ canvas {
   height: auto;
 }
 
-/* —— Bloques de lectura: izquierda + lectura limpia —— */
+/* —— Bloques de lectura: tipografía limpia —— */
 .hero-texto > p,
 .problema-intro-desc,
 .servicios-lead,
@@ -84,9 +93,12 @@ canvas {
 .asesoramiento-lead,
 .servicios-item p,
 .px-card-desc,
-.plan-card__desc {
-  text-align: start !important;
-  text-justify: auto !important;
+.plan-card__desc,
+.plan-card__subtitle,
+.cmr-proceso-step p,
+.content-prose p,
+.content-prose li,
+.content-lead {
   word-spacing: normal !important;
   letter-spacing: normal;
   hyphens: none !important;
@@ -95,17 +107,35 @@ canvas {
   text-wrap: pretty;
 }
 
-/* Justificado editorial (mismo tratamiento que Sobre nosotros) */
+/* Leads centrados de sección (no justificar) */
+.servicios-lead,
+.px-lead,
+.planes-lead,
+.faq-lead {
+  text-align: center !important;
+  text-justify: auto !important;
+}
+
+/* Justificado editorial — textos explicativos / artículos / cuerpo */
+.hero-texto > p,
+.problema-intro-desc,
+.problema-item p,
+.servicios-item p,
+.px-card-desc,
+.plan-card__subtitle,
+.planes-cta__text,
+.footer-descripcion,
+.asesoramiento-lead,
 .sobre-copy-texto,
 .planes-note,
-.faq-item p {
+.faq-item p,
+.cmr-proceso-step p,
+.content-prose p,
+.content-prose li,
+.content-lead {
   text-align: justify !important;
   text-justify: inter-word;
-  word-spacing: normal !important;
   letter-spacing: 0.01em;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  overflow-wrap: break-word;
   text-wrap: wrap;
 }
 
@@ -154,6 +184,7 @@ canvas {
 
 .hero-actions {
   gap: 0.75rem;
+  align-items: stretch;
 }
 
 .hero-actions .btn-primary,
@@ -175,6 +206,60 @@ canvas {
   letter-spacing: 0.01em;
   line-height: 1.2;
   box-sizing: border-box;
+}
+
+/* Misma altura visual entre CTA primario y WhatsApp (el borde 2px
+   descompensaba el par). */
+.hero-actions .btn-primary,
+.hero-actions .btn-whatsapp {
+  min-height: 3rem;
+  height: 3rem;
+  padding-block: 0;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: var(--radius-btn);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.hero-actions .btn-primary {
+  border-color: transparent;
+}
+
+.hero-actions .btn-whatsapp {
+  border-color: #458a90;
+}
+
+.hero-actions .btn-whatsapp i {
+  font-size: 1.05em;
+  line-height: 1;
+  width: 1.1em;
+  text-align: center;
+}
+
+.btn-primary,
+.btn-whatsapp {
+  border-radius: var(--radius-btn);
+}
+
+.btn-nav {
+  border-radius: var(--radius-md);
+}
+
+.px-cta-btn {
+  border-radius: var(--radius-pill);
+}
+
+.plan-card {
+  border-radius: var(--radius-xl);
+}
+
+.plan-card__cta {
+  border-radius: var(--radius-md);
+}
+
+.planes-cta {
+  border-radius: var(--radius-lg);
 }
 
 /* —— Ritmo de secciones —— */
@@ -603,12 +688,19 @@ canvas {
     max-width: none;
   }
 
-  /* En mobile el justify genera huecos: volver a izquierda */
+  /* Mantener justificado editorial también en mobile */
   .sobre-copy-texto,
   .planes-note,
-  .faq-item p {
-    text-align: start !important;
-    letter-spacing: normal;
+  .faq-item p,
+  .content-prose p,
+  .content-prose li,
+  .content-lead,
+  .hero-texto > p,
+  .servicios-item p,
+  .asesoramiento-lead {
+    text-align: justify !important;
+    text-justify: inter-word;
+    letter-spacing: 0.005em;
   }
 
   .faq-head {

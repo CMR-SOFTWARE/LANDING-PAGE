@@ -254,16 +254,20 @@ button{
     background: linear-gradient(90deg, #2850c0, #178e86);
     /*background-color: #007BFF;*/
     color: white;
+    border: 2px solid transparent;
+    box-sizing: border-box;
 }
 
 .btn-whatsapp{
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     background: rgba(255,255,255,0.1); /* fondo transparente */
     border: 2px solid #458a90; /*Borde color*/
     /*background-color: #25D366;*/
     color: white;
+    box-sizing: border-box;
 }
 
 a.btn-primary,
@@ -1550,7 +1554,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
 
 .px-cta{
     width: 100%;
-    max-width: 30rem;
+    max-width: 34rem;
     margin: 0.7rem auto 0;
     display: flex;
     align-items: center;
