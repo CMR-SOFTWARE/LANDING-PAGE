@@ -540,6 +540,16 @@ canvas {
   letter-spacing: 0.01em;
 }
 
+.footer-mini a {
+  color: rgba(226, 236, 255, 0.88);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer-mini a:hover {
+  color: #fff;
+}
+
 .footer-bottom p {
   line-height: 1.5;
   padding-inline: 0.5rem;

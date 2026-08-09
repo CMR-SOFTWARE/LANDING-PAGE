@@ -51,8 +51,10 @@ function shell({ title, description, canonical, ogType = "website", breadcrumb, 
   <link rel="alternate" hreflang="es-AR" href="${canonical}">
   <link rel="alternate" hreflang="es" href="${canonical}">
   <link rel="alternate" hreflang="x-default" href="${canonical}">
+  <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
   <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
   <link rel="icon" href="/IMG/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="icon" href="/IMG/icon-512.png" type="image/png" sizes="512x512">
   <link rel="apple-touch-icon" href="/IMG/apple-touch-icon.png" sizes="180x180">
   <link rel="manifest" href="/site.webmanifest">
   <meta name="application-name" content="CMR Software Solutions">
@@ -473,7 +475,7 @@ const projects = [
       <h2>Problema</h2>
       <p>Reservar y administrar canchas por canales informales genera solapamientos, pérdida de turnos y poco control operativo.</p>
       <h2>Solución</h2>
-      <p>Construimos una plataforma (CMR Match) para publicar disponibilidad, gestionar reservas y ordenar la experiencia del club y del jugador.</p>
+      <p>Desde <strong>CMR Software Solutions</strong> construimos la plataforma <strong>CMR Match</strong> (CMR Canchas) para publicar disponibilidad, gestionar reservas y ordenar la experiencia del club y del jugador. Es un producto de software nuestro; no es un club deportivo.</p>
       <h2>Funcionalidades</h2>
       <ul>
         <li>Reservas online</li>
@@ -603,6 +605,8 @@ add("sobre-nosotros.html", {
       <p><strong>CMR Software Solutions</strong> (también referida como CMR Software) nació del trabajo en equipo entre compañeros de facultad que decidieron convertir una idea en un proyecto con propósito. Hoy desarrollamos tecnología confiable para empresas y emprendimientos.</p>
       <h2>Qué hacemos</h2>
       <p>Desarrollamos software a medida, sitios web, aplicaciones, ecommerce, sistemas de gestión, automatización e integraciones. Nuestro foco es generar resultados concretos: menos fricción operativa y mejor presencia digital.</p>
+      <h2>Productos propios</h2>
+      <p>Además de proyectos a medida, creamos productos digitales como <a href="https://cmrcanchas.com/" target="_blank" rel="noopener noreferrer">CMR Match</a> (también conocido como CMR Canchas) y <a href="https://cmrnexo.com/" target="_blank" rel="noopener noreferrer">CMR Nexo</a>. Esos sitios son productos; <a href="https://cmrsoftwaresolutions.com/">cmrsoftwaresolutions.com</a> es el sitio oficial de la empresa.</p>
       <h2>Dónde estamos</h2>
       <p>Estamos basados en <strong>San Nicolás de los Arroyos</strong>, provincia de Buenos Aires, Argentina. Atendemos la región y proyectos en toda Argentina de forma remota.</p>
       <h2>Cómo trabajamos</h2>
@@ -642,16 +646,17 @@ add("contacto.html", {
   canonical: "https://cmrsoftwaresolutions.com/contacto",
   navActive: "contacto",
   kicker: "Contacto",
-  h1: "Contacto — CMR Software Solutions",
-  lead: "Escribinos para contar tu proyecto. Respondemos por email, WhatsApp o mediante el formulario de asesoramiento.",
+  h1: "Contacto oficial — CMR Software Solutions",
+  lead: "Esta es la vía oficial de contacto de CMR Software Solutions, empresa de desarrollo de software en San Nicolás de los Arroyos. Respondemos por email, WhatsApp o formulario de asesoramiento.",
   breadcrumb: [
     { name: "Inicio", href: "/" },
     { name: "Contacto", href: "/contacto" },
   ],
   bodyHtml: `
-      <h2>Datos de contacto</h2>
+      <h2>Datos de contacto oficiales</h2>
       <ul>
         <li><strong>Empresa:</strong> CMR Software Solutions</li>
+        <li><strong>Sitio oficial:</strong> <a href="https://cmrsoftwaresolutions.com/">https://cmrsoftwaresolutions.com/</a></li>
         <li><strong>Ubicación:</strong> San Nicolás de los Arroyos, Buenos Aires, Argentina</li>
         <li><strong>Email:</strong> <a href="mailto:cmrsoftware.sn@gmail.com">cmrsoftware.sn@gmail.com</a></li>
         <li><strong>WhatsApp:</strong> <a href="${org.wa}" target="_blank" rel="noopener noreferrer">${org.phoneDisplay}</a></li>
@@ -660,7 +665,9 @@ add("contacto.html", {
       <h2>Solicitar asesoramiento</h2>
       <p>Para una reunión sin cargo, completá el <a href="/asesoramiento">formulario de asesoramiento</a>. Contanos qué necesitás y te proponemos el siguiente paso.</p>
       <h2>Cobertura</h2>
-      <p>Atendemos proyectos en San Nicolás y la región, y también de forma remota en toda Argentina.</p>
+      <p>Atendemos proyectos en San Nicolás de los Arroyos y la región, y también de forma remota en toda Argentina.</p>
+      <h2>Productos desarrollados por CMR</h2>
+      <p>Si llegaste desde <a href="https://cmrcanchas.com/" target="_blank" rel="noopener noreferrer">CMR Match / CMR Canchas</a> o <a href="https://cmrnexo.com/" target="_blank" rel="noopener noreferrer">CMR Nexo</a>, estás viendo productos de software creados por nuestra empresa. Para proyectos a medida o consultas institucionales, usá este contacto oficial.</p>
     `,
   jsonLd: {
     "@context": "https://schema.org",
