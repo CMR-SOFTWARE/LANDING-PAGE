@@ -6,7 +6,7 @@
   "scope": "/",
   "id": "/",
   "display": "standalone",
-  "background_color": "#000000",
+  "background_color": "#0c1630",
   "theme_color": "#404da0",
   "lang": "es-AR",
   "dir": "ltr",
@@ -55,7 +55,7 @@
       "purpose": "any"
     },
     {
-      "src": "/IMG/icon-512.png",
+      "src": "/IMG/icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

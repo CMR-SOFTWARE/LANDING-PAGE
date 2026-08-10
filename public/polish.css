@@ -621,6 +621,14 @@ canvas {
     width: min(150px, 18vw);
   }
 
+  header nav .logo.logo--isotipo,
+  header nav .logo-link img.logo.logo--isotipo {
+    width: clamp(2.4rem, 2.2vw + 1.4rem, 3rem);
+    height: clamp(2.4rem, 2.2vw + 1.4rem, 3rem);
+    max-width: clamp(2.4rem, 2.2vw + 1.4rem, 3rem);
+    max-height: clamp(2.4rem, 2.2vw + 1.4rem, 3rem);
+  }
+
   .site-nav .nav-primary {
     gap: 0.15rem;
     flex-wrap: nowrap;

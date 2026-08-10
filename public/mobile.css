@@ -31,6 +31,14 @@
     max-width: 148px;
   }
 
+  header nav .logo.logo--isotipo,
+  header nav .logo-link img.logo.logo--isotipo {
+    width: clamp(2.35rem, 7.5vw, 2.75rem);
+    height: clamp(2.35rem, 7.5vw, 2.75rem);
+    max-width: clamp(2.35rem, 7.5vw, 2.75rem);
+    max-height: clamp(2.35rem, 7.5vw, 2.75rem);
+  }
+
   .site-nav {
     min-height: var(--m-touch);
     padding-top: 0.35rem;
@@ -688,6 +696,14 @@
   header nav .logo,
   header nav .logo-link img.logo {
     width: min(128px, 48vw);
+  }
+
+  header nav .logo.logo--isotipo,
+  header nav .logo-link img.logo.logo--isotipo {
+    width: clamp(2.25rem, 7vw, 2.5rem);
+    height: clamp(2.25rem, 7vw, 2.5rem);
+    max-width: clamp(2.25rem, 7vw, 2.5rem);
+    max-height: clamp(2.25rem, 7vw, 2.5rem);
   }
 
   .hero-actions .btn-primary,
