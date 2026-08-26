@@ -52,13 +52,27 @@
 }
 
 .content-breadcrumb a {
-  color: #2850c0;
+  color: var(--link);
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
 }
 
-.content-breadcrumb a:hover {
+.content-breadcrumb a:visited {
+  color: var(--link-visited);
+}
+
+.content-breadcrumb a:hover,
+.content-breadcrumb a:focus-visible {
+  color: var(--link-hover);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.content-breadcrumb a:active {
+  color: var(--link-active);
 }
 
 .content-prose img {
@@ -171,13 +185,27 @@
 }
 
 .content-prose a {
-  color: #2850c0;
+  color: var(--link);
+  font-weight: 500;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline);
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
 }
 
-.content-prose a:hover {
-  color: #178e86;
+.content-prose a:visited {
+  color: var(--link-visited);
+}
+
+.content-prose a:hover,
+.content-prose a:focus-visible {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.content-prose a:active {
+  color: var(--link-active);
 }
 
 .content-cta {
@@ -253,15 +281,27 @@
 }
 
 .footer-legal a {
-  color: rgba(226, 236, 255, 0.72);
+  color: var(--link-visited, rgba(226, 236, 255, 0.72));
   text-decoration: none;
   font-size: 0.78rem;
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
 }
 
-.footer-legal a:hover {
-  color: #fff;
+.footer-legal a:visited {
+  color: var(--link-visited, rgba(226, 236, 255, 0.72));
+}
+
+.footer-legal a:hover,
+.footer-legal a:focus-visible {
+  color: var(--link-hover, #fff);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline-hover, #99f6e4);
+}
+
+.footer-legal a:active {
+  color: var(--link-active, #bae6fd);
 }
 
 .form-privacy-check {
@@ -283,9 +323,27 @@
 }
 
 .form-privacy-check a {
-  color: #2850c0;
+  color: var(--link);
+  font-weight: 500;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline);
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
+}
+
+.form-privacy-check a:visited {
+  color: var(--link-visited);
+}
+
+.form-privacy-check a:hover,
+.form-privacy-check a:focus-visible {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.form-privacy-check a:active {
+  color: var(--link-active);
 }
 
 @media (max-width: 900px) {

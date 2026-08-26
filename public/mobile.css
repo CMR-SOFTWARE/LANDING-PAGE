@@ -304,7 +304,7 @@
   }
 
   .px-viewport {
-    height: clamp(280px, 72vw, 340px);
+    height: clamp(360px, 96vw, 440px);
     margin: 0;
     overflow: hidden;
   }
@@ -317,13 +317,17 @@
   .px-card-media {
     min-height: 160px;
     max-height: 210px;
-    padding: 0.5rem 0.5rem 3.5rem;
+    padding: 0.5rem;
   }
 
   .px-card-media img {
-    max-height: 160px;
+    max-height: 190px;
     width: auto;
     object-fit: contain;
+  }
+
+  .px-card-overlay {
+    padding: 0.7rem 0.85rem 0.85rem;
   }
 
   .px-card-title {
@@ -662,7 +666,7 @@
   }
 
   .px-viewport {
-    height: clamp(260px, 78vw, 310px);
+    height: clamp(340px, 100vw, 410px);
   }
 
   .px-card {
@@ -675,7 +679,7 @@
   }
 
   .px-card-media img {
-    max-height: 132px;
+    max-height: 160px;
   }
 
   /* Ocultar peek de laterales vía CSS (refuerzo; JS también limpia) */

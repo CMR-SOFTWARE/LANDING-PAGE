@@ -528,10 +528,13 @@ const projects = [
       "Joby es una aplicación móvil en la que participó CMR Software Solutions, disponible en Google Play.",
     h1: "Joby — aplicación móvil",
     lead: "Aplicación móvil orientada a experiencia de usuario en dispositivo, con presencia publicada en Google Play.",
-    img: "/IMG/proyectos/APP%20JOBY/WhatsApp%20Image%202026-04-18%20at%2014.45.59%20(1).jpeg",
+    img: "/IMG/proyectos/joby/joby1.png",
     live: "https://play.google.com/store/apps/details?id=com.joby.loby&pcampaignid=web_share",
     body: `
-      <p><img src="/IMG/proyectos/APP%20JOBY/WhatsApp%20Image%202026-04-18%20at%2014.45.59%20(1).jpeg" alt="Pantalla de la app Joby desarrollada con participación de CMR Software Solutions" width="480" height="960" loading="lazy" decoding="async"></p>
+      <p><img src="/IMG/proyectos/joby/joby1.png" alt="Portada de Joby — Conectamos personas" width="480" height="960" loading="lazy" decoding="async"></p>
+      <p><img src="/IMG/proyectos/joby/joby9.png" alt="Selección de rol en la app Joby desarrollada con participación de CMR Software Solutions" width="480" height="960" loading="lazy" decoding="async"></p>
+      <p><img src="/IMG/proyectos/joby/joby3.png" alt="Inicio de cliente en Joby: búsqueda de servicios" width="480" height="960" loading="lazy" decoding="async"></p>
+      <p><img src="/IMG/proyectos/joby/joby4.png" alt="Panel de trabajadores en la app Joby" width="480" height="960" loading="lazy" decoding="async"></p>
       <h2>Problema</h2>
       <p>El producto necesitaba una experiencia móvil clara y publicable en tiendas de aplicaciones.</p>
       <h2>Solución</h2>

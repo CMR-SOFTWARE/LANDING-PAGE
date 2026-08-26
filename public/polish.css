@@ -24,6 +24,29 @@
   --lh-body: 1.65;
   --lh-card: 1.5;
 
+  /* —— Enlaces CMR (identidad): indigos + teal + sky —— */
+  /* Superficies claras / blancas */
+  --cmr-link: #1e4ab5;
+  --cmr-link-hover: #0f7a72;
+  --cmr-link-active: #0a5c56;
+  --cmr-link-visited: #404da0;
+  --cmr-link-underline: #178e86;
+  --cmr-link-underline-hover: #2aa39a;
+  /* Superficies oscuras / índigo */
+  --cmr-link-on-dark: #7dd3fc;
+  --cmr-link-on-dark-hover: #e0f2fe;
+  --cmr-link-on-dark-active: #bae6fd;
+  --cmr-link-on-dark-visited: #9eb6d9;
+  --cmr-link-on-dark-underline: #5eead4;
+  --cmr-link-on-dark-underline-hover: #99f6e4;
+  /* Tokens activos (por defecto = claro) */
+  --link: var(--cmr-link);
+  --link-hover: var(--cmr-link-hover);
+  --link-active: var(--cmr-link-active);
+  --link-visited: var(--cmr-link-visited);
+  --link-underline: var(--cmr-link-underline);
+  --link-underline-hover: var(--cmr-link-underline-hover);
+
   /* Medidas afinadas para bloques casi rectangulares (sin justify) */
   --measure-hero-p: 31.5rem;
   --measure-lead: 36rem;
@@ -541,13 +564,25 @@ canvas {
 }
 
 .footer-mini a {
-  color: rgba(226, 236, 255, 0.88);
+  color: var(--link);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline);
 }
 
-.footer-mini a:hover {
-  color: #fff;
+.footer-mini a:visited {
+  color: var(--link-visited);
+}
+
+.footer-mini a:hover,
+.footer-mini a:focus-visible {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.footer-mini a:active {
+  color: var(--link-active);
 }
 
 .footer-bottom p {
@@ -564,16 +599,27 @@ canvas {
 }
 
 .footer-legal a {
-  color: rgba(226, 236, 255, 0.72);
+  color: var(--link-visited);
   text-decoration: none;
   font-size: 0.78rem;
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
+}
+
+.footer-legal a:visited {
+  color: var(--link-visited);
 }
 
 .footer-legal a:hover,
 .footer-legal a:focus-visible {
-  color: #fff;
+  color: var(--link-hover);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.footer-legal a:active {
+  color: var(--link-active);
 }
 
 /* —— Nav —— */
@@ -820,4 +866,299 @@ summary:focus-visible {
 #preguntas-frecuentes,
 #footer {
   overflow-x: clip;
+}
+
+/* =============================================================================
+   Sistema global de enlaces CMR
+   Elimina azul/violeta del navegador · tokens claros/oscuros · estados completos
+   ============================================================================= */
+
+/* Contextos oscuros: reasignan tokens activos */
+#servicios,
+#proyectos,
+#sobre-nosotros,
+.sobre-nosotros,
+#preguntas-frecuentes,
+.faq-section,
+#footer,
+.cmr-section,
+#tecnologias,
+#proceso,
+#cobertura,
+.px-viewer {
+  --link: var(--cmr-link-on-dark);
+  --link-hover: var(--cmr-link-on-dark-hover);
+  --link-active: var(--cmr-link-on-dark-active);
+  --link-visited: var(--cmr-link-on-dark-visited);
+  --link-underline: var(--cmr-link-on-dark-underline);
+  --link-underline-hover: var(--cmr-link-on-dark-underline-hover);
+}
+
+/* Contextos claros (refuerzo) */
+#problema,
+#planes,
+#hero,
+.page-content,
+.site-nav {
+  --link: var(--cmr-link);
+  --link-hover: var(--cmr-link-hover);
+  --link-active: var(--cmr-link-active);
+  --link-visited: var(--cmr-link-visited);
+  --link-underline: var(--cmr-link-underline);
+  --link-underline-hover: var(--cmr-link-underline-hover);
+}
+
+/* Enlaces de texto / inline: identidad CMR, nunca azul/violeta de browser */
+p a:any-link,
+li a:any-link:not(.btn-nav),
+.sobre-copy-texto a:any-link,
+.faq-item a:any-link,
+.servicios-lead a:any-link,
+.servicios-item-link a:any-link,
+.px-card-desc a:any-link,
+.px-cta-link:any-link,
+.footer-mini a:any-link,
+.footer-legal a:any-link,
+.content-prose a:any-link,
+.content-breadcrumb a:any-link,
+.content-lead a:any-link,
+.form-privacy-check a:any-link,
+.asesoramiento-lead a:any-link {
+  color: var(--link);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline);
+  transition:
+    color 0.22s ease,
+    text-decoration-color 0.22s ease,
+    filter 0.22s ease;
+}
+
+p a:any-link:visited,
+li a:any-link:not(.btn-nav):visited,
+.sobre-copy-texto a:any-link:visited,
+.faq-item a:any-link:visited,
+.servicios-lead a:any-link:visited,
+.servicios-item-link a:any-link:visited,
+.px-card-desc a:any-link:visited,
+.px-cta-link:any-link:visited,
+.footer-mini a:any-link:visited,
+.footer-legal a:any-link:visited,
+.content-prose a:any-link:visited,
+.content-breadcrumb a:any-link:visited,
+.content-lead a:any-link:visited,
+.form-privacy-check a:any-link:visited,
+.asesoramiento-lead a:any-link:visited {
+  color: var(--link-visited);
+  text-decoration-color: var(--link-visited);
+}
+
+p a:any-link:hover,
+li a:any-link:not(.btn-nav):hover,
+.sobre-copy-texto a:any-link:hover,
+.faq-item a:any-link:hover,
+.servicios-lead a:any-link:hover,
+.servicios-item-link a:any-link:hover,
+.px-card-desc a:any-link:hover,
+.px-cta-link:any-link:hover,
+.footer-mini a:any-link:hover,
+.footer-legal a:any-link:hover,
+.content-prose a:any-link:hover,
+.content-breadcrumb a:any-link:hover,
+.content-lead a:any-link:hover,
+.form-privacy-check a:any-link:hover,
+.asesoramiento-lead a:any-link:hover {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+}
+
+p a:any-link:active,
+li a:any-link:not(.btn-nav):active,
+.sobre-copy-texto a:any-link:active,
+.faq-item a:any-link:active,
+.servicios-lead a:any-link:active,
+.servicios-item-link a:any-link:active,
+.px-card-desc a:any-link:active,
+.px-cta-link:any-link:active,
+.footer-mini a:any-link:active,
+.footer-legal a:any-link:active,
+.content-prose a:any-link:active,
+.content-breadcrumb a:any-link:active,
+.content-lead a:any-link:active,
+.form-privacy-check a:any-link:active,
+.asesoramiento-lead a:any-link:active {
+  color: var(--link-active);
+}
+
+p a:any-link:focus-visible,
+li a:any-link:not(.btn-nav):focus-visible,
+.sobre-copy-texto a:any-link:focus-visible,
+.faq-item a:any-link:focus-visible,
+.servicios-lead a:any-link:focus-visible,
+.servicios-item-link a:any-link:focus-visible,
+.px-card-desc a:any-link:focus-visible,
+.px-cta-link:any-link:focus-visible,
+.footer-mini a:any-link:focus-visible,
+.footer-legal a:any-link:focus-visible,
+.content-prose a:any-link:focus-visible,
+.content-breadcrumb a:any-link:focus-visible,
+.content-lead a:any-link:focus-visible,
+.form-privacy-check a:any-link:focus-visible,
+.asesoramiento-lead a:any-link:focus-visible {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Nav / footer-nav: sin subrayado de prosa (mantienen su tratamiento propio) */
+.site-nav .nav-primary li a:any-link:not(.btn-nav),
+.footer-nav a:any-link:not(.btn-nav) {
+  font-weight: inherit;
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.site-nav .nav-primary li a:any-link:not(.btn-nav) {
+  color: #5a6270;
+}
+
+.site-nav .nav-primary li a:any-link:not(.btn-nav):visited {
+  color: #5a6270;
+}
+
+.site-nav .nav-primary li a:any-link:not(.btn-nav):hover,
+.site-nav .nav-primary li a:any-link:not(.btn-nav):focus-visible {
+  color: #2850c0;
+  text-decoration: none;
+}
+
+.site-nav .nav-primary li a:any-link:not(.btn-nav):active {
+  color: #1e4ab5;
+}
+
+.footer-nav a:any-link:not(.btn-nav) {
+  color: rgba(214, 228, 248, 0.78);
+}
+
+.footer-nav a:any-link:not(.btn-nav):visited {
+  color: rgba(214, 228, 248, 0.72);
+}
+
+.footer-nav a:any-link:not(.btn-nav):hover,
+.footer-nav a:any-link:not(.btn-nav):focus-visible {
+  color: var(--cmr-link-on-dark);
+  text-decoration: none;
+}
+
+.footer-nav a:any-link:not(.btn-nav):active {
+  color: var(--cmr-link-on-dark-active);
+}
+
+.footer-legal a:any-link {
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.footer-legal a:any-link:hover,
+.footer-legal a:any-link:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+}
+
+/* CTAs / chrome: nunca heredar violeta :visited del browser */
+a.btn-primary:any-link,
+a.btn-primary:visited,
+a.btn-nav:any-link,
+a.btn-nav:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+a.btn-whatsapp:any-link,
+a.btn-whatsapp:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+a.plan-card__cta:any-link,
+a.plan-card__cta:visited {
+  color: #2850c0;
+  text-decoration: none;
+}
+
+a.plan-card__cta--primary:any-link,
+a.plan-card__cta--primary:visited {
+  color: #fff;
+}
+
+a.btn-form-secondary:any-link,
+a.btn-form-secondary:visited {
+  color: #2850c0;
+  text-decoration: none;
+}
+
+a.planes-cta__btn:any-link,
+a.planes-cta__btn:visited,
+a.px-cta-btn:any-link,
+a.px-cta-btn:visited,
+a.skip-link:any-link,
+a.skip-link:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+a.logo-link:any-link,
+a.logo-link:visited,
+a.footer-contact__link:any-link,
+a.footer-contact__link:visited,
+a.blog-card:any-link,
+a.blog-card:visited {
+  text-decoration: none;
+}
+
+a.px-card-link:any-link,
+a.px-card-link:visited {
+  color: #b8e7ff;
+  text-decoration: none;
+}
+
+a.px-card-link:any-link:hover,
+a.px-card-link:any-link:focus-visible {
+  color: #f0fbff;
+}
+
+a.px-viewer-link:any-link,
+a.px-viewer-link:visited {
+  color: #c8ecff;
+  text-decoration: none;
+}
+
+a.px-viewer-link:any-link:hover,
+a.px-viewer-link:any-link:focus-visible {
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  p a:any-link,
+  li a:any-link:not(.btn-nav),
+  .sobre-copy-texto a:any-link,
+  .faq-item a:any-link,
+  .servicios-lead a:any-link,
+  .servicios-item-link a:any-link,
+  .px-card-desc a:any-link,
+  .px-cta-link:any-link,
+  .footer-mini a:any-link,
+  .footer-legal a:any-link,
+  .content-prose a:any-link,
+  .content-breadcrumb a:any-link,
+  .content-lead a:any-link,
+  .form-privacy-check a:any-link,
+  .asesoramiento-lead a:any-link {
+    transition: none;
+  }
 }

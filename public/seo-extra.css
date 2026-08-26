@@ -239,29 +239,74 @@
 }
 
 .servicios-item-link a {
-  color: #9ec5ff;
+  color: var(--link);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline);
+  font-weight: 500;
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
 }
 
-.servicios-item-link a:hover {
-  color: #fff;
+.servicios-item-link a:visited {
+  color: var(--link-visited);
+}
+
+.servicios-item-link a:hover,
+.servicios-item-link a:focus-visible {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.servicios-item-link a:active {
+  color: var(--link-active);
 }
 
 .px-cta-link {
-  color: #9ec5ff;
+  color: var(--link);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline);
   font-weight: 600;
   white-space: nowrap;
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
 }
 
-.px-cta-link:hover {
-  color: #fff;
+.px-cta-link:visited {
+  color: var(--link-visited);
+}
+
+.px-cta-link:hover,
+.px-cta-link:focus-visible {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.px-cta-link:active {
+  color: var(--link-active);
 }
 
 .px-card-desc a {
-  color: #9ec5ff;
+  color: var(--link);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--link-underline);
+  font-weight: 500;
+  transition: color 0.22s ease, text-decoration-color 0.22s ease;
+}
+
+.px-card-desc a:visited {
+  color: var(--link-visited);
+}
+
+.px-card-desc a:hover,
+.px-card-desc a:focus-visible {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-underline-hover);
+}
+
+.px-card-desc a:active {
+  color: var(--link-active);
 }
