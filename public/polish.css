@@ -752,21 +752,60 @@ canvas {
     max-width: none;
   }
 
-  /* Mantener justificado editorial también en mobile */
+  /* Justificado en tablet/mobile ancho: mismo alineado que desktop, sin ríos exagerados */
   .sobre-copy-texto,
   .planes-note,
+  .planes-cta__text,
   .faq-item p,
   .content-prose p,
   .content-prose li,
   .content-lead,
   .hero-texto > p,
+  .problema-intro-desc,
   .servicios-item p,
+  .px-card-desc,
+  .plan-card__subtitle,
+  .footer-descripcion,
+  .cmr-proceso-step p,
   .asesoramiento-lead {
     text-align: justify !important;
+    text-align-last: start;
     text-justify: inter-word;
     letter-spacing: 0.005em;
+    word-spacing: normal;
+    overflow-wrap: break-word;
+    hyphens: auto !important;
+    -webkit-hyphens: auto !important;
+    -ms-hyphens: auto !important;
   }
+}
 
+/* En columnas muy angostas justify genera huecos ilegibles: start solo aquí */
+@media (max-width: 600px) {
+  .sobre-copy-texto,
+  .planes-note,
+  .planes-cta__text,
+  .faq-item p,
+  .content-prose p,
+  .content-prose li,
+  .content-lead,
+  .hero-texto > p,
+  .problema-intro-desc,
+  .servicios-item p,
+  .px-card-desc,
+  .plan-card__subtitle,
+  .footer-descripcion,
+  .cmr-proceso-step p,
+  .asesoramiento-lead {
+    text-align: start !important;
+    text-align-last: auto;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    -ms-hyphens: none !important;
+  }
+}
+
+@media (max-width: 960px) {
   .faq-head {
     text-align: left;
     align-items: flex-start;

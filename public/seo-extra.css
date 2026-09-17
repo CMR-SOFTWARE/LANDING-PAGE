@@ -196,6 +196,12 @@
     grid-template-columns: 1fr 1fr;
   }
 
+  .cmr-cobertura-chip {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
   .cmr-section .servicios-head {
     text-align: left;
   }
