@@ -406,7 +406,6 @@
 .icono-excel {
   display: inline-block;
   animation: cmr-icon-float 5.5s ease-in-out infinite;
-  will-change: transform;
 }
 
 .problema-item:nth-child(2) .icono-excel {
@@ -419,7 +418,7 @@
 
 @keyframes cmr-icon-float {
   0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -3px, 0); }
+  50% { transform: translate3d(0, -6px, 0); }
 }
 
 .cmr-spotlight {
@@ -606,7 +605,6 @@
   -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, #000 18%, transparent 75%);
   opacity: 0.4;
   animation: cmr-grid-drift 34s linear infinite;
-  will-change: transform;
 }
 
 .section-ambient__orb {
@@ -615,7 +613,6 @@
   filter: blur(42px);
   opacity: 0.4;
   animation: cmr-orb-float 16s var(--motion-ease, ease) infinite alternate;
-  will-change: transform;
 }
 
 .section-ambient__orb--a {
@@ -658,7 +655,6 @@
   background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.55), transparent);
   opacity: 0.55;
   animation: cmr-beam-slide 7.5s ease-in-out infinite;
-  will-change: transform, opacity;
 }
 
 .section-ambient__beam--b {

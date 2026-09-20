@@ -140,19 +140,12 @@ canvas {
 }
 
 /* Justificado editorial — textos explicativos / artículos / cuerpo */
-.hero-texto > p,
 .problema-intro-desc,
-.problema-item p,
-.servicios-item p,
-.px-card-desc,
-.plan-card__subtitle,
 .planes-cta__text,
-.footer-descripcion,
 .asesoramiento-lead,
 .sobre-copy-texto,
 .planes-note,
 .faq-item p,
-.cmr-proceso-step p,
 .content-prose p,
 .content-prose li,
 .content-lead {
@@ -160,6 +153,19 @@ canvas {
   text-justify: inter-word;
   letter-spacing: 0.01em;
   text-wrap: wrap;
+}
+
+/* Cards / leads cortos: start (evita ríos en columnas angostas) */
+.hero-texto > p,
+.problema-item p,
+.servicios-item p,
+.px-card-desc,
+.plan-card__subtitle,
+.footer-descripcion,
+.cmr-proceso-step p {
+  text-align: start !important;
+  text-justify: auto;
+  letter-spacing: normal;
 }
 
 .hero-texto h1,
@@ -285,14 +291,16 @@ canvas {
   border-radius: var(--radius-lg);
 }
 
-/* —— Ritmo de secciones —— */
-#problema,
-#servicios,
-#proyectos,
-#planes,
-#sobre-nosotros,
-#preguntas-frecuentes {
-  padding-block: var(--space-section-y);
+/* —— Ritmo de secciones (desktop; mobile.css controla ≤960) —— */
+@media (min-width: 961px) {
+  #problema,
+  #servicios,
+  #proyectos,
+  #planes,
+  #sobre-nosotros,
+  #preguntas-frecuentes {
+    padding-block: var(--space-section-y);
+  }
 }
 
 .problema-intro-title,
@@ -401,7 +409,7 @@ canvas {
 .faq-item p {
   font-size: var(--type-small);
   line-height: var(--lh-body);
-  max-width: none;
+  max-width: 40rem;
   text-align: justify !important;
   text-justify: inter-word;
 }
@@ -436,10 +444,18 @@ canvas {
 }
 
 .servicios-item p {
-  flex: 1 1 auto;
   font-size: var(--type-card);
   line-height: var(--lh-card);
   max-width: none;
+}
+
+.servicios-item > p:not(.servicios-item-link) {
+  flex: 1 1 auto;
+}
+
+.servicios-item-link {
+  flex: 0 0 auto;
+  margin-top: auto;
 }
 
 /* —— Problema: respeta el layout original de style.css (3 columnas) —— */
@@ -492,22 +508,22 @@ canvas {
 
 /* —— Planes —— */
 .planes-grid {
-  align-items: stretch;
+  align-items: start;
 }
 
 .plan-card {
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
 }
 
 .plan-card__features {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
 }
 
 .plan-card__cta {
   width: 100%;
-  margin-top: auto;
+  margin-top: 0.85rem;
 }
 
 .plan-card__name {
@@ -733,9 +749,14 @@ canvas {
 }
 
 @media (max-width: 960px) {
-  .servicios-container {
+  /* Grid principal de servicios: columna única. Tech grid: 2 cols (seo-extra / mobile). */
+  #servicios > .servicios-envoltura > .servicios-container {
     grid-template-columns: 1fr;
     max-width: 420px;
+  }
+
+  #tecnologias .servicios-container.cmr-tech-grid {
+    max-width: none;
   }
 
   .servicios-item p,
@@ -752,76 +773,77 @@ canvas {
     max-width: none;
   }
 
-  /* Justificado en tablet/mobile ancho: mismo alineado que desktop, sin ríos exagerados */
+  /* Leads a ancho completo: start (no justify) para evitar ríos de espacios */
+  .servicios-lead,
+  .faq-lead,
+  .problema-intro-desc,
+  .asesoramiento-lead,
+  .planes-cta__text {
+    text-align: start !important;
+    text-align-last: auto;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+  }
+
+  /* Cuerpos con medida razonable: justify + hyphens */
   .sobre-copy-texto,
   .planes-note,
-  .planes-cta__text,
   .faq-item p,
   .content-prose p,
   .content-prose li,
-  .content-lead,
-  .hero-texto > p,
-  .problema-intro-desc,
-  .servicios-item p,
-  .px-card-desc,
-  .plan-card__subtitle,
-  .footer-descripcion,
-  .cmr-proceso-step p,
-  .asesoramiento-lead {
+  .content-lead {
     text-align: justify !important;
     text-align-last: start;
     text-justify: inter-word;
-    letter-spacing: 0.005em;
+    letter-spacing: normal;
     word-spacing: normal;
     overflow-wrap: break-word;
     hyphens: auto !important;
     -webkit-hyphens: auto !important;
     -ms-hyphens: auto !important;
+    max-width: none;
   }
-}
 
-/* En columnas muy angostas justify genera huecos ilegibles: start solo aquí */
-@media (max-width: 600px) {
-  .sobre-copy-texto,
-  .planes-note,
-  .planes-cta__text,
-  .faq-item p,
-  .content-prose p,
-  .content-prose li,
-  .content-lead,
-  .hero-texto > p,
-  .problema-intro-desc,
+  /* Cuerpos cortos de cards: sin justify (evita huecos en 1–2 líneas) */
   .servicios-item p,
   .px-card-desc,
   .plan-card__subtitle,
   .footer-descripcion,
   .cmr-proceso-step p,
-  .asesoramiento-lead {
+  .hero-texto > p {
     text-align: start !important;
     text-align-last: auto;
     hyphens: none !important;
     -webkit-hyphens: none !important;
-    -ms-hyphens: none !important;
   }
 }
 
 @media (max-width: 960px) {
   .faq-head {
-    text-align: left;
-    align-items: flex-start;
+    text-align: center;
+    align-items: center;
   }
 
   .px-head,
-  .planes-head {
+  .planes-head,
+  .servicios-head,
+  .sobre-nosotros-head {
     text-align: center;
     align-items: center;
   }
 
   .faq-head h2,
-  .faq-lead {
+  .servicios-title,
+  .sobre-nosotros-head h2 {
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .faq-lead,
+  .servicios-lead {
     margin-left: 0;
     margin-right: 0;
-    text-align: start !important;
   }
 
   .px-lead,
@@ -835,6 +857,25 @@ canvas {
   .planes-cta__btn,
   .px-cta-btn {
     width: 100%;
+  }
+
+  .sobre-copy {
+    justify-content: flex-start;
+    min-height: 0;
+    height: auto;
+  }
+
+  .sobre-copy-texto {
+    line-height: 1.55 !important;
+    letter-spacing: normal !important;
+  }
+
+  .planes-cta {
+    justify-content: flex-start;
+  }
+
+  .planes-cta__copy {
+    flex: 0 0 auto;
   }
 }
 

@@ -667,6 +667,13 @@
         if (form) form.classList.add("is-inview");
     }
 
+    /* Visible ahora o ya scrolleado (p. ej. carga con #hash): no dejar opacity:0 */
+    function shouldRevealNow(el) {
+        var r = el.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+        return r.top < vh * 0.94;
+    }
+
     if (nodes.length) {
         if (reduceMotion || !("IntersectionObserver" in window)) {
             nodes.forEach(markInView);
@@ -681,10 +688,14 @@
                         io.unobserve(entry.target);
                     });
                 },
-                { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+                { root: null, rootMargin: "0px 0px -4% 0px", threshold: 0.08 }
             );
             nodes.forEach(function (el) {
-                io.observe(el);
+                if (shouldRevealNow(el)) {
+                    markInView(el);
+                } else {
+                    io.observe(el);
+                }
             });
         }
     }

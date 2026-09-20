@@ -1294,7 +1294,6 @@ body.page-asesoramiento nav a .fa-arrow-left{
         transform 0.4s var(--px-ease),
         opacity 0.35s ease,
         filter 0.35s ease;
-    will-change: transform, opacity;
 }
 
 .px-card.is-active{
@@ -1338,6 +1337,7 @@ body.page-asesoramiento nav a .fa-arrow-left{
     align-items: center;
     justify-content: center;
     width: 100%;
+    aspect-ratio: 16 / 10;
     min-height: 10.5rem;
     max-height: 15.5rem;
     padding: 0.55rem;
@@ -2240,7 +2240,8 @@ body.page-asesoramiento nav a .fa-arrow-left{
 }
 
 @media (hover: hover) and (pointer: fine){
-    .plan-card:hover{
+    .plan-card:hover,
+    .js .plan-card[data-reveal].is-inview:hover{
         transform: translateY(-8px);
         box-shadow:
             0 1px 0 rgba(255, 255, 255, 0.95) inset,
@@ -2248,11 +2249,13 @@ body.page-asesoramiento nav a .fa-arrow-left{
         border-color: rgba(56, 189, 248, 0.35);
     }
 
-    .plan-card:hover::before{
+    .plan-card:hover::before,
+    .js .plan-card[data-reveal].is-inview:hover::before{
         opacity: 1;
     }
 
-    .plan-card--featured:hover{
+    .plan-card--featured:hover,
+    .js .plan-card--featured[data-reveal].is-inview:hover{
         box-shadow:
             0 0 0 1px rgba(56, 189, 248, 0.35),
             0 28px 56px -18px rgba(40, 80, 192, 0.4),
@@ -2594,7 +2597,14 @@ body.page-asesoramiento nav a .fa-arrow-left{
     .planes-cta{
         flex-direction: column;
         align-items: stretch;
-        text-align: center;
+        justify-content: flex-start;
+        gap: 0.9rem;
+        text-align: left;
+    }
+
+    /* Evita flex-basis 16rem estirando el copy en columna */
+    .planes-cta__copy{
+        flex: 0 0 auto;
     }
 
     .planes-cta__btn{

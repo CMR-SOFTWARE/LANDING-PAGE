@@ -25,6 +25,7 @@ function cleanHtmlRoutes(): Plugin {
     "/proyectos/gestion-canchas": "/proyectos/gestion-canchas.html",
     "/proyectos/unidad-sanitaria": "/proyectos/unidad-sanitaria.html",
     "/proyectos/joby": "/proyectos/joby.html",
+    "/proyectos/canito-skin": "/proyectos/canito-skin.html",
     "/blog": "/blog/index.html",
     "/blog/software-a-medida-para-pymes": "/blog/software-a-medida-para-pymes.html",
     "/blog/automatizacion-de-procesos-empresariales":
@@ -105,6 +106,7 @@ export default defineConfig({
           new URL("./proyectos/unidad-sanitaria.html", import.meta.url),
         ),
         proyectoJoby: fileURLToPath(new URL("./proyectos/joby.html", import.meta.url)),
+        proyectoCanitoSkin: fileURLToPath(new URL("./proyectos/canito-skin.html", import.meta.url)),
         blog: fileURLToPath(new URL("./blog/index.html", import.meta.url)),
         blogSoftwareAMedida: fileURLToPath(
           new URL("./blog/software-a-medida-para-pymes.html", import.meta.url),

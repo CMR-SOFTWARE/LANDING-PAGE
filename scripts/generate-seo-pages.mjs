@@ -416,6 +416,7 @@ add("proyectos/index.html", {
         <li><a href="/proyectos/gestion-canchas">Gestión de canchas</a> — reservas y operación para clubs y complejos.</li>
         <li><a href="/proyectos/unidad-sanitaria">Unidad sanitaria</a> — panel de indicadores, patologías y seguimiento.</li>
         <li><a href="/proyectos/joby">Joby</a> — aplicación móvil publicada en Google Play.</li>
+        <li><a href="/proyectos/canito-skin">Canito Skin</a> — sitio de estética con turnos online y catálogo de productos.</li>
       </ul>
       <p>Si tenés un proyecto similar, <a href="/contacto">contactanos</a> o <a href="/asesoramiento">solicitá asesoramiento</a>.</p>
     `,
@@ -544,6 +545,36 @@ const projects = [
       <h2>Objetivo</h2>
       <p>Llevar la experiencia a dispositivos móviles con una publicación real en Google Play.</p>
       <p><a href="https://play.google.com/store/apps/details?id=com.joby.loby&pcampaignid=web_share" target="_blank" rel="noopener noreferrer">Ver en Google Play</a> · <a href="/proyectos">Más proyectos</a></p>
+    `,
+  },
+  {
+    slug: "canito-skin",
+    title: "Canito Skin | Caso CMR Software Solutions",
+    description:
+      "Sitio web de Canito Skin desarrollado por CMR Software Solutions: turnos online, tratamientos, catálogo de productos y presencia digital en San Nicolás.",
+    h1: "Canito Skin — estética y reservas online",
+    lead: "Sitio de estética con turnos online, catálogo de productos y una experiencia digital clara para clientes en San Nicolás.",
+    img: "/IMG/proyectos/canito-skin/canito1.png",
+    live: "https://www.canitoskin.com/",
+    body: `
+      <p><img src="/IMG/proyectos/canito-skin/canito1.png" alt="Hero de Canito Skin desarrollado por CMR Software Solutions" width="960" height="540" loading="lazy" decoding="async"></p>
+      <p><img src="/IMG/proyectos/canito-skin/canito2.png" alt="Tratamientos destacados en Canito Skin" width="960" height="540" loading="lazy" decoding="async"></p>
+      <p><img src="/IMG/proyectos/canito-skin/canito5.png" alt="Catálogo de productos de Canito Skin" width="960" height="540" loading="lazy" decoding="async"></p>
+      <h2>Problema</h2>
+      <p>El centro de estética necesitaba una presencia digital ordenada para mostrar tratamientos, vender productos y facilitar la reserva de turnos sin depender solo de consultas manuales.</p>
+      <h2>Solución</h2>
+      <p>Desarrollamos el sitio de <strong>Canito Skin</strong> con reservas online, catálogo de productos, secciones de trabajos y ubicación, con una identidad visual premium y usabilidad clara.</p>
+      <h2>Funcionalidades</h2>
+      <ul>
+        <li>Reserva de turnos online</li>
+        <li>Listado de tratamientos con precios y duración</li>
+        <li>Catálogo / e-commerce de productos</li>
+        <li>Galería de trabajos y resultados</li>
+        <li>Sección institucional y ubicación / contacto</li>
+      </ul>
+      <h2>Objetivo</h2>
+      <p>Digitalizar la operación del centro: más claridad para el cliente y un canal directo para turnos y ventas.</p>
+      <p><a href="https://www.canitoskin.com/" target="_blank" rel="noopener noreferrer">Ver sitio en vivo</a> · <a href="/proyectos">Volver a proyectos</a> · <a href="/servicios/desarrollo-web">Desarrollo web</a></p>
     `,
   },
 ];
@@ -751,6 +782,7 @@ const sitemapUrls = [
   ["https://cmrsoftwaresolutions.com/proyectos/gestion-canchas", "0.7", "monthly"],
   ["https://cmrsoftwaresolutions.com/proyectos/unidad-sanitaria", "0.7", "monthly"],
   ["https://cmrsoftwaresolutions.com/proyectos/joby", "0.7", "monthly"],
+  ["https://cmrsoftwaresolutions.com/proyectos/canito-skin", "0.7", "monthly"],
   ["https://cmrsoftwaresolutions.com/sobre-nosotros", "0.8", "monthly"],
   ["https://cmrsoftwaresolutions.com/contacto", "0.8", "monthly"],
   ["https://cmrsoftwaresolutions.com/asesoramiento", "0.9", "monthly"],

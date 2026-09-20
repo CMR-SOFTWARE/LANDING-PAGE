@@ -202,14 +202,43 @@
     box-sizing: border-box;
   }
 
+  .cmr-section {
+    padding-block: clamp(1.5rem, 5vw, 2.25rem);
+  }
+
   .cmr-section .servicios-head {
-    text-align: left;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .cmr-section .servicios-title {
+    text-align: center;
+    margin: 0.5rem 0 0.4rem;
   }
 
   .cmr-section .servicios-lead {
     margin-left: 0;
     margin-right: 0;
+    max-width: none;
+    width: 100%;
+    text-align: justify;
+    text-align-last: start;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: 1.55;
+    font-size: 0.9rem;
+  }
+
+  .cmr-proceso-step {
+    gap: 0.25rem;
+  }
+
+  .cmr-proceso-step p {
     text-align: start;
+    line-height: 1.5;
   }
 
   .cmr-section__cta {
