@@ -555,36 +555,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .servicios-item-icon::after,
-  .tech-flow__packet,
-  .arch-links.is-drawn path,
-  .sobre-copy-location::after,
-  .form-input-shell:focus-within::after,
-  .px-ambiance__grid,
-  .px-ambiance__orb,
-  .px-spark,
-  .code-glyph,
-  .section-ambient__grid,
-  .section-ambient__orb,
-  .section-ambient__spark,
-  .section-ambient__beam,
-  .btn-primary,
-  .btn-whatsapp,
-  .btn-nav,
-  .plan-card__cta--primary,
-  .planes-cta__btn,
-  .px-cta-btn,
-  .icono-problema,
-  .icono-excel {
-    animation: none !important;
-  }
-
-  .cmr-spotlight {
-    display: none !important;
-  }
-}
-
 /* —— Atmósfera tech reutilizable (todas las secciones) —— */
 .section-ambient {
   position: absolute;

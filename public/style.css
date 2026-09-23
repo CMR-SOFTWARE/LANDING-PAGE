@@ -4,12 +4,6 @@ html{
     scroll-behavior: smooth;
 }
 
-@media (prefers-reduced-motion: reduce){
-    html{
-        scroll-behavior: auto;
-    }
-}
-
 *{
     margin: 0;  /*elimina margenes por defecto*/
     padding: 0; /*elimina espacios por defecto*/
@@ -426,12 +420,6 @@ button:hover{
     transform: rotate(-45deg);
 }
 
-@media (prefers-reduced-motion: reduce){
-    html{
-        scroll-behavior: auto;
-    }
-}
-
 @media (min-width: 1600px){
     .container,
     .proyectos-envoltura,
@@ -543,18 +531,6 @@ button:hover{
         padding: 0.7rem 1rem;
         font-size: 0.9rem;
         border-radius: 12px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce){
-    .site-nav .nav-primary{
-        transition-duration: 0.01ms;
-    }
-
-    .nav-toggle-bars,
-    .nav-toggle-bars::before,
-    .nav-toggle-bars::after{
-        transition-duration: 0.01ms;
     }
 }
 
@@ -848,33 +824,6 @@ body.page-asesoramiento nav a .fa-arrow-left{
     box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.44),
         0 10px 24px rgba(40, 80, 192, 0.38);
-}
-
-@media (prefers-reduced-motion: reduce){
-    .problema-intro-card .tag-problem,
-    .tag-servicios,
-    .tag-proyectos,
-    .tag-planes,
-    .tag-sobre,
-    .tag-tech,
-    .tag-proceso,
-    .tag-cobertura,
-    .tag-faq{
-        transition-duration: 0.01ms;
-    }
-
-    .problema-intro-card .tag-problem:hover,
-    .tag-servicios:hover,
-    .tag-proyectos:hover,
-    .tag-planes:hover,
-    .tag-sobre:hover,
-    .tag-tech:hover,
-    .tag-proceso:hover,
-    .tag-cobertura:hover,
-    .tag-faq:hover{
-        transform: none;
-        filter: none;
-    }
 }
 
 .problema-intro-title{
@@ -1712,25 +1661,6 @@ body.page-asesoramiento nav a .fa-arrow-left{
     .px-card-title{ font-size: 0.88rem; }
 }
 
-@media (prefers-reduced-motion: reduce){
-    .px-card,
-    .px-card-frame,
-    .px-card-media img,
-    .px-card-more,
-    .px-nav,
-    .px-dot,
-    .px-cta-btn,
-    .px-viewer-backdrop,
-    .px-viewer-shell,
-    .px-viewer-canvas img,
-    #proyectos.is-viewer-open .px-head,
-    #proyectos.is-viewer-open .px-stage,
-    #proyectos.is-viewer-open .px-dots,
-    #proyectos.is-viewer-open .px-cta{
-        transition: none !important;
-    }
-}
-
 /* ========== VISOR DE PROYECTO (premium, sin recorte) ========== */
 
 .px-viewer[hidden]{
@@ -2074,14 +2004,6 @@ body.page-asesoramiento nav a .fa-arrow-left{
         flex-direction: column;
         align-items: flex-start;
         gap: 0.35rem;
-    }
-}
-
-@media (prefers-reduced-motion: reduce){
-    .px-viewer-backdrop,
-    .px-viewer-shell,
-    .px-viewer-canvas img{
-        transition: none !important;
     }
 }
 
@@ -2612,20 +2534,6 @@ body.page-asesoramiento nav a .fa-arrow-left{
     }
 }
 
-@media (prefers-reduced-motion: reduce){
-    .planes-ambiance__glow,
-    .planes-ambiance__grid,
-    [data-reveal].is-inview .plan-card__features li{
-        animation: none !important;
-    }
-
-    .plan-card,
-    .plan-card__cta,
-    .planes-cta__btn{
-        transition: none !important;
-    }
-}
-
 .sobre-nosotros{
     position: relative;
     overflow: hidden;
@@ -3101,12 +3009,6 @@ body.page-asesoramiento nav a .fa-arrow-left{
 @media (max-width: 640px){
     .form-grid{
         grid-template-columns: 1fr;
-    }
-}
-
-@media (prefers-reduced-motion: reduce){
-    .form-input-shell:focus-within{
-        filter: none;
     }
 }
 

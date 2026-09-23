@@ -1,6 +1,6 @@
 /* =============================================================================
    CMR Motion System — experiencia premium (transform/opacity only)
-   Carga después de style.css. Respeta prefers-reduced-motion.
+   Carga después de style.css.
    ============================================================================= */
 
 :root {
@@ -521,45 +521,6 @@
 .plan-card__cta:hover,
 .planes-cta__btn:hover {
   filter: brightness(1.06);
-}
-
-/* —— Reduced motion —— */
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --motion-fast: 1ms;
-    --motion-med: 1ms;
-    --motion-slow: 1ms;
-  }
-
-  .js [data-reveal],
-  .js [data-reveal].is-inview,
-  .js .hero-texto > .tag,
-  .js .hero-texto > h1,
-  .js .hero-texto > p,
-  .js .hero-actions,
-  .js .hero-img {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    animation: none !important;
-    transition: none !important;
-  }
-
-  .hero-ambiance__grid,
-  .hero-ambiance__orb,
-  .sobre-nosotros-panel::before,
-  .hero-img img {
-    animation: none !important;
-  }
-
-  .btn-primary:hover,
-  .btn-whatsapp:hover,
-  .btn-nav:hover,
-  .px-cta-btn:hover,
-  .problema-item:hover,
-  .servicios-item:hover {
-    transform: none !important;
-  }
 }
 
 @media (max-width: 768px) {

@@ -90,15 +90,6 @@
 })();
 
 (function () {
-    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    (function watchReduceMotion() {
-        var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-        function onChange(e) {
-            reduceMotion = e.matches;
-        }
-        if (typeof mq.addEventListener === "function") mq.addEventListener("change", onChange);
-        else if (typeof mq.addListener === "function") mq.addListener(onChange);
-    })();
 
     function easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -135,8 +126,6 @@
         if (!href || href === "#") return;
         var target = document.querySelector(href);
         if (!target) return;
-        if (reduceMotion) return;
-
         e.preventDefault();
         var start = window.scrollY;
         var end = target.getBoundingClientRect().top + start;
@@ -398,15 +387,6 @@
     var canvas = lb.querySelector(".px-viewer-canvas");
     var prevBtn = lb.querySelector(".px-viewer-nav--prev");
     var nextBtn = lb.querySelector(".px-viewer-nav--next");
-    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    (function watchReduceMotion() {
-        var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-        function onChange(e) {
-            reduceMotion = e.matches;
-        }
-        if (typeof mq.addEventListener === "function") mq.addEventListener("change", onChange);
-        else if (typeof mq.addListener === "function") mq.addListener(onChange);
-    })();
 
     var gallery = [];
     var index = 0;
@@ -438,7 +418,7 @@
             if (canvas) canvas.classList.remove("is-fading");
         }
 
-        if (animate && !reduceMotion && canvas) {
+        if (animate && canvas) {
             canvas.classList.add("is-fading");
             clearTimeout(fadeTimer);
             fadeTimer = setTimeout(apply, 180);
@@ -553,10 +533,6 @@
             lastFocus = null;
         };
 
-        if (reduceMotion) {
-            done();
-            return;
-        }
         setTimeout(done, 420);
     }
 
@@ -664,7 +640,6 @@
 
 /* —— Motion: scroll reveal + tilt sutil (desktop) —— */
 (function () {
-    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
@@ -691,7 +666,7 @@
     }
 
     if (nodes.length) {
-        if (reduceMotion || !("IntersectionObserver" in window)) {
+        if (!("IntersectionObserver" in window)) {
             nodes.forEach(markInView);
             var sn = document.querySelector(".sobre-nosotros");
             if (sn) sn.classList.add("is-inview");
@@ -731,7 +706,7 @@
     /* Parallax de scroll removido: la notebook flota sola vía CSS (cmr-hero-laptop-float) */
 
     /* Tilt en cards de servicios / problema (solo desktop) */
-    if (!canHover || reduceMotion) return;
+    if (!canHover) return;
 
     function bindTilt(el) {
         el.classList.add("has-tilt");
@@ -755,7 +730,6 @@
 
 /* —— Tech identity: red de nodos, magnético, ripple, spotlight —— */
 (function () {
-    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     var narrowMq = window.matchMedia("(max-width: 768px)");
     var isNarrow = narrowMq.matches;
@@ -786,16 +760,8 @@
         archIo.observe(arch);
     }
 
-    /* Canvas de constelación + microinteracciones (ripple/spotlight/magnético):
-       se gatean por prefers-reduced-motion (correcto para accesibilidad), pero
-       antes solo se leía "matches" una vez al cargar el script. Si la preferencia
-       cambia en caliente (toggle de accesibilidad del SO sin recargar, override
-       de "Emulate CSS media feature" en DevTools, o la pestaña vuelve de bfcache
-       con otro valor) la página quedaba "congelada" con el estado viejo hasta un
-       reload manual. Ahora reacciona en vivo al evento "change" de matchMedia. */
+    /* Canvas de constelación + microinteracciones (ripple/spotlight/magnético) */
     var motionExtrasStarted = false;
-    var startCanvas = function () {};
-    var stopCanvas = function () {};
 
     function initMotionExtras() {
         if (motionExtrasStarted) return;
@@ -842,7 +808,7 @@
             }
 
             function start() {
-                if (running || !inView || document.hidden || reduceMotion) return;
+                if (running || !inView || document.hidden) return;
                 running = true;
                 frame();
             }
@@ -970,14 +936,10 @@
                 if (document.hidden) stop();
                 else start();
             });
-
-            startCanvas = start;
-            stopCanvas = stop;
         }
 
         /* Ripple en click/tap (desktop + mobile) */
         document.addEventListener("click", function (e) {
-            if (reduceMotion) return;
             var btn = e.target.closest(".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn");
             if (!btn) return;
             var rect = btn.getBoundingClientRect();
@@ -1004,13 +966,6 @@
         document.addEventListener(
             "pointermove",
             function (e) {
-                if (reduceMotion) {
-                    if (spotOn) {
-                        spot.classList.remove("is-on");
-                        spotOn = false;
-                    }
-                    return;
-                }
                 var hot = e.target.closest(
                     ".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn, .servicios-item, .problema-item, .px-card.is-active .px-card-frame"
                 );
@@ -1033,7 +988,6 @@
         Array.prototype.forEach.call(document.querySelectorAll(".btn-magnetic, .px-cta-btn, .btn-nav, .plan-card__cta, .planes-cta__btn"), function (btn) {
             btn.classList.add("btn-magnetic");
             btn.addEventListener("pointermove", function (e) {
-                if (reduceMotion) return;
                 var r = btn.getBoundingClientRect();
                 var x = (e.clientX - r.left) / r.width - 0.5;
                 var y = (e.clientY - r.top) / r.height - 0.5;
@@ -1047,21 +1001,5 @@
         });
     }
 
-    if (!reduceMotion) initMotionExtras();
-
-    var reduceMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    function onReduceMotionChange(e) {
-        reduceMotion = e.matches;
-        if (reduceMotion) {
-            stopCanvas();
-        } else {
-            initMotionExtras();
-            startCanvas();
-        }
-    }
-    if (typeof reduceMq.addEventListener === "function") {
-        reduceMq.addEventListener("change", onReduceMotionChange);
-    } else if (typeof reduceMq.addListener === "function") {
-        reduceMq.addListener(onReduceMotionChange);
-    }
+    initMotionExtras();
 })();

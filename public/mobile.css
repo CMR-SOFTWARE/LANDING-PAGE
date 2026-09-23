@@ -892,11 +892,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .site-nav .nav-primary,
-  .px-card,
-  .hero-actions .btn-primary,
-  .hero-actions .btn-whatsapp {
-    transition: none !important;
-  }
-}

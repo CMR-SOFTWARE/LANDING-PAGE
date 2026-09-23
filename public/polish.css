@@ -1223,22 +1223,3 @@ a.px-viewer-link:any-link:focus-visible {
   color: #fff;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  p a:any-link,
-  li a:any-link:not(.btn-nav),
-  .sobre-copy-texto a:any-link,
-  .faq-item a:any-link,
-  .servicios-lead a:any-link,
-  .servicios-item-link a:any-link,
-  .px-card-desc a:any-link,
-  .px-cta-link:any-link,
-  .footer-mini a:any-link,
-  .footer-legal a:any-link,
-  .content-prose a:any-link,
-  .content-breadcrumb a:any-link,
-  .content-lead a:any-link,
-  .form-privacy-check a:any-link,
-  .asesoramiento-lead a:any-link {
-    transition: none;
-  }
-}
