@@ -91,6 +91,14 @@
 
 (function () {
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    (function watchReduceMotion() {
+        var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+        function onChange(e) {
+            reduceMotion = e.matches;
+        }
+        if (typeof mq.addEventListener === "function") mq.addEventListener("change", onChange);
+        else if (typeof mq.addListener === "function") mq.addListener(onChange);
+    })();
 
     function easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -391,6 +399,14 @@
     var prevBtn = lb.querySelector(".px-viewer-nav--prev");
     var nextBtn = lb.querySelector(".px-viewer-nav--next");
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    (function watchReduceMotion() {
+        var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+        function onChange(e) {
+            reduceMotion = e.matches;
+        }
+        if (typeof mq.addEventListener === "function") mq.addEventListener("change", onChange);
+        else if (typeof mq.addListener === "function") mq.addListener(onChange);
+    })();
 
     var gallery = [];
     var index = 0;
@@ -770,60 +786,73 @@
         archIo.observe(arch);
     }
 
-    if (reduceMotion) return;
+    /* Canvas de constelación + microinteracciones (ripple/spotlight/magnético):
+       se gatean por prefers-reduced-motion (correcto para accesibilidad), pero
+       antes solo se leía "matches" una vez al cargar el script. Si la preferencia
+       cambia en caliente (toggle de accesibilidad del SO sin recargar, override
+       de "Emulate CSS media feature" en DevTools, o la pestaña vuelve de bfcache
+       con otro valor) la página quedaba "congelada" con el estado viejo hasta un
+       reload manual. Ahora reacciona en vivo al evento "change" de matchMedia. */
+    var motionExtrasStarted = false;
+    var startCanvas = function () {};
+    var stopCanvas = function () {};
 
-    /* Constellation canvas en hero (también móvil, con carga reducida) */
-    var canvas = document.querySelector("[data-hero-net]");
-    if (canvas && canvas.getContext) {
-        var ctx = canvas.getContext("2d");
-        var nodes = [];
-        var mouse = { x: -9999, y: -9999 };
-        var raf = 0;
-        var running = false;
-        var inView = true;
-        var frameSkip = 0;
-        var linkDist = isNarrow ? 100 : 130;
-        var attractR = isNarrow ? 100 : 140;
+    function initMotionExtras() {
+        if (motionExtrasStarted) return;
+        motionExtrasStarted = true;
 
-        function resize() {
-            var parent = canvas.parentElement;
-            var w = parent.clientWidth;
-            var h = parent.clientHeight;
-            var dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.25 : 2);
-            canvas.width = Math.floor(w * dpr);
-            canvas.height = Math.floor(h * dpr);
-            canvas.style.width = w + "px";
-            canvas.style.height = h + "px";
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            seed(w, h);
-        }
+        /* Constellation canvas en hero (también móvil, con carga reducida) */
+        var canvas = document.querySelector("[data-hero-net]");
+        if (canvas && canvas.getContext) {
+            var ctx = canvas.getContext("2d");
+            var nodes = [];
+            var mouse = { x: -9999, y: -9999 };
+            var raf = 0;
+            var running = false;
+            var inView = true;
+            var frameSkip = 0;
+            var linkDist = isNarrow ? 100 : 130;
+            var attractR = isNarrow ? 100 : 140;
 
-        function seed(w, h) {
-            var count = w < 480 ? 12 : w < 900 ? 18 : 28;
-            nodes = [];
-            for (var i = 0; i < count; i++) {
-                nodes.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * (isNarrow ? 0.18 : 0.25),
-                    vy: (Math.random() - 0.5) * (isNarrow ? 0.18 : 0.25),
-                    r: 1.1 + Math.random() * (isNarrow ? 1.1 : 1.4),
-                });
+            function resize() {
+                var parent = canvas.parentElement;
+                var w = parent.clientWidth;
+                var h = parent.clientHeight;
+                var dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.25 : 2);
+                canvas.width = Math.floor(w * dpr);
+                canvas.height = Math.floor(h * dpr);
+                canvas.style.width = w + "px";
+                canvas.style.height = h + "px";
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                seed(w, h);
             }
-        }
 
-        function start() {
-            if (running || !inView || document.hidden) return;
-            running = true;
-            frame();
-        }
+            function seed(w, h) {
+                var count = w < 480 ? 12 : w < 900 ? 18 : 28;
+                nodes = [];
+                for (var i = 0; i < count; i++) {
+                    nodes.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        vx: (Math.random() - 0.5) * (isNarrow ? 0.18 : 0.25),
+                        vy: (Math.random() - 0.5) * (isNarrow ? 0.18 : 0.25),
+                        r: 1.1 + Math.random() * (isNarrow ? 1.1 : 1.4),
+                    });
+                }
+            }
 
-        function stop() {
-            running = false;
-            cancelAnimationFrame(raf);
-        }
+            function start() {
+                if (running || !inView || document.hidden || reduceMotion) return;
+                running = true;
+                frame();
+            }
 
-        function frame() {
+            function stop() {
+                running = false;
+                cancelAnimationFrame(raf);
+            }
+
+            function frame() {
             if (!running) return;
             /* En móvil: ~30fps equivalentes saltando un frame */
             if (isNarrow) {
@@ -937,71 +966,102 @@
             );
         }
 
-        document.addEventListener("visibilitychange", function () {
-            if (document.hidden) stop();
-            else start();
+            document.addEventListener("visibilitychange", function () {
+                if (document.hidden) stop();
+                else start();
+            });
+
+            startCanvas = start;
+            stopCanvas = stop;
+        }
+
+        /* Ripple en click/tap (desktop + mobile) */
+        document.addEventListener("click", function (e) {
+            if (reduceMotion) return;
+            var btn = e.target.closest(".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn");
+            if (!btn) return;
+            var rect = btn.getBoundingClientRect();
+            var ripple = document.createElement("span");
+            ripple.className = "cmr-ripple";
+            var size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + "px";
+            ripple.style.left = e.clientX - rect.left - size / 2 + "px";
+            ripple.style.top = e.clientY - rect.top - size / 2 + "px";
+            btn.appendChild(ripple);
+            setTimeout(function () {
+                ripple.remove();
+            }, 560);
+        });
+
+        if (!canHover) return;
+
+        /* Spotlight suave solo con pointer fino */
+        var spot = document.createElement("div");
+        spot.className = "cmr-spotlight";
+        document.body.appendChild(spot);
+        var spotOn = false;
+
+        document.addEventListener(
+            "pointermove",
+            function (e) {
+                if (reduceMotion) {
+                    if (spotOn) {
+                        spot.classList.remove("is-on");
+                        spotOn = false;
+                    }
+                    return;
+                }
+                var hot = e.target.closest(
+                    ".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn, .servicios-item, .problema-item, .px-card.is-active .px-card-frame"
+                );
+                if (hot) {
+                    spot.style.left = e.clientX + "px";
+                    spot.style.top = e.clientY + "px";
+                    if (!spotOn) {
+                        spot.classList.add("is-on");
+                        spotOn = true;
+                    }
+                } else if (spotOn) {
+                    spot.classList.remove("is-on");
+                    spotOn = false;
+                }
+            },
+            { passive: true }
+        );
+
+        /* Magnético en CTAs */
+        Array.prototype.forEach.call(document.querySelectorAll(".btn-magnetic, .px-cta-btn, .btn-nav, .plan-card__cta, .planes-cta__btn"), function (btn) {
+            btn.classList.add("btn-magnetic");
+            btn.addEventListener("pointermove", function (e) {
+                if (reduceMotion) return;
+                var r = btn.getBoundingClientRect();
+                var x = (e.clientX - r.left) / r.width - 0.5;
+                var y = (e.clientY - r.top) / r.height - 0.5;
+                btn.style.setProperty("--mx", (x * 8).toFixed(2) + "px");
+                btn.style.setProperty("--my", (y * 6).toFixed(2) + "px");
+            });
+            btn.addEventListener("pointerleave", function () {
+                btn.style.setProperty("--mx", "0px");
+                btn.style.setProperty("--my", "0px");
+            });
         });
     }
 
-    /* Ripple en click/tap (desktop + mobile) */
-    document.addEventListener("click", function (e) {
-        var btn = e.target.closest(".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn");
-        if (!btn) return;
-        var rect = btn.getBoundingClientRect();
-        var ripple = document.createElement("span");
-        ripple.className = "cmr-ripple";
-        var size = Math.max(rect.width, rect.height);
-        ripple.style.width = ripple.style.height = size + "px";
-        ripple.style.left = e.clientX - rect.left - size / 2 + "px";
-        ripple.style.top = e.clientY - rect.top - size / 2 + "px";
-        btn.appendChild(ripple);
-        setTimeout(function () {
-            ripple.remove();
-        }, 560);
-    });
+    if (!reduceMotion) initMotionExtras();
 
-    if (!canHover) return;
-
-    /* Spotlight suave solo con pointer fino */
-    var spot = document.createElement("div");
-    spot.className = "cmr-spotlight";
-    document.body.appendChild(spot);
-    var spotOn = false;
-
-    document.addEventListener(
-        "pointermove",
-        function (e) {
-            var hot = e.target.closest(
-                ".btn-primary, .btn-whatsapp, .btn-nav, .px-cta-btn, .plan-card__cta, .planes-cta__btn, .servicios-item, .problema-item, .px-card.is-active .px-card-frame"
-            );
-            if (hot) {
-                spot.style.left = e.clientX + "px";
-                spot.style.top = e.clientY + "px";
-                if (!spotOn) {
-                    spot.classList.add("is-on");
-                    spotOn = true;
-                }
-            } else if (spotOn) {
-                spot.classList.remove("is-on");
-                spotOn = false;
-            }
-        },
-        { passive: true }
-    );
-
-    /* Magnético en CTAs */
-    Array.prototype.forEach.call(document.querySelectorAll(".btn-magnetic, .px-cta-btn, .btn-nav, .plan-card__cta, .planes-cta__btn"), function (btn) {
-        btn.classList.add("btn-magnetic");
-        btn.addEventListener("pointermove", function (e) {
-            var r = btn.getBoundingClientRect();
-            var x = (e.clientX - r.left) / r.width - 0.5;
-            var y = (e.clientY - r.top) / r.height - 0.5;
-            btn.style.setProperty("--mx", (x * 8).toFixed(2) + "px");
-            btn.style.setProperty("--my", (y * 6).toFixed(2) + "px");
-        });
-        btn.addEventListener("pointerleave", function () {
-            btn.style.setProperty("--mx", "0px");
-            btn.style.setProperty("--my", "0px");
-        });
-    });
+    var reduceMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function onReduceMotionChange(e) {
+        reduceMotion = e.matches;
+        if (reduceMotion) {
+            stopCanvas();
+        } else {
+            initMotionExtras();
+            startCanvas();
+        }
+    }
+    if (typeof reduceMq.addEventListener === "function") {
+        reduceMq.addEventListener("change", onReduceMotionChange);
+    } else if (typeof reduceMq.addListener === "function") {
+        reduceMq.addListener(onReduceMotionChange);
+    }
 })();
