@@ -146,6 +146,3 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce){
-    .btn-spinner{ animation: none; }
-}
