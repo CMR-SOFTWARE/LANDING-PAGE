@@ -33,6 +33,9 @@
     { "source": "/blog/desarrollo-web-en-san-nicolas.html", "destination": "/blog/desarrollo-web-en-san-nicolas", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/portal/", "destination": "https://gestion-cmr.vercel.app/portal.html" },
+    { "source": "/portal", "destination": "https://gestion-cmr.vercel.app/portal.html" },
+    { "source": "/portal/:path+", "destination": "https://gestion-cmr.vercel.app/:path+" },
     { "source": "/asesoramiento", "destination": "/asesoramiento.html" },
     { "source": "/privacidad", "destination": "/privacidad.html" },
     { "source": "/cookies", "destination": "/cookies.html" },
