@@ -110,7 +110,9 @@ export async function crearContratacion({ body, headers, db, client, env, log = 
     orden = await client.createOrder(order, { idempotencyKey: `servicio-${id}` });
     if (!esUrlDeMercadoPago(orden.checkoutUrl)) throw new Error(`checkoutUrl fuera de Mercado Pago: ${orden.checkoutUrl}`);
   } catch (e) {
-    log.error?.(`[mp] contratación ${id}: no se pudo crear la orden de pago:`, e.message);
+    // status y detail son el código HTTP y el código de error de Mercado Pago (sin datos sensibles).
+    log.error?.(`[mp] contratación ${id}: no se pudo crear la orden de pago:`, e.message,
+      JSON.stringify({ status: e.status ?? null, detail: e.detail ?? null }));
     // Sin orden la contratación no sirve: se CANCELA (cambio de estado), nunca se borra.
     await db.updateContratacion(id, { estado: "cancelada", mp_status: "order_error" });
     return { status: 502, body: { error: "No pudimos iniciar el pago. Probá de nuevo en unos minutos." } };

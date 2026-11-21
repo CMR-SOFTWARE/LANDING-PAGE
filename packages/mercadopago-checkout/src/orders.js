@@ -82,6 +82,16 @@ function buildOrder({ reference, items, backUrls, payerEmail, expiration }) {
   return order;
 }
 
+// Resume la respuesta de error de Mercado Pago para el log del servidor:
+// { errors: [{ code, message, details: [...] }] } -> "required_properties: falta X (payer.email)".
+function describeErrors(data) {
+  if (Array.isArray(data?.errors) && data.errors.length) {
+    return data.errors.map((e) => [e.code, e.message, Array.isArray(e.details) ? e.details.join(", ") : null]
+      .filter(Boolean).join(": ")).join(" | ").slice(0, 500);
+  }
+  return data?.message || data?.error || null;
+}
+
 // Cliente de la API de Orders. El token va SOLO en el encabezado Authorization.
 function createOrdersClient({ accessToken, fetch: fetchImpl, timeoutMs = 15000 } = {}) {
   if (!accessToken) throw new TypeError("createOrdersClient: falta accessToken.");
@@ -109,7 +119,7 @@ function createOrdersClient({ accessToken, fetch: fetchImpl, timeoutMs = 15000 }
       const r = await call("/v1/orders", { method: "POST", body: order, idempotencyKey: key });
       if (!r.ok || !r.data?.id || !r.data?.checkout_url) {
         throw new MercadoPagoError(`Mercado Pago rechazó la orden (HTTP ${r.status}).`, {
-          code: "MP_ORDER", status: r.status, detail: r.data?.message || r.data?.errors?.[0]?.code || r.data?.error || null,
+          code: "MP_ORDER", status: r.status, detail: describeErrors(r.data),
         });
       }
       return { id: String(r.data.id), checkoutUrl: r.data.checkout_url, status: r.data.status };
