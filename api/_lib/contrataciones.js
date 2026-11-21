@@ -97,7 +97,8 @@ export async function crearContratacion({ body, headers, db, client, env, log = 
   const id = Number(contratacion.id);
 
   const baseUrl = mp.resolveBaseUrl({ fixedUrl: env.PUBLIC_BASE_URL, headers });
-  const volver = (resultado) => mp.withQuery(`${baseUrl}/#planes`, { mp: resultado, contratacion: id });
+  // Sin "#" en la URL de vuelta (Mercado Pago puede rechazarla); la página baja sola a #planes.
+  const volver = (resultado) => mp.withQuery(`${baseUrl}/`, { mp: resultado, contratacion: id });
 
   let orden;
   try {
@@ -114,7 +115,9 @@ export async function crearContratacion({ body, headers, db, client, env, log = 
     log.error?.(`[mp] contratación ${id}: no se pudo crear la orden de pago:`, e.message,
       JSON.stringify({ status: e.status ?? null, detail: e.detail ?? null }));
     // Sin orden la contratación no sirve: se CANCELA (cambio de estado), nunca se borra.
-    await db.updateContratacion(id, { estado: "cancelada", mp_status: "order_error" });
+    // El motivo queda en la base para poder diagnosticarlo sin buscar en los logs.
+    const motivo = [e.status, e.detail].filter(Boolean).join(" ").slice(0, 300);
+    await db.updateContratacion(id, { estado: "cancelada", mp_status: motivo ? `order_error: ${motivo}` : "order_error" });
     return { status: 502, body: { error: "No pudimos iniciar el pago. Probá de nuevo en unos minutos." } };
   }
 

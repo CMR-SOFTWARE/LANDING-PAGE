@@ -135,8 +135,8 @@ test("crea la contratación PENDIENTE y la ORDEN con el precio de la BASE, no el
   assert.equal(orden.external_reference, `servicio:${id}`);
   assert.equal(orden.total_amount, "80000.00");
   assert.equal(orden.items[0].unit_price, "80000.00");
-  assert.equal(orden.config.online.success_url, `https://cmrsoftwaresolutions.com/?mp=ok&contratacion=${id}#planes`);
-  assert.equal(orden.config.online.pending_url, `https://cmrsoftwaresolutions.com/?mp=pendiente&contratacion=${id}#planes`);
+  assert.equal(orden.config.online.success_url, `https://cmrsoftwaresolutions.com/?mp=ok&contratacion=${id}`);
+  assert.equal(orden.config.online.pending_url, `https://cmrsoftwaresolutions.com/?mp=pendiente&contratacion=${id}`);
   assert.deepEqual(orden.payer, { email: "ana@example.com" });
   assert.deepEqual(idempotencias, [`servicio-${id}`]);
 });
@@ -222,7 +222,7 @@ test("si Mercado Pago está caído: 502 y la contratación queda CANCELADA, no b
   assert.equal(r.status, 502);
   const [c] = [...contrataciones.values()];
   assert.ok(c, "la contratación sigue existiendo");
-  assert.deepEqual([c.estado, c.monto, c.mp_status], ["cancelada", 140000, "order_error"]);
+  assert.deepEqual([c.estado, c.monto, c.mp_status], ["cancelada", 140000, "order_error: 500 internal_error"]);
 });
 
 test("si Mercado Pago devuelve un enlace fuera de su dominio: 502 y cancelada", async () => {

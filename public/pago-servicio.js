@@ -61,7 +61,10 @@
     params.delete("mp");
     params.delete("contratacion");
     var qs = params.toString();
-    history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+    history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : "") + (window.location.hash || "#planes"));
+    // La vuelta de Mercado Pago llega sin "#": se baja a los planes.
+    var planes = document.getElementById("planes");
+    if (planes && planes.scrollIntoView) planes.scrollIntoView();
   }
 
   function crearDialogo() {
