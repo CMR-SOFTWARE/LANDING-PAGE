@@ -139,6 +139,7 @@
       '<form method="dialog" class="mp-form" novalidate>' +
       '<h3 class="mp-form__titulo">Contratar <span data-mp-nombre></span></h3>' +
       '<p class="mp-form__monto">Pago único de 1 mes: <strong data-mp-precio></strong></p>' +
+      '<p class="mp-form__nota">Pagando con Mercado Pago, el precio incluye el costo del cobro.</p>' +
       '<label>Nombre y apellido<input name="nombre" autocomplete="name" required minlength="2" maxlength="120"></label>' +
       '<label>Email<input name="email" type="email" autocomplete="email" required maxlength="160"></label>' +
       '<label>Teléfono (opcional)<input name="telefono" type="tel" autocomplete="tel" maxlength="40"></label>' +

@@ -58,7 +58,9 @@ Navegador vuelve a /?mp=ok|error|pendiente&contratacion=<id>&servicio=<slug> →
 6. **Prueba**: contratar en el preview, pagar en ventana de incógnito con tarjeta de prueba (titular `APRO` aprueba, `OTHE` rechaza) y verificar en `public.contrataciones` que quede `confirmada`, con `mp_order_id` y `paid_at`.
 7. Recién después: token real en Production + webhook productivo.
 
-**Cambiar un precio**: `update public.servicios set precio = 90000 where slug = 'plan-web';` y actualizar también el texto de la tarjeta en `index.html` (se cobra lo que diga la base).
+**Precio con Mercado Pago**: `public.servicios.precio` es lo que se cobra **pagando con Mercado Pago**, que incluye el costo del cobro. Hoy son $88.000 (Plan Web) y $154.000 (Plan Gestión): para recibir $80.000 y $140.000 con la tasa de Checkout "en el momento" (6,60% + IVA = 7,99%), redondeado hacia arriba para cubrir la retención de Ingresos Brutos. La tarjeta del plan sigue mostrando el precio base ($80.000 / $140.000). El precio con Mercado Pago se muestra en el botón (`data-servicio-precio`) y el formulario aclara que incluye el costo del cobro. Cuenta para recalcular: `precio = lo que querés recibir / (1 − tasa × 1,21)`.
+
+**Cambiar un precio**: `update public.servicios set precio = 90000 where slug = 'plan-web';` y actualizar también `data-servicio-precio` del botón en `index.html` (se cobra lo que diga la base).
 **Dejar de vender un plan**: `update public.servicios set activo = false where slug = '...';` (no se borra).
 
 ## Verificado con un pago de prueba real (2026-11-21, preview de la rama)
