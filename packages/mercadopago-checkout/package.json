@@ -1,0 +1,14 @@
+{
+  "name": "@cmr/mercadopago-checkout",
+  "version": "0.1.0",
+  "description": "Cobro con Mercado Pago (Checkout Pro) para tiendas y reservas: sin dependencias, para Express y Next.js.",
+  "private": true,
+  "main": "src/index.js",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  }
+}

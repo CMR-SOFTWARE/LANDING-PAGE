@@ -56,7 +56,10 @@
         <link rel="stylesheet" href="/mobile.css">
         <link rel="stylesheet" href="/polish.css">
         <link rel="stylesheet" href="/seo-extra.css">
+        <link rel="stylesheet" href="/pago-servicio.css">
         <script src="/main.js" defer></script>
+        <script src="/vendor/qrcode-generator-1.4.4.js" defer></script>
+        <script src="/pago-servicio.js" defer></script>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
         <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet"></noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
@@ -960,6 +963,7 @@
                                     <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Soporte técnico</span></li>
                                 </ul>
                                 <a href="/asesoramiento" class="plan-card__cta btn-magnetic js-goto-asesoramiento">Solicitar asesoramiento</a>
+                                <button type="button" class="plan-card__cta plan-card__cta--mp js-mp-pagar" data-servicio="plan-web" data-servicio-nombre="Plan Web" data-servicio-precio="AR$ 80.000" hidden>Pagar con Mercado Pago</button>
                             </article>
 
                             <article class="plan-card plan-card--featured" data-reveal="up" style="--stagger:2" aria-label="Plan Gestión, más completo">
@@ -983,6 +987,7 @@
                                     <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Reportes y ventas</span></li>
                                 </ul>
                                 <a href="/asesoramiento" class="plan-card__cta plan-card__cta--primary btn-magnetic js-goto-asesoramiento">Solicitar asesoramiento</a>
+                                <button type="button" class="plan-card__cta plan-card__cta--mp js-mp-pagar" data-servicio="plan-gestion" data-servicio-nombre="Plan Gestión" data-servicio-precio="AR$ 140.000" hidden>Pagar con Mercado Pago</button>
                             </article>
                         </div>
 
