@@ -189,4 +189,41 @@ export const POST = nextOrdersWebhook({
 | `notification_url` en la preferencia | URL del aviso en el **panel** (Tus integraciones → app → Webhooks) |
 | aprobado = `approved` | aprobado = `processed` + `accredited` + total pagado completo (`orderAsPayment`) |
 
-**No verificado con un pago real todavía:** el nombre exacto del tema del aviso (por eso se aceptan los tres) y si existe un campo de la orden para la URL del aviso (la documentación no lo nombra).
+**Verificado con un pago real** (landing CMR, 2026-11-21, credenciales de prueba): la orden se crea, el aviso llega con el evento **"Order (Mercado Pago)"** configurado en el panel y la contratación se confirma. Detalles aprendidos ahí:
+
+- `external_reference` **no acepta ":"**: `buildOrder` manda `servicio-12` y `orderAsPayment` lo vuelve a `servicio:12` (no hace falta hacer nada).
+- `GET /v1/orders/{id}` con un id inventado devuelve **400**, no 404: `getOrder` lo trata como orden inexistente.
+- Si Mercado Pago rechaza la orden, `e.status` y `e.detail` traen el motivo: guardalo en tu base para poder verlo (los logs de Vercel duran poco).
+- Sigue sin confirmar si la orden tiene un campo para la URL del aviso: se configura en el panel.
+
+## Replicarlo completo en otra app (ej. Canito Skin)
+
+Lo que se armó en la landing de CMR, para copiar. Cada proyecto es independiente: se **copia**, no se comparte.
+
+| Pieza | De dónde (repo LANDING-PAGE) | Qué cambiar |
+|-------|------------------------------|-------------|
+| Módulo de pagos | `packages/mercadopago-checkout/` | Nada. Copiarlo entero. |
+| Tablas | `supabase/migrations/2026112112*.sql` | Usarlas de molde: tu tabla de pedidos necesita `estado`, `monto`, `mp_order_id` (único), `mp_status`, `paid_at`. Sin DELETE para el servidor. |
+| Lógica del cobro | `api/_lib/contrataciones.js` | Molde del "store" y de crear el cobro: el precio sale de TU base, nace `pendiente`, si Mercado Pago falla queda `cancelada` y se guarda el motivo. Cambiar `REFERENCIA` (ej. `"order"` para el market, `"turno"` para turnos). |
+| Endpoints | `api/checkout.js`, `api/mp/webhook.js` | En Next.js van en `app/api/.../route.js` con el mismo código (`export const POST = ...`). |
+| Regla "solo Mercado Pago" | `api/_lib/mp-url.js` | Nada. |
+| Botón, formulario, QR y aviso de vuelta | `public/pago-servicio.js` + `.css` | `WHATSAPP_CMR` (número del cliente), los textos y los `data-servicio*` de los botones. En React se puede copiar la lógica (`esUrlDeMercadoPago`, `matrizQR`, `dibujarQR`, `linkWhatsApp`) a un componente. |
+| Librería del QR | `public/vendor/qrcode-generator-1.4.4.js` | Nada (MIT, sin dependencias). Cargarla antes del script del botón. |
+| Tests | `test/pago-servicio.test.js`, `test/mp-url.test.js` | Molde: Mercado Pago y la base simulados. |
+| Guía de puesta en marcha | `docs/PAGOS-MERCADOPAGO.md` | Pasos de Supabase, Vercel y el panel de Mercado Pago. |
+
+**Pagar con QR**: el QR lleva al **mismo** checkout de Mercado Pago (no es el QR "de caja" de Mercado Pago). El cliente lo escanea con el celular y paga ahí; el aviso y la confirmación son los mismos. El QR solo se dibuja si el link es de Mercado Pago.
+
+**WhatsApp**: al volver con el pago aprobado o pendiente aparece "Mandar comprobante por WhatsApp" con el plan y el número de pedido. El nombre del plan se toma de la página, nunca del texto de la URL. Lo toca el cliente: no es un aviso automático.
+
+## Cuando el cliente no es desarrollador: que solo conecte su cuenta
+
+Hay dos formas. En las dos, **la plata va a la cuenta de Mercado Pago del cliente**, y el desarrollo lo hace CMR.
+
+1. **Credenciales del cliente, cargadas por CMR** (lo que hay hoy, sin código nuevo). Una sola vez, en una llamada compartiendo pantalla: el cliente entra a *Mercado Pago Developers* con SU cuenta, crea la aplicación (Checkout Pro, API de Orders) y pega el Access Token **él mismo** en Vercel (o CMR lo carga ahí, sin pasarlo por chat ni mail). Contra: el cliente ve el panel de desarrollador una vez, y si el token se filtra hay que regenerarlo.
+2. **"Conectar Mercado Pago" con OAuth** (a construir). CMR tiene UNA aplicación; el cliente toca un botón en su panel, inicia sesión en Mercado Pago y toca "Autorizar". Nunca ve credenciales. Hace falta:
+   - una URL de vuelta;
+   - guardar sus tokens cifrados en la base;
+   - renovarlos antes de que venzan. El `access_token` dura 180 días; hay que pedir `offline_access` y guardar el `refresh_token` nuevo en cada renovación.
+
+   Bonus: permite cobrarle a CMR una comisión por venta (`marketplace_fee`). Sirve para varios clientes (CMR Nexo, canchas).

@@ -21,6 +21,8 @@ Navegador vuelve a /?mp=ok|error|pendiente&contratacion=<id>&servicio=<slug> →
 ```
 
 - Al volver con `mp=ok` o `mp=pendiente`, el cartel trae un botón **"Mandar comprobante por WhatsApp"** que abre `wa.me/5493364578599` con el mensaje armado ("pagué el Plan Web (contratación N° X)"). La vuelta trae `&servicio=<slug>`; el nombre del plan se toma del botón de ese plan en la página, nunca del texto de la URL. Lo toca el cliente: no es automático. Mercado Pago, aparte, le manda el comprobante por mail.
+- En el formulario, **"Prefiero pagar con QR desde el celular"** muestra un QR del mismo checkout de Mercado Pago (para quien entra desde la compu). El QR se dibuja en el navegador con `public/vendor/qrcode-generator-1.4.4.js` (MIT): el link de pago no pasa por ningún servicio externo. Si el link no es de Mercado Pago o falta la librería, no hay QR y se va a pagar como siempre.
+- Para replicar todo en otra app (ej. Canito): ver "Replicarlo completo en otra app" en `packages/mercadopago-checkout/README.md`.
 - Si Mercado Pago falla al crear la orden: la contratación queda **cancelada** (no se borra) y se responde 502.
 - Reembolso total o contracargo → la contratación pasa a **cancelada**.
 - Nada se borra: la base no le da permiso de DELETE ni al servidor.

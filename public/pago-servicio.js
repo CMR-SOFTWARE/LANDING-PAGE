@@ -100,6 +100,38 @@
     if (planes && planes.scrollIntoView) planes.scrollIntoView();
   }
 
+  // Matriz del QR de un link de Mercado Pago (null si el link no es de Mercado Pago o falta la librería).
+  // Usa qrcode-generator 1.4.4 (public/vendor, MIT), que se carga antes que este script.
+  function matrizQR(url) {
+    if (!esUrlDeMercadoPago(url) || typeof window.qrcode !== "function") return null;
+    var qr = window.qrcode(0, "M"); // 0 = tamaño automático; M = corrección de errores media
+    qr.addData(String(url));
+    qr.make();
+    var n = qr.getModuleCount();
+    var filas = [];
+    for (var r = 0; r < n; r++) {
+      var fila = [];
+      for (var c = 0; c < n; c++) fila.push(qr.isDark(r, c));
+      filas.push(fila);
+    }
+    return filas;
+  }
+
+  function dibujarQR(canvas, filas) {
+    var n = filas.length + 8; // 4 módulos de margen blanco por lado (lo pide el estándar)
+    var tam = Math.floor(canvas.width / n);
+    var ctx = canvas.getContext("2d");
+    var off = Math.floor((canvas.width - tam * n) / 2);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#000";
+    filas.forEach(function (fila, r) {
+      fila.forEach(function (oscuro, c) {
+        if (oscuro) ctx.fillRect(off + (c + 4) * tam, off + (r + 4) * tam, tam, tam);
+      });
+    });
+  }
+
   function crearDialogo() {
     var d = document.createElement("dialog");
     d.className = "mp-dialogo";
@@ -115,8 +147,19 @@
       '<button type="button" class="mp-form__cancelar" value="cancel">Cancelar</button>' +
       '<button type="submit" class="mp-form__pagar">Ir a pagar a Mercado Pago</button>' +
       "</div>" +
+      '<button type="submit" class="mp-form__qr" data-modo="qr">Prefiero pagar con QR desde el celular</button>' +
       '<p class="mp-form__nota">Vas a pagar en el sitio de Mercado Pago. Nosotros no vemos los datos de tu tarjeta.</p>' +
-      "</form>";
+      "</form>" +
+      '<div class="mp-qr" hidden>' +
+      '<h3 class="mp-form__titulo">Escaneá con el celular</h3>' +
+      '<p class="mp-qr__texto">Abrí la cámara o la app de Mercado Pago y escaneá el código. Vas a pagar <strong data-mp-precio></strong>.</p>' +
+      '<canvas class="mp-qr__codigo" width="264" height="264" role="img" aria-label="Código QR para pagar con Mercado Pago"></canvas>' +
+      '<p class="mp-form__nota">Cuando Mercado Pago acredite el pago te llega la confirmación por mail.</p>' +
+      '<div class="mp-form__acciones">' +
+      '<button type="button" class="mp-form__cancelar mp-qr__cerrar">Cerrar</button>' +
+      '<a class="mp-form__pagar mp-qr__link" rel="noopener">Pagar en esta pantalla</a>' +
+      "</div>" +
+      "</div>";
     document.body.appendChild(d);
     return d;
   }
@@ -126,7 +169,28 @@
     var form = dialogo.querySelector("form");
     var error = dialogo.querySelector(".mp-form__error");
     var pagar = dialogo.querySelector(".mp-form__pagar");
+    var botonQR = dialogo.querySelector(".mp-form__qr");
+    var panelQR = dialogo.querySelector(".mp-qr");
     var servicio = null;
+
+    function verFormulario() {
+      form.hidden = false;
+      panelQR.hidden = true;
+    }
+
+    // Devuelve false si no se pudo dibujar (el que llama redirige como siempre).
+    function verQR(url) {
+      var filas = matrizQR(url);
+      if (!filas) return false;
+      dibujarQR(panelQR.querySelector("canvas"), filas);
+      panelQR.querySelector(".mp-qr__link").href = url;
+      form.hidden = true;
+      panelQR.hidden = false;
+      return true;
+    }
+
+    panelQR.querySelector(".mp-qr__cerrar").addEventListener("click", function () { dialogo.close(); });
+    dialogo.addEventListener("close", verFormulario);
 
     function mostrarError(msg) {
       error.textContent = msg;
@@ -140,7 +204,10 @@
       b.addEventListener("click", function () {
         servicio = b.getAttribute("data-servicio");
         dialogo.querySelector("[data-mp-nombre]").textContent = b.getAttribute("data-servicio-nombre") || "";
-        dialogo.querySelector("[data-mp-precio]").textContent = b.getAttribute("data-servicio-precio") || "";
+        dialogo.querySelectorAll("[data-mp-precio]").forEach(function (el) {
+          el.textContent = b.getAttribute("data-servicio-precio") || "";
+        });
+        verFormulario();
         mostrarError("");
         dialogo.showModal();
       });
@@ -150,8 +217,10 @@
       ev.preventDefault();
       if (!form.reportValidity()) return;
       var datos = new FormData(form);
+      var conQR = !!(ev.submitter && ev.submitter.getAttribute("data-modo") === "qr");
       pagar.disabled = true;
-      pagar.textContent = "Generando enlace…";
+      botonQR.disabled = true;
+      (conQR ? botonQR : pagar).textContent = conQR ? "Generando QR…" : "Generando enlace…";
       mostrarError("");
       fetch("/api/checkout", {
         method: "POST",
@@ -168,6 +237,8 @@
         })
         .then(function (r) {
           if (r.ok && esUrlDeMercadoPago(r.data.checkoutUrl)) {
+            // Con QR se muestra el código; si no se pudo dibujar, se va a pagar como siempre.
+            if (conQR && verQR(r.data.checkoutUrl)) return;
             window.location.assign(r.data.checkoutUrl);
             return;
           }
@@ -176,7 +247,9 @@
         .catch(function () { mostrarError("No hay conexión. Probá de nuevo."); })
         .finally(function () {
           pagar.disabled = false;
+          botonQR.disabled = false;
           pagar.textContent = "Ir a pagar a Mercado Pago";
+          botonQR.textContent = "Prefiero pagar con QR desde el celular";
         });
     });
   }
@@ -191,7 +264,7 @@
       .catch(function () { /* sin servidor (p. ej. vite dev): los botones siguen ocultos */ });
   }
 
-  window.CMRPagoServicio = { esUrlDeMercadoPago: esUrlDeMercadoPago, linkWhatsApp: linkWhatsApp };
+  window.CMRPagoServicio = { esUrlDeMercadoPago: esUrlDeMercadoPago, linkWhatsApp: linkWhatsApp, matrizQR: matrizQR };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();

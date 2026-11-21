@@ -61,7 +61,8 @@
 .mp-form input:focus-visible { outline: 2px solid var(--mp-azul); outline-offset: 1px; }
 .mp-form__error { margin: 0; color: var(--mp-error); font-size: 0.9rem; }
 .mp-form__acciones { display: flex; gap: 0.6rem; justify-content: flex-end; flex-wrap: wrap; }
-.mp-form__acciones button {
+.mp-form__acciones button,
+.mp-form__acciones a {
   font: inherit;
   font-weight: 600;
   border-radius: 8px;
@@ -115,3 +116,23 @@
 }
 .mp-aviso__wsp:hover,
 .mp-aviso__wsp:focus-visible { background: #1ebe5a; }
+
+/* Pago con QR (el QR lleva al mismo checkout de Mercado Pago) */
+.mp-dialogo [hidden] { display: none !important; }
+.mp-form__qr {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border: 1px dashed var(--mp-borde);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--mp-azul);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mp-form__qr:disabled { opacity: 0.7; cursor: progress; }
+.mp-qr { display: grid; gap: 0.8rem; padding: 1.4rem; font-family: Poppins, system-ui, sans-serif; justify-items: center; text-align: center; }
+.mp-qr__texto { margin: 0; color: var(--mp-muted); font-size: 0.92rem; }
+.mp-qr__codigo { width: 240px; height: 240px; image-rendering: pixelated; border-radius: 8px; }
+.mp-qr .mp-form__acciones { width: 100%; }
+.mp-qr__link { text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center; }

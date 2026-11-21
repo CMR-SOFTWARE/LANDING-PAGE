@@ -73,3 +73,32 @@ test("WhatsApp: el mensaje dice el plan y el número, y no copia texto de la URL
     "Hola CMR, pagué con Mercado Pago el Plan Web (contratación). Les mando el comprobante.");
   assert.equal(vuelta("?mp=error&contratacion=5&servicio=plan-web"), null); // si falló, no hay botón
 });
+
+test("QR: solo se arma para links de Mercado Pago y con la librería cargada", () => {
+  const cargar = (conLibreria) => {
+    const window = { location: { search: "", pathname: "/", hash: "" } };
+    const document = { readyState: "complete", querySelectorAll: () => [], addEventListener() {} };
+    const ctx = vm.createContext({ window, document, URL, URLSearchParams, fetch: () => Promise.reject(new Error("sin red")) });
+    if (conLibreria) {
+      // Igual que en el navegador: la librería deja "qrcode" global, que en el navegador es window.qrcode.
+      vm.runInContext(fs.readFileSync(new URL("../public/vendor/qrcode-generator-1.4.4.js", import.meta.url), "utf8"), ctx);
+      window.qrcode = ctx.qrcode;
+    }
+    vm.runInContext(fs.readFileSync(new URL("../public/pago-servicio.js", import.meta.url), "utf8"), ctx);
+    return window.CMRPagoServicio.matrizQR;
+  };
+  const matrizQR = cargar(true);
+  const link = "https://www.mercadopago.com.ar/checkout/v1/redirect?order_id=ORDTST01M7ZGF3W7Q8654H603TMFYZHZ";
+  const m = matrizQR(link);
+  assert.ok(m.length >= 21 && m.every((fila) => fila.length === m.length)); // cuadrado de tamaño válido
+  // Los tres cuadrados de las esquinas que tiene todo QR (borde oscuro de 7x7).
+  for (const [r0, c0] of [[0, 0], [0, m.length - 7], [m.length - 7, 0]]) {
+    for (let i = 0; i < 7; i++) {
+      assert.ok(m[r0][c0 + i] && m[r0 + 6][c0 + i] && m[r0 + i][c0] && m[r0 + i][c0 + 6]);
+    }
+  }
+  for (const malo of ["https://estafamercadopago.com.ar/pagar", "javascript:alert(1)", "", undefined]) {
+    assert.equal(matrizQR(malo), null, String(malo));
+  }
+  assert.equal(cargar(false)(link), null); // sin librería: no hay QR y se paga con el link
+});
