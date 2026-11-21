@@ -17,10 +17,10 @@ Mercado Pago ── POST /api/mp/webhook  (ping con el id de la ORDEN, ej. ORD01
                └─ el servidor CONSULTA GET /v1/orders/{id}
                └─ si referencia + moneda ARS + monto coinciden y la orden está
                   processed/accredited con el total pagado → "confirmada"
-Navegador vuelve a /?mp=ok|error|pendiente#planes → aviso informativo, NO confirma nada
+Navegador vuelve a /?mp=ok|error|pendiente&contratacion=<id>&servicio=<slug> → aviso informativo, NO confirma nada
 ```
 
-- Al volver con `mp=ok` o `mp=pendiente`, el cartel trae un botón **"Mandar comprobante por WhatsApp"** que abre `wa.me/5493364578599` con el mensaje armado ("pagué la contratación N° X"). Lo toca el cliente: no es automático. Mercado Pago, aparte, le manda el comprobante por mail.
+- Al volver con `mp=ok` o `mp=pendiente`, el cartel trae un botón **"Mandar comprobante por WhatsApp"** que abre `wa.me/5493364578599` con el mensaje armado ("pagué el Plan Web (contratación N° X)"). La vuelta trae `&servicio=<slug>`; el nombre del plan se toma del botón de ese plan en la página, nunca del texto de la URL. Lo toca el cliente: no es automático. Mercado Pago, aparte, le manda el comprobante por mail.
 - Si Mercado Pago falla al crear la orden: la contratación queda **cancelada** (no se borra) y se responde 502.
 - Reembolso total o contracargo → la contratación pasa a **cancelada**.
 - Nada se borra: la base no le da permiso de DELETE ni al servidor.

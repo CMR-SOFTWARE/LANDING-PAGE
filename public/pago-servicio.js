@@ -41,12 +41,21 @@
   // WhatsApp de CMR (el mismo del botón "Hablar por WhatsApp" de la landing).
   var WHATSAPP_CMR = "5493364578599";
 
-  // Enlace para que el cliente nos mande el comprobante. Solo lleva el número de contratación
-  // (si es un número): nada de lo que venga en la URL se copia tal cual al mensaje.
-  function linkWhatsApp(contratacion) {
+  // Enlace para que el cliente nos mande el comprobante, con el plan y el número de contratación.
+  // nombrePlan sale de los botones de ESTA página (ver nombreDelPlan), nunca del texto de la URL;
+  // el número solo entra si es un número.
+  function linkWhatsApp(contratacion, nombrePlan) {
     var nro = /^[0-9]{1,15}$/.test(String(contratacion || "")) ? " N° " + contratacion : "";
-    var texto = "Hola CMR, pagué con Mercado Pago la contratación" + nro + ". Les mando el comprobante.";
+    var plan = nombrePlan ? " el " + nombrePlan + " (contratación" + nro + ")" : " la contratación" + nro;
+    var texto = "Hola CMR, pagué con Mercado Pago" + plan + ". Les mando el comprobante.";
     return "https://wa.me/" + WHATSAPP_CMR + "?text=" + encodeURIComponent(texto);
+  }
+
+  // "plan-web" -> "Plan Web", buscando el botón de ese plan en la landing.
+  function nombreDelPlan(slug) {
+    if (!/^[a-z0-9-]{1,40}$/.test(String(slug || ""))) return "";
+    var b = document.querySelector('.js-mp-pagar[data-servicio="' + slug + '"]');
+    return (b && b.getAttribute("data-servicio-nombre")) || "";
   }
 
   function mostrarVuelta() {
@@ -54,6 +63,7 @@
     var m = MENSAJES[params.get("mp")];
     if (!m) return;
     var contratacion = params.get("contratacion");
+    var plan = nombreDelPlan(params.get("servicio"));
     var aviso = document.createElement("div");
     aviso.className = "mp-aviso mp-aviso--" + m.tipo;
     aviso.setAttribute("role", "status");
@@ -71,7 +81,7 @@
     if (m.tipo !== "error") {
       var wsp = document.createElement("a");
       wsp.className = "mp-aviso__wsp";
-      wsp.href = linkWhatsApp(contratacion);
+      wsp.href = linkWhatsApp(contratacion, plan);
       wsp.target = "_blank";
       wsp.rel = "noopener noreferrer";
       wsp.textContent = "Mandar comprobante por WhatsApp";
@@ -82,6 +92,7 @@
     // Limpia la URL para que al recargar no vuelva a aparecer.
     params.delete("mp");
     params.delete("contratacion");
+    params.delete("servicio");
     var qs = params.toString();
     history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : "") + (window.location.hash || "#planes"));
     // La vuelta de Mercado Pago llega sin "#": se baja a los planes.

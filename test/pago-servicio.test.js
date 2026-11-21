@@ -135,8 +135,8 @@ test("crea la contratación PENDIENTE y la ORDEN con el precio de la BASE, no el
   assert.equal(orden.external_reference, `servicio-${id}`); // Orders no acepta ":"
   assert.equal(orden.total_amount, "80000.00");
   assert.equal(orden.items[0].unit_price, "80000.00");
-  assert.equal(orden.config.online.success_url, `https://cmrsoftwaresolutions.com/?mp=ok&contratacion=${id}`);
-  assert.equal(orden.config.online.pending_url, `https://cmrsoftwaresolutions.com/?mp=pendiente&contratacion=${id}`);
+  assert.equal(orden.config.online.success_url, `https://cmrsoftwaresolutions.com/?mp=ok&contratacion=${id}&servicio=plan-web`);
+  assert.equal(orden.config.online.pending_url, `https://cmrsoftwaresolutions.com/?mp=pendiente&contratacion=${id}&servicio=plan-web`);
   assert.deepEqual(orden.payer, { email: "ana@example.com" });
   assert.deepEqual(idempotencias, [`servicio-${id}`]);
 });

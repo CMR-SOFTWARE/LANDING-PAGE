@@ -98,7 +98,7 @@ export async function crearContratacion({ body, headers, db, client, env, log = 
 
   const baseUrl = mp.resolveBaseUrl({ fixedUrl: env.PUBLIC_BASE_URL, headers });
   // Sin "#" en la URL de vuelta (Mercado Pago puede rechazarla); la página baja sola a #planes.
-  const volver = (resultado) => mp.withQuery(`${baseUrl}/`, { mp: resultado, contratacion: id });
+  const volver = (resultado) => mp.withQuery(`${baseUrl}/`, { mp: resultado, contratacion: id, servicio: datos.servicio });
 
   let orden;
   try {
