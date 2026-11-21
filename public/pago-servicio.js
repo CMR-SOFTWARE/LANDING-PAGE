@@ -38,10 +38,22 @@
     },
   };
 
+  // WhatsApp de CMR (el mismo del botón "Hablar por WhatsApp" de la landing).
+  var WHATSAPP_CMR = "5493364578599";
+
+  // Enlace para que el cliente nos mande el comprobante. Solo lleva el número de contratación
+  // (si es un número): nada de lo que venga en la URL se copia tal cual al mensaje.
+  function linkWhatsApp(contratacion) {
+    var nro = /^[0-9]{1,15}$/.test(String(contratacion || "")) ? " N° " + contratacion : "";
+    var texto = "Hola CMR, pagué con Mercado Pago la contratación" + nro + ". Les mando el comprobante.";
+    return "https://wa.me/" + WHATSAPP_CMR + "?text=" + encodeURIComponent(texto);
+  }
+
   function mostrarVuelta() {
     var params = new URLSearchParams(window.location.search);
     var m = MENSAJES[params.get("mp")];
     if (!m) return;
+    var contratacion = params.get("contratacion");
     var aviso = document.createElement("div");
     aviso.className = "mp-aviso mp-aviso--" + m.tipo;
     aviso.setAttribute("role", "status");
@@ -55,7 +67,17 @@
     cerrar.setAttribute("aria-label", "Cerrar aviso");
     cerrar.textContent = "×";
     cerrar.addEventListener("click", function () { aviso.remove(); });
-    aviso.append(t, p, cerrar);
+    aviso.append(t, p);
+    if (m.tipo !== "error") {
+      var wsp = document.createElement("a");
+      wsp.className = "mp-aviso__wsp";
+      wsp.href = linkWhatsApp(contratacion);
+      wsp.target = "_blank";
+      wsp.rel = "noopener noreferrer";
+      wsp.textContent = "Mandar comprobante por WhatsApp";
+      aviso.append(wsp);
+    }
+    aviso.append(cerrar);
     document.body.appendChild(aviso);
     // Limpia la URL para que al recargar no vuelva a aparecer.
     params.delete("mp");
@@ -158,7 +180,7 @@
       .catch(function () { /* sin servidor (p. ej. vite dev): los botones siguen ocultos */ });
   }
 
-  window.CMRPagoServicio = { esUrlDeMercadoPago: esUrlDeMercadoPago };
+  window.CMRPagoServicio = { esUrlDeMercadoPago: esUrlDeMercadoPago, linkWhatsApp: linkWhatsApp };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();

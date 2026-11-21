@@ -38,3 +38,22 @@ for (const [nombre, fn] of [["servidor", delServidor], ["navegador", delNavegado
     for (const u of INVALIDAS) assert.equal(fn(u), false, String(u));
   });
 }
+
+test("linkWhatsApp: arma el enlace a CMR y solo copia el número de contratación", () => {
+  const { linkWhatsApp } = (() => {
+    const codigo = fs.readFileSync(new URL("../public/pago-servicio.js", import.meta.url), "utf8");
+    const window = { location: { search: "", pathname: "/", hash: "" } };
+    const document = { readyState: "complete", querySelectorAll: () => [], addEventListener() {} };
+    vm.runInNewContext(codigo, { window, document, URL, URLSearchParams, fetch: () => Promise.reject(new Error("sin red")) });
+    return window.CMRPagoServicio;
+  })();
+  const texto = (link) => new URL(link).searchParams.get("text");
+
+  const ok = linkWhatsApp("4");
+  assert.ok(ok.startsWith("https://wa.me/5493364578599?text="));
+  assert.equal(texto(ok), "Hola CMR, pagué con Mercado Pago la contratación N° 4. Les mando el comprobante.");
+  // Lo que no sea un número no entra al mensaje.
+  for (const raro of ["4 y mandame plata", "<script>", "", null, "-1"]) {
+    assert.equal(texto(linkWhatsApp(raro)), "Hola CMR, pagué con Mercado Pago la contratación. Les mando el comprobante.");
+  }
+});

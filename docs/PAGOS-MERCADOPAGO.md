@@ -20,6 +20,7 @@ Mercado Pago ── POST /api/mp/webhook  (ping con el id de la ORDEN, ej. ORD01
 Navegador vuelve a /?mp=ok|error|pendiente#planes → aviso informativo, NO confirma nada
 ```
 
+- Al volver con `mp=ok` o `mp=pendiente`, el cartel trae un botón **"Mandar comprobante por WhatsApp"** que abre `wa.me/5493364578599` con el mensaje armado ("pagué la contratación N° X"). Lo toca el cliente: no es automático. Mercado Pago, aparte, le manda el comprobante por mail.
 - Si Mercado Pago falla al crear la orden: la contratación queda **cancelada** (no se borra) y se responde 502.
 - Reembolso total o contracargo → la contratación pasa a **cancelada**.
 - Nada se borra: la base no le da permiso de DELETE ni al servidor.
@@ -58,13 +59,19 @@ Navegador vuelve a /?mp=ok|error|pendiente#planes → aviso informativo, NO conf
 **Cambiar un precio**: `update public.servicios set precio = 90000 where slug = 'plan-web';` y actualizar también el texto de la tarjeta en `index.html` (se cobra lo que diga la base).
 **Dejar de vender un plan**: `update public.servicios set activo = false where slug = '...';` (no se borra).
 
-## Lo que NO está verificado (se confirma con el primer pago de prueba)
+## Verificado con un pago de prueba real (2026-11-21, preview de la rama)
 
-- Ningún pago contra Mercado Pago todavía, ni de prueba ni real.
-- **Formato del aviso de órdenes**: la documentación habla de tema "orders" y "orders_v2". El código acepta `order`, `orders` y `orders_v2` y usa solo el id. Si en los logs de Vercel aparece un aviso con otro nombre, hay que sumarlo en `ORDER_TOPICS` (`packages/mercadopago-checkout/src/orders.js`).
-- **Campo de notificación en la orden**: la documentación no lo nombra, por eso la URL va en el panel (paso 4).
-- `status_detail` de una orden recién creada: la documentación muestra a veces `created` y a veces `accredited`. No afecta: para confirmar se exige `processed` + `accredited` + total pagado completo.
-- Que Vercel publique `api/*.js` con la firma `export function POST(request)` en este proyecto Vite. Se comprueba en el preview: `GET /api/checkout` debe responder `{ "enabled": ... }`.
+- Contratación #4, Plan Web $80.000, tarjeta de prueba APRO: Mercado Pago acreditó, el **aviso llegó** a `/api/mp/webhook` (evento "Order (Mercado Pago)" configurado en el panel), el servidor consultó la orden y la contratación pasó a `confirmada` con `mp_order_id`, `mp_status = approved` y `paid_at`.
+- Vercel publica `api/*.js` en este proyecto Vite (`GET /api/checkout` → `{"enabled":true}`).
+- **La API de Orders no acepta ":" en `external_reference`** (error `property_value ... does not match pattern`). Se manda `servicio-<id>` y se traduce de vuelta a `servicio:<id>`.
+- Consultar una orden con un id inventado devuelve **400** (no 404): se trata como orden inexistente.
+- Si Mercado Pago rechaza crear la orden, el motivo queda en `contrataciones.mp_status` (`order_error: <código> <detalle>`).
+
+## Lo que NO está verificado
+
+- **La vuelta automática a la landing** después de pagar: la pantalla de Mercado Pago mostró "te llevaremos a ." con la dirección vacía. A confirmar.
+- Un pago **rechazado** (titular `OTHE`) y un **reembolso** contra Mercado Pago real (están cubiertos por los tests simulados).
+- Nada con el **token real** todavía.
 - Firma `x-signature` del aviso: no implementada (no hace falta: el servidor siempre consulta la orden a Mercado Pago).
 - No hay límite de intentos: alguien podría crear muchas contrataciones pendientes (no cobra nada, pero ensucia la tabla).
 

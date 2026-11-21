@@ -102,3 +102,16 @@
   cursor: pointer;
   color: var(--mp-muted);
 }
+.mp-aviso__wsp {
+  display: inline-block;
+  margin-top: 0.7rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  background: #25d366;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.mp-aviso__wsp:hover,
+.mp-aviso__wsp:focus-visible { background: #1ebe5a; }
