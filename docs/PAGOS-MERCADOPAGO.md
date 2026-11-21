@@ -58,6 +58,12 @@ Navegador vuelve a /?mp=ok|error|pendiente&contratacion=<id>&servicio=<slug> →
 6. **Prueba**: contratar en el preview, pagar en ventana de incógnito con tarjeta de prueba (titular `APRO` aprueba, `OTHE` rechaza) y verificar en `public.contrataciones` que quede `confirmada`, con `mp_order_id` y `paid_at`.
 7. Recién después: token real en Production + webhook productivo.
 
+**Medios de pago**: el botón de cada plan dice **"Medios de pago"** y abre un cuadro con dos opciones:
+- **Transferencia** al precio de la tarjeta (`data-precio-transferencia`): muestra alias y CVU con botón Copiar, el titular y un botón para **mandar el comprobante por WhatsApp** con el plan y el monto. No pasa por el servidor ni queda registro en la base: el aviso llega por WhatsApp y el plan se activa a mano. Los datos de la cuenta están en `TRANSFERENCIA`, en `public/pago-servicio.js`.
+- **Mercado Pago** al precio con el costo del cobro: abre el formulario de siempre (link o QR). Solo aparece si `GET /api/checkout` dice `enabled: true`. Si Mercado Pago está apagado, el cuadro muestra solo la transferencia.
+
+`test/mp-url.test.js` controla que el precio de transferencia sea el de la tarjeta y que el de Mercado Pago sea mayor.
+
 **Precio con Mercado Pago**: `public.servicios.precio` es lo que se cobra **pagando con Mercado Pago**, que incluye el costo del cobro. Hoy son $88.000 (Plan Web) y $154.000 (Plan Gestión): para recibir $80.000 y $140.000 con la tasa de Checkout "en el momento" (6,60% + IVA = 7,99%), redondeado hacia arriba para cubrir la retención de Ingresos Brutos. La tarjeta del plan sigue mostrando el precio base ($80.000 / $140.000). El precio con Mercado Pago se muestra en el botón (`data-servicio-precio`) y el formulario aclara que incluye el costo del cobro. Cuenta para recalcular: `precio = lo que querés recibir / (1 − tasa × 1,21)`.
 
 **Cuotas**: un mes de plan se paga en **una sola cuota** (`MAX_CUOTAS = 1` en `api/_lib/contrataciones.js`, que viaja como `config.payment_method.max_installments`). El código nunca ofrece cuotas sin interés. Si Mercado Pago responde que el interés de las cuotas lo paga el vendedor (`installments_cost: "seller"`, por ejemplo si se activan cuotas sin interés en la cuenta), la venta sigue pero `mp_status` queda como `created | cuotas a cargo del vendedor` y sale un aviso en el log. **No verificado contra Mercado Pago real**: probar en el preview que la orden se crea y el checkout no ofrece cuotas.

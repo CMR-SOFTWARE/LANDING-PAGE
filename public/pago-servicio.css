@@ -136,3 +136,27 @@
 .mp-qr__codigo { width: 240px; height: 240px; image-rendering: pixelated; border-radius: 8px; }
 .mp-qr .mp-form__acciones { width: 100%; }
 .mp-qr__link { text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center; }
+
+/* Cuadro "Medios de pago": transferencia y Mercado Pago */
+.mp-medios__cuerpo { display: grid; gap: 0.9rem; padding: 1.4rem; font-family: Poppins, system-ui, sans-serif; }
+.mp-medio { display: grid; gap: 0.6rem; padding: 1rem; border: 1px solid var(--mp-borde); border-radius: 10px; }
+.mp-medio__cabeza { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.mp-medio__precio { font-weight: 700; font-size: 1.1rem; color: var(--mp-ink); }
+.mp-medio__datos { display: grid; gap: 0.45rem; margin: 0; }
+.mp-medio__datos > div { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.5rem; align-items: center; }
+.mp-medio__datos dt { color: var(--mp-muted); font-size: 0.85rem; }
+.mp-medio__datos dd { margin: 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-size: 0.92rem; }
+.mp-medio__datos code { font-family: ui-monospace, Consolas, monospace; font-size: 0.9rem; word-break: break-all; }
+.mp-copiar {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--mp-borde);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--mp-azul);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mp-medio__wsp { justify-self: start; margin-top: 0; }
+.mp-medio__ir { width: 100%; padding: 0.6rem 1rem; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer; }

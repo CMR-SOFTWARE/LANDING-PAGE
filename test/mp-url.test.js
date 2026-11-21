@@ -102,3 +102,36 @@ test("QR: solo se arma para links de Mercado Pago y con la librería cargada", (
   }
   assert.equal(cargar(false)(link), null); // sin librería: no hay QR y se paga con el link
 });
+
+test("transferencia: mensaje de WhatsApp con plan y monto, y datos de la cuenta", () => {
+  const codigo = fs.readFileSync(new URL("../public/pago-servicio.js", import.meta.url), "utf8");
+  const window = { location: { search: "", pathname: "/", hash: "" } };
+  const document = { readyState: "complete", querySelectorAll: () => [], addEventListener() {} };
+  vm.runInNewContext(codigo, { window, document, URL, URLSearchParams, fetch: () => Promise.reject(new Error("sin red")) });
+  const { linkWhatsAppTransferencia, TRANSFERENCIA } = window.CMRPagoServicio;
+  const texto = (link) => new URL(link).searchParams.get("text");
+
+  const link = linkWhatsAppTransferencia("Plan Web", "AR$ 80.000");
+  assert.ok(link.startsWith("https://wa.me/5493364578599?text="));
+  assert.equal(texto(link), "Hola CMR, transferí AR$ 80.000 por el Plan Web. Les mando el comprobante.");
+  // Un precio con formato raro no entra al mensaje.
+  assert.equal(texto(linkWhatsAppTransferencia("Plan Web", "gratis <b>")), "Hola CMR, transferí por el Plan Web. Les mando el comprobante.");
+  assert.equal(TRANSFERENCIA.alias, "tomi.machu.mp");
+  assert.match(TRANSFERENCIA.cvu, /^[0-9]{22}$/); // un CVU tiene 22 dígitos
+});
+
+test("index.html: el precio de transferencia es el de la tarjeta del plan y el de Mercado Pago es mayor", () => {
+  const html = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const tarjetas = html.split('<article class="plan-card').slice(1);
+  const conBoton = tarjetas.filter((t) => t.includes("js-mp-pagar"));
+  assert.equal(conBoton.length, 2);
+  const num = (s) => Number(String(s).replace(/[^0-9]/g, ""));
+  for (const t of conBoton) {
+    const tarjeta = /plan-card__amount">([0-9.]+)</.exec(t)[1];
+    const transferencia = /data-precio-transferencia="([^"]+)"/.exec(t)[1];
+    const mp = /data-servicio-precio="([^"]+)"/.exec(t)[1];
+    assert.equal(transferencia, `AR$ ${tarjeta}`);
+    assert.ok(num(mp) > num(transferencia), `${mp} > ${transferencia}`);
+    assert.match(t, />Medios de pago<\/button>/);
+  }
+});
