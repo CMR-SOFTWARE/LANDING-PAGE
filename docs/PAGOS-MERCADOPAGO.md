@@ -64,6 +64,9 @@ Navegador vuelve a /?mp=ok|error|pendiente&contratacion=<id>&servicio=<slug> →
 ## Verificado con un pago de prueba real (2026-11-21, preview de la rama)
 
 - Contratación #4, Plan Web $80.000, tarjeta de prueba APRO: Mercado Pago acreditó, el **aviso llegó** a `/api/mp/webhook` (evento "Order (Mercado Pago)" configurado en el panel), el servidor consultó la orden y la contratación pasó a `confirmada` con `mp_order_id`, `mp_status = approved` y `paid_at`.
+- **Pago rechazado** (contratación #6, titular `OTHE`): queda `pendiente` con `mp_status = action_required/waiting_retry`. La orden sigue abierta: si el cliente reintenta con otro medio y paga, el aviso la confirma.
+- **Pago con QR**: el QR abre el checkout de Mercado Pago en el celular.
+- Con el pago rechazado Mercado Pago **no** vuelve solo: muestra "Volver al sitio" (la vuelta automática es solo para aprobados).
 - Vercel publica `api/*.js` en este proyecto Vite (`GET /api/checkout` → `{"enabled":true}`).
 - **La API de Orders no acepta ":" en `external_reference`** (error `property_value ... does not match pattern`). Se manda `servicio-<id>` y se traduce de vuelta a `servicio:<id>`.
 - Consultar una orden con un id inventado devuelve **400** (no 404): se trata como orden inexistente.
@@ -72,7 +75,7 @@ Navegador vuelve a /?mp=ok|error|pendiente&contratacion=<id>&servicio=<slug> →
 ## Lo que NO está verificado
 
 - **La vuelta automática a la landing** después de pagar: la pantalla de Mercado Pago mostró "te llevaremos a ." con la dirección vacía. A confirmar.
-- Un pago **rechazado** (titular `OTHE`) y un **reembolso** contra Mercado Pago real (están cubiertos por los tests simulados).
+- Un **reembolso** contra Mercado Pago real (cubierto por los tests simulados). Se prueba en producción: pagar un plan y devolverlo desde Mercado Pago → la contratación tiene que pasar a `cancelada`.
 - Nada con el **token real** todavía.
 - Firma `x-signature` del aviso: no implementada (no hace falta: el servidor siempre consulta la orden a Mercado Pago).
 - No hay límite de intentos: alguien podría crear muchas contrataciones pendientes (no cobra nada, pero ensucia la tabla).
