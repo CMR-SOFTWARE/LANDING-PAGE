@@ -1,8 +1,11 @@
-/* Pago de un mes de plan con Mercado Pago (landing CMR).
+/* Medios de pago de un mes de plan (landing CMR): transferencia o Mercado Pago.
  *
- * - Los botones "Pagar con Mercado Pago" nacen ocultos y solo aparecen si el servidor dice
- *   que el cobro está configurado (GET /api/checkout -> { enabled: true }).
- * - El formulario manda SOLO el servicio y los datos de contacto: el precio lo pone el servidor.
+ * - El botón "Medios de pago" de cada plan abre un cuadro con las dos opciones:
+ *     Transferencia: precio base (data-precio-transferencia), alias/CVU para copiar y botón para
+ *                    mandar el comprobante por WhatsApp. No pasa por el servidor.
+ *     Mercado Pago:  precio con el costo del cobro (data-servicio-precio). Solo aparece si el
+ *                    servidor dice que el cobro está configurado (GET /api/checkout -> { enabled: true }).
+ * - El formulario de Mercado Pago manda SOLO el servicio y los datos de contacto: el precio lo pone el servidor.
  * - Solo se redirige a enlaces https de mercadopago.com / mercadopago.com.ar.
  * - La vuelta (?mp=ok|error|pendiente) es solo informativa: confirma el webhook, no el navegador.
  */
@@ -49,6 +52,72 @@
     var plan = nombrePlan ? " el " + nombrePlan + " (contratación" + nro + ")" : " la contratación" + nro;
     var texto = "Hola CMR, pagué con Mercado Pago" + plan + ". Les mando el comprobante.";
     return "https://wa.me/" + WHATSAPP_CMR + "?text=" + encodeURIComponent(texto);
+  }
+
+  // Datos para transferir (cuenta de Mercado Pago de CMR). Son públicos: se le pasan a cualquier cliente.
+  var TRANSFERENCIA = {
+    alias: "tomi.machu.mp",
+    cvu: "0000003100037366833276",
+    titular: "Tomás Alejandro Machuca",
+    entidad: "Mercado Pago",
+  };
+
+  // Mensaje de WhatsApp para mandar el comprobante de una transferencia. Plan y precio salen de los
+  // atributos de ESTA página; si el precio no tiene el formato esperado, no se incluye.
+  function linkWhatsAppTransferencia(nombrePlan, precio) {
+    var monto = /^AR\$ [0-9.]{1,12}$/.test(String(precio || "")) ? " " + precio : "";
+    var plan = nombrePlan ? " por el " + nombrePlan : "";
+    var texto = "Hola CMR, transferí" + monto + plan + ". Les mando el comprobante.";
+    return "https://wa.me/" + WHATSAPP_CMR + "?text=" + encodeURIComponent(texto);
+  }
+
+  // Copia un texto al portapapeles; si el navegador no deja, lo selecciona para copiar a mano.
+  function copiar(texto, boton) {
+    function listo() {
+      var antes = boton.textContent;
+      boton.textContent = "¡Copiado!";
+      setTimeout(function () { boton.textContent = antes; }, 1500);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(listo, function () { window.prompt("Copiá el dato:", texto); });
+    } else {
+      window.prompt("Copiá el dato:", texto);
+    }
+  }
+
+  function crearDialogoMedios() {
+    var d = document.createElement("dialog");
+    d.className = "mp-dialogo mp-medios";
+    d.innerHTML =
+      '<div class="mp-medios__cuerpo">' +
+      '<h3 class="mp-form__titulo">Medios de pago · <span data-medios-nombre></span></h3>' +
+      '<section class="mp-medio">' +
+      '<div class="mp-medio__cabeza"><strong>Transferencia</strong><span class="mp-medio__precio" data-medios-transferencia></span></div>' +
+      '<dl class="mp-medio__datos">' +
+      '<div><dt>Alias</dt><dd><code data-dato="alias"></code><button type="button" class="mp-copiar" data-copiar="alias">Copiar</button></dd></div>' +
+      '<div><dt>CVU</dt><dd><code data-dato="cvu"></code><button type="button" class="mp-copiar" data-copiar="cvu">Copiar</button></dd></div>' +
+      '<div><dt>Titular</dt><dd data-dato="titular"></dd></div>' +
+      '<div><dt>Entidad</dt><dd data-dato="entidad"></dd></div>' +
+      "</dl>" +
+      '<p class="mp-form__nota">Cuando transfieras, mandanos el comprobante y activamos el plan.</p>' +
+      '<a class="mp-aviso__wsp mp-medio__wsp" target="_blank" rel="noopener noreferrer">Mandar comprobante por WhatsApp</a>' +
+      "</section>" +
+      '<section class="mp-medio" data-medio-mp hidden>' +
+      '<div class="mp-medio__cabeza"><strong>Mercado Pago</strong><span class="mp-medio__precio" data-medios-mp></span></div>' +
+      '<p class="mp-form__nota">Tarjeta de crédito, débito o dinero en cuenta, en un pago. El precio incluye el costo del cobro.</p>' +
+      '<button type="button" class="mp-form__pagar mp-medio__ir">Pagar con Mercado Pago</button>' +
+      "</section>" +
+      '<div class="mp-form__acciones"><button type="button" class="mp-form__cancelar mp-medios__cerrar">Cerrar</button></div>' +
+      "</div>";
+    Object.keys(TRANSFERENCIA).forEach(function (k) {
+      d.querySelector('[data-dato="' + k + '"]').textContent = TRANSFERENCIA[k];
+    });
+    d.querySelectorAll("[data-copiar]").forEach(function (b) {
+      b.addEventListener("click", function () { copiar(TRANSFERENCIA[b.getAttribute("data-copiar")], b); });
+    });
+    d.querySelector(".mp-medios__cerrar").addEventListener("click", function () { d.close(); });
+    document.body.appendChild(d);
+    return d;
   }
 
   // "plan-web" -> "Plan Web", buscando el botón de ese plan en la landing.
@@ -165,7 +234,8 @@
     return d;
   }
 
-  function iniciarBotones(botones) {
+  // Arma el formulario de Mercado Pago (una vez) y devuelve abrir(boton) para mostrarlo.
+  function iniciarBotones() {
     var dialogo = crearDialogo();
     var form = dialogo.querySelector("form");
     var error = dialogo.querySelector(".mp-form__error");
@@ -200,19 +270,17 @@
 
     dialogo.querySelector(".mp-form__cancelar").addEventListener("click", function () { dialogo.close(); });
 
-    botones.forEach(function (b) {
-      b.hidden = false;
-      b.addEventListener("click", function () {
-        servicio = b.getAttribute("data-servicio");
-        dialogo.querySelector("[data-mp-nombre]").textContent = b.getAttribute("data-servicio-nombre") || "";
-        dialogo.querySelectorAll("[data-mp-precio]").forEach(function (el) {
-          el.textContent = b.getAttribute("data-servicio-precio") || "";
-        });
-        verFormulario();
-        mostrarError("");
-        dialogo.showModal();
+    // Abre el formulario de Mercado Pago para el plan de ese botón.
+    function abrir(b) {
+      servicio = b.getAttribute("data-servicio");
+      dialogo.querySelector("[data-mp-nombre]").textContent = b.getAttribute("data-servicio-nombre") || "";
+      dialogo.querySelectorAll("[data-mp-precio]").forEach(function (el) {
+        el.textContent = b.getAttribute("data-servicio-precio") || "";
       });
-    });
+      verFormulario();
+      mostrarError("");
+      dialogo.showModal();
+    }
 
     form.addEventListener("submit", function (ev) {
       ev.preventDefault();
@@ -253,19 +321,55 @@
           botonQR.textContent = "Prefiero pagar con QR desde el celular";
         });
     });
+
+    return abrir;
   }
 
   function init() {
     mostrarVuelta();
     var botones = Array.prototype.slice.call(document.querySelectorAll(".js-mp-pagar"));
     if (!botones.length) return;
+
+    // La transferencia no depende del servidor: los botones aparecen siempre.
+    var medios = crearDialogoMedios();
+    var seccionMP = medios.querySelector("[data-medio-mp]");
+    var abrirMP = null; // se arma solo si Mercado Pago está habilitado
+    var actual = null;
+
+    medios.querySelector(".mp-medio__ir").addEventListener("click", function () {
+      if (!abrirMP || !actual) return;
+      medios.close();
+      abrirMP(actual);
+    });
+
+    botones.forEach(function (b) {
+      b.hidden = false;
+      b.addEventListener("click", function () {
+        actual = b;
+        var nombre = b.getAttribute("data-servicio-nombre") || "";
+        var precioTransferencia = b.getAttribute("data-precio-transferencia") || "";
+        medios.querySelector("[data-medios-nombre]").textContent = nombre;
+        medios.querySelector("[data-medios-transferencia]").textContent = precioTransferencia;
+        medios.querySelector("[data-medios-mp]").textContent = b.getAttribute("data-servicio-precio") || "";
+        medios.querySelector(".mp-medio__wsp").href = linkWhatsAppTransferencia(nombre, precioTransferencia);
+        seccionMP.hidden = !abrirMP;
+        medios.showModal();
+      });
+    });
+
     fetch("/api/checkout", { headers: { accept: "application/json" } })
       .then(function (r) { return r.ok ? r.json() : { enabled: false }; })
-      .then(function (d) { if (d && d.enabled === true) iniciarBotones(botones); })
-      .catch(function () { /* sin servidor (p. ej. vite dev): los botones siguen ocultos */ });
+      .then(function (d) { if (d && d.enabled === true) abrirMP = iniciarBotones(); })
+      .catch(function () { /* sin servidor (p. ej. vite dev): solo transferencia */ });
   }
 
-  window.CMRPagoServicio = { esUrlDeMercadoPago: esUrlDeMercadoPago, linkWhatsApp: linkWhatsApp, matrizQR: matrizQR };
+  window.CMRPagoServicio = {
+    esUrlDeMercadoPago: esUrlDeMercadoPago,
+    linkWhatsApp: linkWhatsApp,
+    linkWhatsAppTransferencia: linkWhatsAppTransferencia,
+    matrizQR: matrizQR,
+    TRANSFERENCIA: TRANSFERENCIA,
+  };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();
