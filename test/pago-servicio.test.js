@@ -132,7 +132,7 @@ test("crea la contratación PENDIENTE y la ORDEN con el precio de la BASE, no el
   const orden = ordenesCreadas[0];
   assert.equal(orden.type, "online");
   assert.equal(orden.processing_mode, "manual");
-  assert.equal(orden.external_reference, `servicio:${id}`);
+  assert.equal(orden.external_reference, `servicio-${id}`); // Orders no acepta ":"
   assert.equal(orden.total_amount, "80000.00");
   assert.equal(orden.items[0].unit_price, "80000.00");
   assert.equal(orden.config.online.success_url, `https://cmrsoftwaresolutions.com/?mp=ok&contratacion=${id}`);
@@ -173,7 +173,7 @@ test("un pago por MENOS plata no confirma", async () => {
   mpActualiza(ordenDe(id), ACREDITADA("79999.00"));
   await avisar(ordenDe(id));
   // Una orden ajena con la referencia correcta pero total menor.
-  await avisar(ordenAjena({ ref: `servicio:${id}`, monto: "1.00" }));
+  await avisar(ordenAjena({ ref: `servicio-${id}`, monto: "1.00" }));
   assert.equal(contrataciones.get(id).estado, "pendiente");
 });
 
@@ -182,13 +182,13 @@ test("una orden con la referencia de OTRO registro no confirma este", async () =
   const gestion = await contratar("plan-gestion");
 
   // Paga lo del Plan Web pero la referencia apunta a la contratación del Plan Gestión.
-  await avisar(ordenAjena({ ref: `servicio:${gestion.id}`, monto: "80000.00" }));
+  await avisar(ordenAjena({ ref: `servicio-${gestion.id}`, monto: "80000.00" }));
   // Referencia de otro tipo (otra app) con el id y el monto correctos.
-  await avisar(ordenAjena({ ref: `order:${web.id}`, monto: "80000.00" }));
+  await avisar(ordenAjena({ ref: `order-${web.id}`, monto: "80000.00" }));
   // Referencia a una contratación que no existe.
-  await avisar(ordenAjena({ ref: "servicio:999999", monto: "80000.00" }));
+  await avisar(ordenAjena({ ref: "servicio-999999", monto: "80000.00" }));
   // Moneda distinta.
-  await avisar(ordenAjena({ ref: `servicio:${web.id}`, monto: "80000.00", currency: "USD" }));
+  await avisar(ordenAjena({ ref: `servicio-${web.id}`, monto: "80000.00", currency: "USD" }));
 
   assert.equal(contrataciones.get(web.id).estado, "pendiente");
   assert.equal(contrataciones.get(gestion.id).estado, "pendiente");

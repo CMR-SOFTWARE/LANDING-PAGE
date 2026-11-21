@@ -27,7 +27,7 @@ test("buildOrder: arma la orden de Checkout Pro según la documentación", () =>
   });
   assert.equal(o.type, "online");
   assert.equal(o.processing_mode, "manual");
-  assert.equal(o.external_reference, "servicio:12");
+  assert.equal(o.external_reference, "servicio-12"); // Orders no acepta ":"
   assert.equal(o.total_amount, "80030.30"); // suma exacta de los items
   assert.deepEqual(o.items[0], { external_code: "1", title: "Plan Web - 1 mes", quantity: 1, unit_price: "80000.00" });
   assert.deepEqual(o.config.online, {
@@ -92,7 +92,7 @@ test("createOrdersClient: errores de Mercado Pago y consulta de órdenes", async
 });
 
 const orden = (extra) => ({
-  id: "ORD1", external_reference: "servicio:7", currency: "ARS", total_amount: "80000.00",
+  id: "ORD1", external_reference: "servicio-7", currency: "ARS", total_amount: "80000.00",
   total_paid_amount: "80000.00", status: "processed", status_detail: "accredited", ...extra,
 });
 
@@ -126,7 +126,7 @@ test("processOrderNotification: confirma con processOrderPayment y respeta monto
 
   ordenes.set("ORD-MENOS", orden({ id: "ORD-MENOS", total_amount: "100.00", total_paid_amount: "100.00" }));
   assert.equal((await mp.processOrderNotification({ client, orderId: "ORD-MENOS", handlers })).reason, "monto distinto");
-  ordenes.set("ORD-OTRA", orden({ id: "ORD-OTRA", external_reference: "order:7" }));
+  ordenes.set("ORD-OTRA", orden({ id: "ORD-OTRA", external_reference: "order-7" }));
   assert.equal((await mp.processOrderNotification({ client, orderId: "ORD-OTRA", handlers })).reason, "tipo sin manejador");
   assert.equal((await mp.processOrderNotification({ client, orderId: "NO-EXISTE", handlers })).reason, "orden inexistente");
   assert.equal(store.filas.get(7).status, "pending");
@@ -154,4 +154,16 @@ test("aviso de órdenes: acepta order/orders/orders_v2, ignora lo demás, frena 
   assert.equal((await apagado(req("?type=order&data.id=ORD9"))).status, 503);
   const roto = nextOrdersWebhook({ isEnabled: () => true, process: async () => { throw new Error("base caída"); } });
   assert.equal((await roto(req("?type=order&data.id=ORD10"))).status, 500); // Mercado Pago reintenta
+});
+
+test("referencias: a Mercado Pago van con guion y vuelven con dos puntos", () => {
+  assert.equal(mp.toOrderReference("servicio:12"), "servicio-12");
+  assert.equal(mp.toOrderReference("pedido_web:7"), "pedido_web-7");
+  assert.equal(mp.fromOrderReference("servicio-12"), "servicio:12");
+  assert.equal(mp.fromOrderReference("pedido_web-7"), "pedido_web:7");
+  assert.equal(mp.fromOrderReference("servicio:12"), "servicio:12"); // formato viejo: igual se entiende
+  assert.equal(mp.fromOrderReference("otra-cosa-rara"), "otra-cosa-rara"); // no coincide: no se toca
+  assert.equal(mp.fromOrderReference(undefined), "");
+  for (const r of ["servicio", "servicio:abc", "Servicio:1", "", null]) assert.throws(() => mp.toOrderReference(r));
+  assert.throws(() => mp.buildOrder({ reference: "servicio-1", items: [{ unitPrice: 1 }], backUrls: BACK }));
 });

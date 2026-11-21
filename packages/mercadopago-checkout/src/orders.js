@@ -23,6 +23,23 @@ const { buildReference, parseReference } = require("./references");
 const API = "https://api.mercadopago.com";
 const ORDER_ID = /^[A-Za-z0-9_-]{1,64}$/;
 
+// La API de Orders RECHAZA ":" en external_reference (visto en la primera prueba real:
+// "property_value: Invalid value for property: '$.external_reference' - does not match pattern").
+// Hacia Mercado Pago se manda "servicio-12"; al volver se traduce a "servicio:12", el formato que
+// usan las reglas del módulo. El tipo no puede tener "-", así que la traducción no es ambigua.
+const ORDER_REFERENCE = /^([a-z][a-z0-9_]{0,19})-([0-9]{1,15})$/;
+
+function toOrderReference(reference) {
+  const parsed = parseReference(reference);
+  if (!parsed) throw new TypeError(`referencia inválida "${reference}" (se espera "tipo:id").`);
+  return `${parsed.kind}-${parsed.id}`;
+}
+
+function fromOrderReference(externalReference) {
+  const m = ORDER_REFERENCE.exec(String(externalReference ?? ""));
+  return m ? `${m[1]}:${m[2]}` : String(externalReference ?? "");
+}
+
 // 80000 -> "80000.00". Lanza si no es un monto positivo.
 function toAmount(value) {
   const n = Number(value);
@@ -33,14 +50,15 @@ function toAmount(value) {
 /**
  * Arma el cuerpo de POST /v1/orders para Checkout Pro. Función pura (sin red).
  * @param {object} o
- * @param {string} o.reference   referencia externa (máx. 64), ej. "servicio:12"
+ * @param {string} o.reference   referencia "tipo:id" (buildReference), ej. "servicio:12".
+ *                               A Mercado Pago viaja como "servicio-12" (ver toOrderReference).
  * @param {Array}  o.items       [{ id, title, quantity, unitPrice }] con precios SACADOS DE TU BASE
  * @param {object} o.backUrls    { success, failure, pending }
  * @param {string} [o.payerEmail]
  * @param {string} [o.expiration] duración ISO 8601 de la orden, ej. "P1D" (opcional)
  */
 function buildOrder({ reference, items, backUrls, payerEmail, expiration }) {
-  if (!reference || String(reference).length > 64) throw new TypeError("buildOrder: reference inválida.");
+  if (!parseReference(reference)) throw new TypeError("buildOrder: reference inválida (se espera \"tipo:id\").");
   if (!Array.isArray(items) || !items.length) throw new TypeError("buildOrder: no hay productos.");
   for (const k of ["success", "failure", "pending"]) {
     if (!normalizeBaseUrl(backUrls?.[k])) throw new TypeError(`buildOrder: backUrls.${k} inválida.`);
@@ -71,7 +89,7 @@ function buildOrder({ reference, items, backUrls, payerEmail, expiration }) {
   const order = {
     type: "online",
     processing_mode: "manual",
-    external_reference: String(reference),
+    external_reference: toOrderReference(reference),
     total_amount: (totalCents / 100).toFixed(2), // debe ser la suma exacta de los items
     items: lines,
     config: { online },
@@ -166,7 +184,7 @@ function orderAsPayment(order) {
   return {
     id: String(order?.id ?? ""),
     status: mapped,
-    external_reference: order?.external_reference,
+    external_reference: fromOrderReference(order?.external_reference), // "servicio-7" -> "servicio:7"
     currency_id: order?.currency,
     transaction_amount: total, // lo que se le cobró a la orden; se compara con el monto de TU base
   };
@@ -181,7 +199,7 @@ async function processOrderNotification({ client, orderId, handlers, warn = () =
   const order = await client.getOrder(orderId);
   if (!order) return { ignored: true, reason: "orden inexistente" };
 
-  const parsed = parseReference(order.external_reference);
+  const parsed = parseReference(fromOrderReference(order.external_reference));
   if (!parsed) return { ignored: true, reason: "sin referencia" };
   const handler = handlers?.[parsed.kind];
   if (!handler) return { ignored: true, reason: "tipo sin manejador" };
@@ -221,6 +239,8 @@ async function handleOrderWebhook({ isEnabled, query, body, process, debouncer }
 
 module.exports = {
   toAmount,
+  toOrderReference,
+  fromOrderReference,
   buildOrder,
   createOrdersClient,
   orderAsPayment,
