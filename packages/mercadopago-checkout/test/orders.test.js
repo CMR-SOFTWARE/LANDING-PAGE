@@ -62,7 +62,7 @@ test("createOrdersClient: crea la orden con idempotencia y el token solo en el e
   const { fetch, calls } = fakeFetch(() => [201, { id: "ORD01ABC", status: "created", checkout_url: "https://www.mercadopago.com.ar/checkout/v1/redirect?order_id=ORD01ABC" }]);
   const c = mp.createOrdersClient({ accessToken: "APP_USR-x", fetch });
   const r = await c.createOrder({ a: 1 }, { idempotencyKey: "servicio-1" });
-  assert.deepEqual(r, { id: "ORD01ABC", checkoutUrl: "https://www.mercadopago.com.ar/checkout/v1/redirect?order_id=ORD01ABC", status: "created" });
+  assert.deepEqual(r, { id: "ORD01ABC", checkoutUrl: "https://www.mercadopago.com.ar/checkout/v1/redirect?order_id=ORD01ABC", status: "created", installmentsCost: null });
   assert.equal(calls[0].url, "https://api.mercadopago.com/v1/orders");
   assert.equal(calls[0].init.method, "POST");
   assert.equal(calls[0].init.headers.Authorization, "Bearer APP_USR-x");
@@ -166,4 +166,22 @@ test("referencias: a Mercado Pago van con guion y vuelven con dos puntos", () =>
   assert.equal(mp.fromOrderReference(undefined), "");
   for (const r of ["servicio", "servicio:abc", "Servicio:1", "", null]) assert.throws(() => mp.toOrderReference(r));
   assert.throws(() => mp.buildOrder({ reference: "servicio-1", items: [{ unitPrice: 1 }], backUrls: BACK }));
+});
+
+test("buildOrder: máximo de cuotas, y nunca cuotas sin interés", () => {
+  const base = { reference: "servicio:1", items: [{ title: "Plan", unitPrice: 88000 }], backUrls: BACK };
+  assert.equal(mp.buildOrder(base).config.payment_method, undefined); // sin pedirlo, no se manda
+  assert.deepEqual(mp.buildOrder({ ...base, maxInstallments: 1 }).config.payment_method, { max_installments: 1 });
+  assert.deepEqual(mp.buildOrder({ ...base, maxInstallments: 6 }).config.payment_method, { max_installments: 6 });
+  for (const malo of [0, 25, 1.5, "tres", -1]) assert.throws(() => mp.buildOrder({ ...base, maxInstallments: malo }), String(malo));
+  assert.ok(!JSON.stringify(mp.buildOrder({ ...base, maxInstallments: 12 })).includes("interest_free"));
+});
+
+test("createOrdersClient: informa quién paga las cuotas según Mercado Pago", async () => {
+  const fetch = async () => ({ ok: true, status: 201, json: async () => ({
+    id: "ORD2", status: "created", checkout_url: "https://www.mercadopago.com.ar/x",
+    config: { payment_method: { installments_cost: "seller" } },
+  }) });
+  const r = await mp.createOrdersClient({ accessToken: "t", fetch }).createOrder({}, { idempotencyKey: "k" });
+  assert.equal(r.installmentsCost, "seller");
 });

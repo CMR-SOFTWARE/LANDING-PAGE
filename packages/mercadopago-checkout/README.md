@@ -189,6 +189,8 @@ export const POST = nextOrdersWebhook({
 | `notification_url` en la preferencia | URL del aviso en el **panel** (Tus integraciones → app → Webhooks) |
 | aprobado = `approved` | aprobado = `processed` + `accredited` + total pagado completo (`orderAsPayment`) |
 
+**Cuotas**: `buildOrder({ ..., maxInstallments: 1 })` limita las cuotas (1 a 24; 1 = sin cuotas). El módulo nunca manda `installments.interest_free` (cuotas sin interés, que paga el vendedor). `createOrder` devuelve `installmentsCost`: si es `"seller"`, Mercado Pago está cobrándole las cuotas al vendedor (revisar "Por ofrecer cuotas" en la cuenta).
+
 **Verificado con un pago real** (landing CMR, 2026-11-21, credenciales de prueba): la orden se crea, el aviso llega con el evento **"Order (Mercado Pago)"** configurado en el panel y la contratación se confirma. Detalles aprendidos ahí:
 
 - `external_reference` **no acepta ":"**: `buildOrder` manda `servicio-12` y `orderAsPayment` lo vuelve a `servicio:12` (no hace falta hacer nada).
