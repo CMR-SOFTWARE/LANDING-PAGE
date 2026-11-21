@@ -1,0 +1,104 @@
+/* Botón "Pagar con Mercado Pago", formulario y aviso de vuelta. */
+:root {
+  --mp-azul: #009ee3;
+  --mp-azul-hover: #007eb5;
+  --mp-ink: #0f1a3a;
+  --mp-muted: rgba(15, 26, 58, 0.68);
+  --mp-borde: rgba(40, 80, 192, 0.18);
+  --mp-fondo: #ffffff;
+  --mp-ok: #178e86;
+  --mp-pendiente: #b7791f;
+  --mp-error: #c53030;
+}
+
+.plan-card__cta.plan-card__cta--mp {
+  margin-top: 0.6rem;
+  background: var(--mp-azul);
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  width: 100%;
+}
+.plan-card__cta.plan-card__cta--mp:hover,
+.plan-card__cta.plan-card__cta--mp:focus-visible {
+  background: var(--mp-azul-hover);
+  color: #fff;
+}
+.plan-card__cta--mp[hidden] { display: none !important; }
+
+.mp-dialogo {
+  /* el reset del sitio pone margin:0 y rompe el centrado nativo del <dialog> */
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  border: 1px solid var(--mp-borde);
+  border-radius: 14px;
+  padding: 0;
+  width: min(440px, calc(100vw - 32px));
+  background: var(--mp-fondo);
+  color: var(--mp-ink);
+  box-shadow: 0 24px 60px rgba(15, 26, 58, 0.25);
+}
+.mp-dialogo::backdrop { background: rgba(10, 16, 40, 0.55); }
+
+.mp-form { display: grid; gap: 0.85rem; padding: 1.4rem; font-family: Poppins, system-ui, sans-serif; }
+.mp-form__titulo { margin: 0; font-size: 1.2rem; }
+.mp-form__monto { margin: 0; color: var(--mp-muted); }
+.mp-form label { display: grid; gap: 0.3rem; font-size: 0.9rem; font-weight: 500; }
+.mp-form input {
+  font: inherit;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--mp-borde);
+  border-radius: 8px;
+  color: var(--mp-ink);
+  background: #fff;
+}
+.mp-form input:focus-visible { outline: 2px solid var(--mp-azul); outline-offset: 1px; }
+.mp-form__error { margin: 0; color: var(--mp-error); font-size: 0.9rem; }
+.mp-form__acciones { display: flex; gap: 0.6rem; justify-content: flex-end; flex-wrap: wrap; }
+.mp-form__acciones button {
+  font: inherit;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+.mp-form__cancelar { background: transparent; border: 1px solid var(--mp-borde); color: var(--mp-ink); }
+.mp-form__pagar { background: var(--mp-azul); border: 0; color: #fff; }
+.mp-form__pagar:disabled { opacity: 0.7; cursor: progress; }
+.mp-form__nota { margin: 0; font-size: 0.8rem; color: var(--mp-muted); }
+
+.mp-aviso {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: min(520px, calc(100vw - 32px));
+  padding: 1rem 2.6rem 1rem 1.1rem;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--mp-ink);
+  border-left: 6px solid var(--mp-ok);
+  box-shadow: 0 16px 40px rgba(15, 26, 58, 0.22);
+  font-family: Poppins, system-ui, sans-serif;
+}
+.mp-aviso--pendiente { border-left-color: var(--mp-pendiente); }
+.mp-aviso--error { border-left-color: var(--mp-error); }
+.mp-aviso p { margin: 0.3rem 0 0; color: var(--mp-muted); font-size: 0.92rem; }
+.mp-aviso__cerrar {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  border: 0;
+  background: transparent;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--mp-muted);
+}
