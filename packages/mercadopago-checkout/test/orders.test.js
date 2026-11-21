@@ -77,6 +77,7 @@ test("createOrdersClient: errores de Mercado Pago y consulta de órdenes", async
   const { fetch } = fakeFetch((url) => {
     if (url.endsWith("/v1/orders")) return [400, { errors: [{ code: "order_items_total_amount_mismatch" }] }];
     if (url.endsWith("/ORD404")) return [404, {}];
+    if (url.endsWith("/ORDINVENTADO")) return [400, { errors: [{ code: "invalid_path_param" }] }];
     if (url.endsWith("/ORD500")) return [500, {}];
     return [200, { id: "ORD1" }];
   });
@@ -84,6 +85,7 @@ test("createOrdersClient: errores de Mercado Pago y consulta de órdenes", async
   await assert.rejects(c.createOrder({}, { idempotencyKey: "k" }), (e) => e.code === "MP_ORDER" && e.status === 400 && e.detail === "order_items_total_amount_mismatch");
   assert.deepEqual(await c.getOrder("ORD1"), { id: "ORD1" });
   assert.equal(await c.getOrder("ORD404"), null);
+  assert.equal(await c.getOrder("ORDINVENTADO"), null); // 400 invalid_path_param: no se reintenta
   assert.equal(await c.getOrder("../payments/1"), null); // id con formato raro: ni se consulta
   await assert.rejects(c.getOrder("ORD500"), (e) => e.code === "MP_ORDER");
   assert.throws(() => mp.createOrdersClient({}), TypeError);

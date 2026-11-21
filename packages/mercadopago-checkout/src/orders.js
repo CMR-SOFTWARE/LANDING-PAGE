@@ -115,12 +115,13 @@ function createOrdersClient({ accessToken, fetch: fetchImpl, timeoutMs = 15000 }
       return { id: String(r.data.id), checkoutUrl: r.data.checkout_url, status: r.data.status };
     },
 
-    // Devuelve la orden, o null si no existe (404) o el id no tiene formato de orden.
+    // Devuelve la orden, o null si no existe (404) o el id no es válido (400 invalid_path_param,
+    // visto en el preview con un id inventado). Reintentar esos casos no sirve de nada.
     // Cualquier otro error se lanza: el aviso responde 5xx y Mercado Pago reintenta.
     async getOrder(orderId) {
       if (!ORDER_ID.test(String(orderId))) return null;
       const r = await call(`/v1/orders/${encodeURIComponent(orderId)}`);
-      if (r.status === 404) return null;
+      if (r.status === 404 || r.status === 400) return null;
       if (!r.ok || !r.data) {
         throw new MercadoPagoError(`No se pudo consultar la orden (HTTP ${r.status}).`, { code: "MP_ORDER", status: r.status });
       }
