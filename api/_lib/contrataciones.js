@@ -17,6 +17,9 @@ import { esUrlDeMercadoPago } from "./mp-url.js";
 
 export const REFERENCIA = "servicio"; // buildReference("servicio", id) -> "servicio:12"
 
+// Un mes de plan se paga en UNA cuota: sin cuotas con ni sin interés (decisión de CMR, 2026-11-21).
+export const MAX_CUOTAS = 1;
+
 // Vocabulario del módulo <-> columnas de la base (en español).
 const A_BASE = { pending: "pendiente", confirmed: "confirmada", cancelled: "cancelada" };
 const DESDE_BASE = { pendiente: "pending", confirmada: "confirmed", cancelada: "cancelled" };
@@ -107,6 +110,7 @@ export async function crearContratacion({ body, headers, db, client, env, log = 
       items: [{ id: servicio.id, title: `${servicio.nombre} - 1 mes`, quantity: 1, unitPrice: monto }],
       backUrls: { success: volver("ok"), failure: volver("error"), pending: volver("pendiente") },
       payerEmail: datos.email,
+      maxInstallments: MAX_CUOTAS,
     });
     orden = await client.createOrder(order, { idempotencyKey: `servicio-${id}` });
     if (!esUrlDeMercadoPago(orden.checkoutUrl)) throw new Error(`checkoutUrl fuera de Mercado Pago: ${orden.checkoutUrl}`);
@@ -122,7 +126,14 @@ export async function crearContratacion({ body, headers, db, client, env, log = 
   }
 
   try {
-    await db.updateContratacion(id, { mp_order_id: orden.id, mp_status: orden.status || "created" });
+    // Si Mercado Pago dice que el interés de las cuotas lo paga el VENDEDOR (cuotas sin interés activadas
+    // en la cuenta), no se frena la venta pero queda marcado en la base y en el log para revisarlo.
+    const cuotasVendedor = orden.installmentsCost === "seller";
+    if (cuotasVendedor) log.warn?.(`[mp] contratación ${id}: Mercado Pago indica cuotas a cargo del vendedor (revisar "Por ofrecer cuotas" en la cuenta).`);
+    await db.updateContratacion(id, {
+      mp_order_id: orden.id,
+      mp_status: (orden.status || "created") + (cuotasVendedor ? " | cuotas a cargo del vendedor" : ""),
+    });
   } catch (e) {
     // No es grave: el aviso encuentra la contratación por la referencia y guarda el id de la orden.
     log.warn?.(`[mp] contratación ${id}: no se guardó mp_order_id:`, e.message);

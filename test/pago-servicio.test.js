@@ -20,7 +20,7 @@ const ENV = {
 // ---------- Base simulada (imita PostgREST) ----------
 let servicios, contrataciones, proximoId, parches;
 // ---------- Mercado Pago simulado (API de Orders) ----------
-let ordenes, ordenesCreadas, idempotencias, mpFalla, mpCheckoutUrl;
+let ordenes, ordenesCreadas, idempotencias, mpFalla, mpCheckoutUrl, mpCuotasVendedor;
 let ordenesTotales = 0; // no se reinicia entre tests
 
 beforeEach(() => {
@@ -37,6 +37,7 @@ beforeEach(() => {
   ordenesCreadas = [];
   idempotencias = [];
   mpFalla = false;
+  mpCuotasVendedor = false;
   mpCheckoutUrl = "https://www.mercadopago.com.ar/checkout/v1/redirect?order_id=";
 });
 
@@ -61,7 +62,10 @@ globalThis.fetch = async (url, init = {}) => {
       };
       ordenesCreadas.push(body);
       ordenes.set(id, orden);
-      return respuesta(201, { ...orden, checkout_url: mpCheckoutUrl + id });
+      const config = mpCuotasVendedor
+        ? { ...orden.config, payment_method: { ...orden.config?.payment_method, installments_cost: "seller" } }
+        : orden.config;
+      return respuesta(201, { ...orden, config, checkout_url: mpCheckoutUrl + id });
     }
     const id = u.pathname.replace("/v1/orders/", "");
     return ordenes.has(id) ? respuesta(200, ordenes.get(id)) : respuesta(404, { message: "order_not_found" });
@@ -138,6 +142,8 @@ test("crea la contratación PENDIENTE y la ORDEN con el precio de la BASE, no el
   assert.equal(orden.config.online.success_url, `https://cmrsoftwaresolutions.com/?mp=ok&contratacion=${id}&servicio=plan-web`);
   assert.equal(orden.config.online.pending_url, `https://cmrsoftwaresolutions.com/?mp=pendiente&contratacion=${id}&servicio=plan-web`);
   assert.deepEqual(orden.payer, { email: "ana@example.com" });
+  assert.deepEqual(orden.config.payment_method, { max_installments: 1 }); // un mes se paga en una cuota
+  assert.ok(!JSON.stringify(orden).includes("interest_free"));            // nunca cuotas sin interés
   assert.deepEqual(idempotencias, [`servicio-${id}`]);
 });
 
@@ -262,4 +268,13 @@ test("sin MP_ACCESS_TOKEN todo queda apagado", async () => {
 
   process.env.MP_ACCESS_TOKEN = "APP_USR-test";
   assert.deepEqual(await checkout.GET().json(), { enabled: true });
+});
+
+test("si Mercado Pago indica cuotas a cargo del vendedor: se vende igual pero queda marcado", async () => {
+  mpCuotasVendedor = true;
+  const { id, checkoutUrl } = await contratar();
+  assert.ok(checkoutUrl);
+  const c = contrataciones.get(id);
+  assert.equal(c.estado, "pendiente");
+  assert.equal(c.mp_status, "created | cuotas a cargo del vendedor");
 });

@@ -56,8 +56,12 @@ function toAmount(value) {
  * @param {object} o.backUrls    { success, failure, pending }
  * @param {string} [o.payerEmail]
  * @param {string} [o.expiration] duración ISO 8601 de la orden, ej. "P1D" (opcional)
+ * @param {number} [o.maxInstallments] máximo de cuotas que puede elegir el cliente (1 a 24; 1 = sin cuotas).
+ *                               Las cuotas que se ofrecen son SIEMPRE con interés a cargo del cliente:
+ *                               este módulo nunca manda "installments.interest_free" (cuotas sin interés,
+ *                               que paga el vendedor).
  */
-function buildOrder({ reference, items, backUrls, payerEmail, expiration }) {
+function buildOrder({ reference, items, backUrls, payerEmail, expiration, maxInstallments }) {
   if (!parseReference(reference)) throw new TypeError("buildOrder: reference inválida (se espera \"tipo:id\").");
   if (!Array.isArray(items) || !items.length) throw new TypeError("buildOrder: no hay productos.");
   for (const k of ["success", "failure", "pending"]) {
@@ -97,6 +101,11 @@ function buildOrder({ reference, items, backUrls, payerEmail, expiration }) {
   const mail = String(payerEmail || "").trim();
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) order.payer = { email: mail };
   if (expiration) order.expiration_time = String(expiration);
+  if (maxInstallments !== undefined && maxInstallments !== null) {
+    const n = Number(maxInstallments);
+    if (!Number.isInteger(n) || n < 1 || n > 24) throw new TypeError("buildOrder: maxInstallments debe ser un entero de 1 a 24.");
+    order.config.payment_method = { max_installments: n };
+  }
   return order;
 }
 
@@ -140,7 +149,13 @@ function createOrdersClient({ accessToken, fetch: fetchImpl, timeoutMs = 15000 }
           code: "MP_ORDER", status: r.status, detail: describeErrors(r.data),
         });
       }
-      return { id: String(r.data.id), checkoutUrl: r.data.checkout_url, status: r.data.status };
+      return {
+        id: String(r.data.id),
+        checkoutUrl: r.data.checkout_url,
+        status: r.data.status,
+        // Quién paga el interés de las cuotas según Mercado Pago ("seller" = el vendedor). Puede faltar.
+        installmentsCost: r.data.config?.payment_method?.installments_cost ?? null,
+      };
     },
 
     // Devuelve la orden, o null si no existe (404) o el id no es válido (400 invalid_path_param,
