@@ -354,13 +354,25 @@
         medios.querySelector(".mp-medio__wsp").href = linkWhatsAppTransferencia(nombre, precioTransferencia);
         seccionMP.hidden = !abrirMP;
         medios.showModal();
+        // Si la consulta falló (red, función fría), se reintenta: la opción aparece sola al llegar.
+        if (!abrirMP && !consultando) consultarMP();
       });
     });
 
-    fetch("/api/checkout", { headers: { accept: "application/json" } })
-      .then(function (r) { return r.ok ? r.json() : { enabled: false }; })
-      .then(function (d) { if (d && d.enabled === true) abrirMP = iniciarBotones(); })
-      .catch(function () { /* sin servidor (p. ej. vite dev): solo transferencia */ });
+    // La consulta puede volver DESPUÉS de que abrieron el cuadro: al llegar, se muestra Mercado Pago.
+    var consultando = false;
+    function consultarMP() {
+      consultando = true;
+      fetch("/api/checkout", { headers: { accept: "application/json" } })
+        .then(function (r) { return r.ok ? r.json() : { enabled: false }; })
+        .then(function (d) {
+          if (d && d.enabled === true && !abrirMP) abrirMP = iniciarBotones();
+          if (medios.open) seccionMP.hidden = !abrirMP;
+        })
+        .catch(function () { /* sin servidor (p. ej. vite dev): solo transferencia */ })
+        .then(function () { consultando = false; });
+    }
+    consultarMP();
   }
 
   window.CMRPagoServicio = {
