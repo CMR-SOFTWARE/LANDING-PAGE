@@ -36,6 +36,8 @@
     { "source": "/portal/", "destination": "https://gestion-cmr.vercel.app/portal.html" },
     { "source": "/portal", "destination": "https://gestion-cmr.vercel.app/portal.html" },
     { "source": "/portal/:path+", "destination": "https://gestion-cmr.vercel.app/:path+" },
+    { "source": "/leads", "destination": "https://cmr-leads-instagram.vercel.app/leads" },
+    { "source": "/leads/:path*", "destination": "https://cmr-leads-instagram.vercel.app/leads/:path*" },
     { "source": "/gestion/", "destination": "https://gestion-cmr.vercel.app/" },
     { "source": "/gestion", "destination": "https://gestion-cmr.vercel.app/" },
     { "source": "/gestion/:path+", "destination": "https://gestion-cmr.vercel.app/:path+" },
@@ -63,7 +65,7 @@
   ],
   "headers": [
     {
-      "source": "/(portal|gestion)(.*)",
+      "source": "/(portal|gestion|leads)(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     },
     {
