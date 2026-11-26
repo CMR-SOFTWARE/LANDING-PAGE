@@ -9,6 +9,10 @@
       "destination": "https://cmrsoftwaresolutions.com/:path*",
       "permanent": true
     },
+    { "source": "/Leads", "destination": "/leads", "permanent": false },
+    { "source": "/Leads/", "destination": "/leads", "permanent": false },
+    { "source": "/LEADS", "destination": "/leads", "permanent": false },
+    { "source": "/LEADS/", "destination": "/leads", "permanent": false },
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/asesoramiento.html", "destination": "/asesoramiento", "permanent": true },
     { "source": "/privacidad.html", "destination": "/privacidad", "permanent": true },
@@ -37,6 +41,7 @@
     { "source": "/portal", "destination": "https://gestion-cmr.vercel.app/portal.html" },
     { "source": "/portal/:path+", "destination": "https://gestion-cmr.vercel.app/:path+" },
     { "source": "/leads", "destination": "https://cmr-leads-instagram.vercel.app/leads" },
+    { "source": "/leads/", "destination": "https://cmr-leads-instagram.vercel.app/leads/" },
     { "source": "/leads/:path*", "destination": "https://cmr-leads-instagram.vercel.app/leads/:path*" },
     { "source": "/gestion/", "destination": "https://gestion-cmr.vercel.app/" },
     { "source": "/gestion", "destination": "https://gestion-cmr.vercel.app/" },
